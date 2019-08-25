@@ -73,10 +73,10 @@ When a branch is needed think of its purpose and use one of the following templa
 
 | **Branch Name Template** | **Purpose** |
 | --- | --- |
-| `feature\branch-name` | This branch is made for adding NEW things to the project |
-| `enhancement\branch-name` | This branch is made for improving already existing features |
-| `reimagine\branch-name` | This branch is made for re-implementing some already existing features |
-| `debug\branch-name` | This branch is made for removing critical logic mistakes of the project |
+| `feature/branch-name` | This branch is made for adding NEW things to the project |
+| `enhancement/branch-name` | This branch is made for improving already existing features |
+| `reimagine/branch-name` | This branch is made for re-implementing some already existing features |
+| `debug/branch-name` | This branch is made for removing critical logic mistakes of the project |
 
 Also, there are some special branches for different purposes
 
@@ -116,7 +116,4 @@ To quickly describe state and category of issue or pull request use the followin
 | `challenge` | A steep climb, not a long walk |
 | `performance` | Related to project performance |
 | `analysis` | Related to problem domain |
-| `architecture` | Related to project architecture |
-| `design` | Related to project design |
-| `engineering` | Related to project engineering |
 | `experimental` | Research in terms of project |
