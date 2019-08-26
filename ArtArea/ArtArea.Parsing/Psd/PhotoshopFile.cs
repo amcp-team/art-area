@@ -46,12 +46,12 @@ namespace ArtArea.Parsing.Psd
         public const short MaxChannels = 56;
 
         /// <summary>
-        /// The maximum value supported by PSD version 1 for image width and height.
+        /// The maximum value supported by PSD for image width and height.
         /// </summary>
         public const int PsdMaxDimention = 30000;
 
         /// <summary>
-        /// The maximum value supported by PSD version 2 for image width and height.
+        /// The maximum value supported by PSB for image width and height.
         /// </summary>
         public const int PsbMaxDemension = 300000;
 
@@ -167,9 +167,80 @@ namespace ArtArea.Parsing.Psd
 
         #region Layer and Mask Information Section
 
+        /// The fourth section of a Photoshop file contains information about layers and masks. 
+        /// This section of the document describes the formats of layer and mask records.
+        /// 
+        /// The complete merged image data is not stored here.The complete merged/composite image 
+        /// resides in the last section of the file.See See Image Data Section. If maximize 
+        /// compatibility is unchecked then the merged/composite is not created and the layer data 
+        /// must be read to reproduce the final image.
+        /// 
+        /// See Layer and mask information section shows the overall structure of this section. 
+        /// If there are no layers or masks, this section is just 4 bytes: the length field, which 
+        /// is set to zero. (<b>PSB</b> length is 8 bytes
+        /// 
+        /// 'Layr', 'Lr16' and 'Lr32' start at See Layer info.NOTE: The length of the section may 
+        /// already be known.)
+        /// 
+        /// When parsing this section pay close attention to the length of sections.
+
+        /// <summary>
+        /// Length of the layer and mask information section.
+        /// <para>PSD length : 4 bytes</para>
+        /// <para><b>PSB</b> length: 8 bytes</para>
+        /// </summary>
+        public int LayerAndMaskInformationLength { get; set; }
+
+        /// <summary>
+        /// The layers of the image. May be <c>null</c> or an empty array if the image only consists of a background
+        /// layer; in this case, the image data is stored in <see cref="PrecomposedImageData"/>.
+        /// <para>Length : variable</para>
+        /// </summary>
+        public PSDLayer[] Layers { get; set; }
+
+        /// <summary>
+        /// Information about the global layer mask, or <c>null</c> if the image has no global layer mask.
+        /// <para>Length : variable</para>
+        /// </summary>
+        public PSDGlobalLayerMask GlobalLayerMask { get; set; }
+
+        /// <summary>
+        /// Additional layer information, pertaining the precomposed image layer.
+        /// <para>Length : variable</para>
+        /// </summary>
+        public List<PSDAdditionalLayerInformation> AdditionalLayerInformation { get; set; }
+
         #endregion
 
         #region Image Data Section
+
+        /// The last section of a Photoshop file contains the image pixel data. Image data is 
+        /// stored in planar order: first all the red data, then all the green data, etc. Each 
+        /// plane is stored in scan-line order, with no pad bytes,
+
+        /// <summary>
+        ///Compression method:
+        /// <para>0 = Raw image data</para>
+        /// <para>1 = RLE compressed the image data starts with the byte counts for all the scan 
+        /// lines(rows* channels), with each count stored as a two-byte value.The RLE compressed 
+        /// data follows, with each scan line compressed separately. The RLE compression is the 
+        /// same compression algorithm used by the Macintosh ROM routine PackBits , and the 
+        /// TIFF standard.</para>
+        /// <para>2 = ZIP without prediction</para>
+        /// <para>3 = ZIP with prediction.</para>
+        /// <para>Length: 2 bytes</para>
+        /// </summary>
+        public int ImageDataLength { get; set; }
+
+        /// <summary>
+        /// The precomposed image data. If <see cref="Layers"/> is empty or <c>null</c>, the image consists of only one
+        /// background layer and <see cref="PrecomposedImageData"/> contains its data. If <see cref="Layers"/> is not
+        /// empty, <see cref="PrecomposedImageData"/> either contains a precomposed version of the image (all layers
+        /// blended together with all adjustments combined) or an empty image; whether this precomposed image is valid
+        /// can be obtained from <see cref="VersionInfo.HasValidPrecomposedData"/>.
+        /// <para>Length : variable</para>
+        /// </summary>
+        public PSDImageDataPlaceholder PrecomposedImageData { get; set; }
 
         #endregion
     }
