@@ -1,6 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// LICENSE NOTICE
+//
+// This file is part of Art Area.
+// 
+// Art Area is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// Art Area is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Art Area.  If not, see<https://www.gnu.org/licenses/>.
 
 namespace ArtArea.Parsing.Psd
 {
@@ -23,25 +36,35 @@ namespace ArtArea.Parsing.Psd
         // The file header contains the basic properties of the image.
 
         /// <summary>
+        /// 1 - for .psd, 2 - for .psb (big file format which causes some field size doubling
+        /// <para>Length: 2 bytes</para>
+        /// </summary>
+        public short Version { get; set; }
+
+        /// <summary>
         /// Supported range [1, 56]
         /// <para>Length: 2 bytes</para>
         /// </summary>
-        public byte NumberOfChannels { get; set; }
+        public short NumberOfChannels { get; set; }
+
         /// <summary>
         /// The width of the image in pixels. Supported range is 1 to 30000
         /// <para>Length: 4 bytes</para>
         /// </summary>
-        public short Width { get; set; }
+        public int Width { get; set; }
+
         /// <summary>
         /// The height of the image in pixels. Supported range is 1 to 30000
         /// <para>Length: 4 bytes</para>
         /// </summary>
-        public short Height { get; set; }
+        public int Height { get; set; }
+
         /// <summary>
         /// The number of bits per channel. Supported values are 1, 8, 16 and 32
         /// <para>Length: 2 bytes</para>
         /// </summary>
-        public byte Depth { get;set; }
+        public short Depth { get;set; }
+
         /// <summary>
         /// The color mode of the file. Supported values are: 
         ///     Bitmap = 0; 
@@ -80,6 +103,7 @@ namespace ArtArea.Parsing.Psd
         /// </para>
         /// </summary>
         public int ColorDataLength { get; set; }
+
         /// <summary>
         /// Not empty only for images with indexed or Duotone color mode
         /// </summary>
