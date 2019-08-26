@@ -77,7 +77,7 @@ namespace ArtArea.Parsing.Psd
         ///     Lab = 9
         /// <para>Length: 2 bytes</para>
         /// </summary>
-        public byte ColorMode { get; set; }
+        public ColorMode ColorMode { get; set; }
 
         #endregion
 
@@ -105,7 +105,8 @@ namespace ArtArea.Parsing.Psd
         public int ColorDataLength { get; set; }
 
         /// <summary>
-        /// Not empty only for images with indexed or Duotone color mode
+        /// Not empty only for images with <see cref="ColorMode.Indexed"/> or 
+        /// <see cref="ColorMode.Duotone"/> color mode
         /// </summary>
         public byte[] ColorData { get; set; }
 
