@@ -335,4 +335,7 @@ ASALocalRun/
 
 # ionide ignore
 .ionide/
+
+# Other project folders
 TestSourceFiles/
+UX & UI Design/
