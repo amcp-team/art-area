@@ -17,7 +17,7 @@
 
 namespace ArtArea.Parse.Psd
 {
-    public struct PSDLayerBlendingRange
+    public struct PsdLayerBlendingRange
     {
         public byte SourceLowFirst { get; set; }
         public byte SourceLowSecond { get; set; }

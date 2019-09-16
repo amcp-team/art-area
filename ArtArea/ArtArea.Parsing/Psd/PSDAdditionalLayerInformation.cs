@@ -17,7 +17,7 @@
 
 namespace ArtArea.Parse.Psd
 {
-    public class PSDAdditionalLayerInformation
+    public class PsdAdditionalLayerInformation
     {
         public string Key { get; set; }
         public byte[] Data { get; set; }

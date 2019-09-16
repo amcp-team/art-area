@@ -17,7 +17,7 @@
 
 namespace ArtArea.Parse.Psd
 {
-    public class PSDGlobalLayerMask
+    public class PsdGlobalLayerMask
     {
         public short OverlayColorSpace { get; set; }
         public short ColorComponent1 { get; set; }

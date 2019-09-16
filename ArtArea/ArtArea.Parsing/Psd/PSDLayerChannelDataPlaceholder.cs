@@ -17,7 +17,7 @@
 
 namespace ArtArea.Parse.Psd
 {
-    public class PSDLayerChannelDataPlaceholder
+    public class PsdLayerChannelDataPlaceholder
     {
         /// <summary>
         /// The method used to compress the layer data.

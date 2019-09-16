@@ -17,7 +17,7 @@
 
 namespace ArtArea.Parse.Psd
 {
-    public class PSDImageDataPlaceholder
+    public class PsdImageDataPlaceholder
     {
         /// <summary>
         /// The method used to compress the precomposed image data.

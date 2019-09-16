@@ -31,7 +31,7 @@ namespace ArtArea.Parse.Psd
     /// </para>
     /// <seealso cref="PsdParser"/>
     /// </summary>
-    public class PhotoshopFile
+    public class PsdFile
     {
         #region File Format Constants
 
@@ -162,7 +162,7 @@ namespace ArtArea.Parse.Psd
         /// Image resources of the PSD file, primarily metadata.
         /// <para>Length: variable</para>
         /// </summary>
-        public List<PSDImageResource> ImageResources { get; set; }
+        public List<PsdImageResource> ImageResources { get; set; }
         #endregion
 
         #region Layer and Mask Information Section
@@ -196,19 +196,19 @@ namespace ArtArea.Parse.Psd
         /// layer; in this case, the image data is stored in <see cref="PrecomposedImageData"/>.
         /// <para>Length : variable</para>
         /// </summary>
-        public PSDLayer[] Layers { get; set; }
+        public PsdLayer[] Layers { get; set; }
 
         /// <summary>
         /// Information about the global layer mask, or <c>null</c> if the image has no global layer mask.
         /// <para>Length : variable</para>
         /// </summary>
-        public PSDGlobalLayerMask GlobalLayerMask { get; set; }
+        public PsdGlobalLayerMask GlobalLayerMask { get; set; }
 
         /// <summary>
         /// Additional layer information, pertaining the precomposed image layer.
         /// <para>Length : variable</para>
         /// </summary>
-        public List<PSDAdditionalLayerInformation> AdditionalLayerInformation { get; set; }
+        public List<PsdAdditionalLayerInformation> AdditionalLayerInformation { get; set; }
 
         #endregion
 
@@ -240,7 +240,7 @@ namespace ArtArea.Parse.Psd
         /// can be obtained from <see cref="VersionInfo.HasValidPrecomposedData"/>.
         /// <para>Length : variable</para>
         /// </summary>
-        public PSDImageDataPlaceholder PrecomposedImageData { get; set; }
+        public PsdImageDataPlaceholder PrecomposedImageData { get; set; }
 
         #endregion
     }

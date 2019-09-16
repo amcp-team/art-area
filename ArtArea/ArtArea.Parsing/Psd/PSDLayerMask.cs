@@ -17,7 +17,7 @@
 
 namespace ArtArea.Parse.Psd
 {
-    public class PSDLayerMask
+    public class PsdLayerMask
     {
         /// <summary>
         /// The top offset in pixels, as a difference between the top edge of the layer and the top edge of the image.

@@ -19,7 +19,7 @@ using System.Collections.Generic;
 
 namespace ArtArea.Parse.Psd
 {
-    public class PSDLayer
+    public class PsdLayer
     {
         /// <summary>
         /// The top offset in pixels, as a difference between the top edge of the layer and the top edge of the image.
@@ -47,7 +47,7 @@ namespace ArtArea.Parse.Psd
         /// <summary>
         /// The constituent channels of this layer.
         /// </summary>
-        public PSDLayerChannel[] Channels { get; set; }
+        public PsdLayerChannel[] Channels { get; set; }
 
         /// <summary>
         /// Specifies how this layer is to be combined with the layer below it.
@@ -84,12 +84,12 @@ namespace ArtArea.Parse.Psd
         /// <summary>
         /// Information about the mask applied to this layer.
         /// </summary>
-        public PSDLayerMask LayerMask { get; set; }
+        public PsdLayerMask LayerMask { get; set; }
 
         /// <summary>
         /// The blending ranges of this layer.
         /// </summary>
-        public PSDLayerBlendingRange[] BlendingRanges { get; set; }
+        public PsdLayerBlendingRange[] BlendingRanges { get; set; }
 
         /// <summary>
         /// The name of this layer.
@@ -103,6 +103,6 @@ namespace ArtArea.Parse.Psd
         /// <summary>
         /// Additional information about the layer.
         /// </summary>
-        public List<PSDAdditionalLayerInformation> AdditionalInformation { get; set; }
+        public List<PsdAdditionalLayerInformation> AdditionalInformation { get; set; }
     }
 }

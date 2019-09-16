@@ -17,7 +17,7 @@
 
 namespace ArtArea.Parse.Psd
 {
-    public class PSDImageResource
+    public class PsdImageResource
     {
         /// <summary>
         /// Identifier for image resources. Any other value should be treated as error
