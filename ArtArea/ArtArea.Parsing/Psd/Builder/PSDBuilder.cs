@@ -23,7 +23,7 @@ namespace ArtArea.Parse.Psd.Builder
         /// </summary>
         public const string AdditionalLayerInfoSignature_ = "8B64";
 
-        public static PsdFile Read(FileStream stream)
+        public static PsdFile Read(Stream stream)
         {
             try
             {
@@ -52,7 +52,7 @@ namespace ArtArea.Parse.Psd.Builder
         /// </summary>
         /// <param name="psd">Psd file that should be filled with new header values</param>
         /// <param name="stream">Stream to read .psd file</param>
-        private static void ReadHeader(PsdFile psd, FileStream stream)
+        private static void ReadHeader(PsdFile psd, Stream stream)
         {
             // read file signature & chack if this file is valid .psd file
             string signature = stream.ReadUsAsciiString(4);
@@ -134,19 +134,36 @@ namespace ArtArea.Parse.Psd.Builder
             psd.ColorMode = (ColorMode) colorMode;
         }
 
-        private static void ReadColorModeData(PsdFile psd, FileStream stream)
+        /// <summary>
+        /// Reades Color mode data if it's available
+        /// </summary>
+        /// <param name="psd">Psd file that should be filled with color mode data</param>
+        /// <param name="stream">Stream to read .psd file</param>
+        private static void ReadColorModeData(PsdFile psd, Stream stream)
+        {
+            int colorModeDataLength = stream.ReadBigEndianInt32();
+            if (colorModeDataLength < 0)
+                throw new PsdBuildException($"Color Mode Data Length takes invalid value {colorModeDataLength}");
+
+            bool requiresColorModeData = (psd.ColorMode == ColorMode.Indexed || psd.ColorMode == ColorMode.Duotone);
+            bool hasColorModeData = colorModeDataLength > 0;
+
+            if (requiresColorModeData != hasColorModeData)
+                throw new PsdBuildException($"Color mode {psd.ColorMode} requires color mode data, but it's length is 0");
+
+            psd.ColorModeDataLength = colorModeDataLength;
+            psd.ColorModeData = stream.ReadBytes(colorModeDataLength);
+        }
+
+        private static void ReadImageResources(PsdFile psd, Stream stream)
         {
         }
 
-        private static void ReadImageResources(PsdFile psd, FileStream stream)
+        private static void ReadLayerAndMaskInformation(PsdFile psd, Stream stream)
         {
         }
 
-        private static void ReadLayerAndMaskInformation(PsdFile psd, FileStream stream)
-        {
-        }
-
-        private static void CreateImagedataPlaceholder(PsdFile psd, FileStream stream)
+        private static void CreateImagedataPlaceholder(PsdFile psd, Stream stream)
         {
 
         }   

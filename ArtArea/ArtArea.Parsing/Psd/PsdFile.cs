@@ -128,13 +128,13 @@ namespace ArtArea.Parse.Psd
         ///     Length: 4 bytes
         /// </para>
         /// </summary>
-        public int ColorDataLength { get; set; }
+        public int ColorModeDataLength { get; set; }
 
         /// <summary>
         /// Not empty only for images with <see cref="ColorMode.Indexed"/> or 
         /// <see cref="ColorMode.Duotone"/> color mode
         /// </summary>
-        public byte[] ColorData { get; set; }
+        public byte[] ColorModeData { get; set; }
 
         #endregion
 
