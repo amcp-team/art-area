@@ -48,7 +48,7 @@ namespace ArtArea.Parse.Psd.Builder
         }
 
         /// <summary>
-        /// Reades Header part of .psd/.psb file
+        /// Reads Header part of .psd/.psb file
         /// </summary>
         /// <param name="psd">Psd file that should be filled with new header values</param>
         /// <param name="stream">Stream to read .psd file</param>
@@ -135,7 +135,7 @@ namespace ArtArea.Parse.Psd.Builder
         }
 
         /// <summary>
-        /// Reades Color mode data if it's available
+        /// Reads Color mode data if it's available
         /// </summary>
         /// <param name="psd">Psd file that should be filled with color mode data</param>
         /// <param name="stream">Stream to read .psd file</param>
@@ -155,8 +155,24 @@ namespace ArtArea.Parse.Psd.Builder
             psd.ColorModeData = stream.ReadBytes(colorModeDataLength);
         }
 
+        /// <summary>
+        /// Reads Image Resource Data blocks if they are valid
+        /// </summary>
+        /// <param name="psd">Psd file that should be filled with color mode data</param>
+        /// <param name="stream">Stream to read .psd file</param>
         private static void ReadImageResources(PsdFile psd, Stream stream)
         {
+            // TODO: test beheavior of method some even/non-even blocks
+
+            int imageResourcesLength = stream.ReadBigEndianInt32();
+            if (imageResourcesLength < 0)
+                throw new PsdBuildException($"Image Resource section length is {imageResourcesLength} (expected at least 0)");
+
+            psd.ImageResources = new List<PsdImageResource>();
+
+            long endPosition = stream.Position + imageResourcesLength;
+            while(stream.Position < endPosition)
+                psd.ImageResources.Add(ReadImageResourceBlock(stream));
         }
 
         private static void ReadLayerAndMaskInformation(PsdFile psd, Stream stream)
@@ -166,6 +182,34 @@ namespace ArtArea.Parse.Psd.Builder
         private static void CreateImagedataPlaceholder(PsdFile psd, Stream stream)
         {
 
-        }   
+        }
+        
+        /// <summary>
+        /// Reads Image Resource Block from stream & returns it
+        /// </summary>
+        /// <param name="stream">Stream to read image resource block from</param>
+        /// <returns>Image resource block from stream</returns>
+        private static PsdImageResource ReadImageResourceBlock(Stream stream)
+        {
+            string imageResourceSignature = stream.ReadUsAsciiString(4);
+
+            if (!string.Equals(imageResourceSignature, AdditionalLayerInfoSignature, StringComparison.Ordinal))
+                throw new PsdBuildException($"Image resource signature is invalid. " +
+                    $"It is {imageResourceSignature}, expected {AdditionalLayerInfoSignature}");
+
+            var resource = new PsdImageResource();
+            resource.ID = stream.ReadBigEndianInt16();
+            resource.Name = stream.ReadUsAsciiPascalStringPaddedToEven();
+
+            int resourceSize = stream.ReadBigEndianInt32();
+            if (resourceSize < 0)
+                throw new PsdBuildException($"Image Resource Block size is {resourceSize}. Expected more than 0");
+
+            resource.Data = stream.ReadBytes(resourceSize);
+            if (resourceSize % 2 == 1)
+                stream.ReadByteOrThrow();
+
+            return resource;
+        }
     }
 }
