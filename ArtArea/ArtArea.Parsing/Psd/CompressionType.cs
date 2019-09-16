@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Art Area.  If not, see<https://www.gnu.org/licenses/>.
 
-namespace ArtArea.Parsing.Psd
+namespace ArtArea.Parse.Psd
 {
     /// <summary>
     /// The compression type of image data.

@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Art Area.  If not, see<https://www.gnu.org/licenses/>.
 
-namespace ArtArea.Parsing.Psd
+namespace ArtArea.Parse.Psd
 {
     /// <summary>
     /// A constituent channel of a layer in a PSD file.

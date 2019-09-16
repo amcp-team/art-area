@@ -17,7 +17,7 @@
 
 using System.Collections.Generic;
 
-namespace ArtArea.Parsing.Psd
+namespace ArtArea.Parse.Psd
 {
     public class PSDLayer
     {

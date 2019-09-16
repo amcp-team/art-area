@@ -17,7 +17,7 @@
 
 using System.Collections.Generic;
 
-namespace ArtArea.Parsing.Psd
+namespace ArtArea.Parse.Psd
 {
     /// <summary>
     /// Represents am Adobe Photoshop .psd file that stores only non-constant data

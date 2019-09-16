@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ArtArea.Parsing
+namespace ArtArea.Parse
 {
     class Program
     {
