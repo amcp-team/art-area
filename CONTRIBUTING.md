@@ -62,10 +62,11 @@ To develop projects effectively this strict style guide is provided.
 - **Never use all caps**
 
 ### Git Commit Messages
-- Use the present tense ("Add feature" not "Added feature")
-- Use the imperative mood ("Move the cursor to..." not "Moves the cursor to...")
+- Use the present tense ("add feature" not "added feature")
+- Use the imperative mood ("move the cursor to..." not "moves the cursor to...")
 - Limit the first line to 72 characters or less
 - Reference issues and pull requests liberally after the first line
+- Use only lower case for commit messages
 
 ### Branch Naming
 
