@@ -2,7 +2,7 @@
 
 Service for source control and management of digital art projects 
 
-### Useful links 
+### (Un)Useful links 
 
 Saving user data in WPF application:
 - [c# - approach for saving user settings in a WPF application?](https://stackoverflow.com/questions/3784477/c-sharp-approach-for-saving-user-settings-in-a-wpf-application)
