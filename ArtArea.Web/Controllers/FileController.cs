@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using ArtArea.Web.Models;
 using ArtArea.Web.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ThreadTask = System.Threading.Tasks.Task;
 
@@ -72,6 +73,16 @@ namespace ArtArea.Web.Controllers
                 stream.Position = 0;
             }
             return File(stream, "text/plain", "trash.txt");
+        }
+
+        public class FormFile{
+            public IFormFile MyFile {get;set;}
+        }
+
+        [HttpPost]
+        public void Upload([FromForm]FormFile fileStuff)
+        {
+            throw new NotImplementedException();
         }
     }
 }

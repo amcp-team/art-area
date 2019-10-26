@@ -25,6 +25,31 @@ export class Task extends React.Component{
 
         
     }
+
+    setFileRef = (ref) =>
+    {
+      if(!ref) return;
+
+      this.inputRef = ref;
+    }
+
+    handleFileUpload = () =>
+    {
+      const form = new FormData();
+      if(!this.inputRef.files.length)
+      return;
+      
+      const [file] = this.inputRef.files;
+      
+      form.append("myfile", file);
+
+      fetch("/api/file/", {
+        method: "POST",
+        body: form
+      });
+      
+      console.log("111", this.inputRef.files);
+    }
     render(){
       console.log(this.state)
         return (
@@ -45,6 +70,10 @@ export class Task extends React.Component{
             })}           
           </div>
         </div>
+        <div class="row">
+          <input type="file" id="uploadThumbnail" ref={this.setFileRef}/>
+          <button type="button" onClick={this.handleFileUpload}>Upload File</button>
+        </div>
 
         <div class="row">
           <div class="col-12">
@@ -57,8 +86,7 @@ export class Task extends React.Component{
                     {comment.date}
                   </div>  
                 </div>
-              )
-            })}
+            )})}
           <div/>
         </div>
       </div></>
