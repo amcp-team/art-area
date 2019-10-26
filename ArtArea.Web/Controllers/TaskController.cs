@@ -25,11 +25,13 @@ namespace ArtArea.Web.Controllers
             return new TaskViewModel{
                 Name = "API Pirate",
                 Description = "This pirate we got from API",
-                Slides = FileStorage.uploadedFiles
-                    .Select(x => new FileData
+                Slides = DataStorage.UploadedFiles
+                    .Select(x => new FileViewModel
                     {
-                        Name = "some name",
-                        Base64 = Convert.ToBase64String(x)
+                        Name = x.Name,
+                        Id = x.Id,
+                        Base64 = x.Base64,
+                        FileType = x.FileType
                     }).ToList()
                 };
         }
@@ -39,26 +41,28 @@ namespace ArtArea.Web.Controllers
         [Route("comments")]
         public List<CommentViewModel> GetComments()
         {
-            return new List<CommentViewModel>(new CommentViewModel[] {
-                new CommentViewModel
-                {
-                    Text = "Comment 3",
-                    Date = DateTime.Now.ToString("d"),
-                    Name = "Andrew"
-                },
-                new CommentViewModel
-                {
-                    Text = "Comment 3",
-                    Date = DateTime.Now.ToString("d"),
-                    Name = "Ilya"
-                },
-                new CommentViewModel
-                {
-                    Text = "Comment 3",
-                    Date = DateTime.Now.ToString("d"),
-                    Name = "Ilya"
-                },
-            });
+            return DataStorage.Comments;
+
+            // return new List<CommentViewModel>(new CommentViewModel[] {
+            //     new CommentViewModel
+            //     {
+            //         Text = "Comment 3",
+            //         Date = DateTime.Now.ToString("d"),
+            //         Name = "Andrew"
+            //     },
+            //     new CommentViewModel
+            //     {
+            //         Text = "Comment 3",
+            //         Date = DateTime.Now.ToString("d"),
+            //         Name = "Ilya"
+            //     },
+            //     new CommentViewModel
+            //     {
+            //         Text = "Comment 3",
+            //         Date = DateTime.Now.ToString("d"),
+            //         Name = "Ilya"
+            //     },
+            // });
         }
     }
 }

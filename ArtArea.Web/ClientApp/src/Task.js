@@ -2,6 +2,10 @@ import React from "react"
 import { getTask, getComments } from "./api/taskAPI"
 export class Task extends React.Component{
 
+    constructor(props){
+      super(props)
+      this.inputRef = React.createRef();
+    }
     state={
         name:"",
         description:"",
@@ -26,20 +30,15 @@ export class Task extends React.Component{
         
     }
 
-    setFileRef = (ref) =>
-    {
-      if(!ref) return;
-
-      this.inputRef = ref;
-    }
+    
 
     handleFileUpload = () =>
     {
       const form = new FormData();
-      if(!this.inputRef.files.length)
+      if(!this.inputRef.current.files.length)
       return;
       
-      const [file] = this.inputRef.files;
+      const [file] = this.inputRef.current.files;
       
       form.append("myfile", file);
 
@@ -77,7 +76,7 @@ export class Task extends React.Component{
           </div>
         </div>
         <div class="row">
-          <input type="file" id="uploadThumbnail" ref={this.setFileRef}/>
+          <input type="file" id="uploadThumbnail" ref={this.inputRef}/>
           <button type="button" onClick={this.handleFileUpload}>Upload File</button>
         </div>
 

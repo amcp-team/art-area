@@ -5,8 +5,10 @@ import {
     Route,
     Link
   } from "react-router-dom";
-import { getSlide } from "./api/SlideAPI";
-import { getSlideComment } from "./api/GetSlideComment";
+import { getSlide,addComment,getComment } from "./api/SlideAPI";
+import {Comment} from "./Comment.js"
+
+
 export class Slide extends React.Component{
     state={
         slide:{},
@@ -14,67 +16,42 @@ export class Slide extends React.Component{
     }
 
     componentDidMount(){
-        getSlide()
+        getSlide(this.props.match.params.id)
         .then((data)=>{
             console.log(data)
             this.setState({slide: data})
 
+            this.getComments()
         })
 
-        getSlideComment()
+        
+    }
+
+    getComments(){
+        getComment(this.props.match.params.id)
         .then((data)=>{
             console.log(data)
             this.setState({comment:data})
         })
     }
 
-    
+    addComment=(newComment)=>{
+        addComment(newComment).then(()=>{
+            this.getComments()
+        }
+        )
+    }
 
     render(){
-        console.log(this.props) 
+        console.log("111", this.props, this.state) 
         return (<>
             <div className="row">
                 <div className="col-5">
                     <img src={"data:"+this.state.slide.fileType+";base64, "+this.state.slide.base64} class="img-thumbnail"/>
-                </div>
-                
-
+                </div>              
                 
                 <div className="col-7">
-                    <div class="media">
-      
-                        <div class="media-body">
-                            {this.state.comment.map((data)=>{
-                                return(<div class="media">
-                                    <div class="media-body">
-                            <h5 class="mt-0">Media heading</h5>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                        </div>
-                                </div>)
-                            }
-
-                            )}
-                            <h5 class="mt-0">Media heading</h5>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                        </div>
-      
-                    </div>
-                    <div class="media">
-      
-                        <div class="media-body">
-                            <h5 class="mt-0">Media heading</h5>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                        </div>
-      
-                    </div>
-                    <div class="media">
-      
-                        <div class="media-body">
-                            <h5 class="mt-0">Media heading</h5>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                        </div>
-      
-                    </div>
+                    <Comment comment={this.state.comment} addComment={this.addComment}/>                
                 </div>
                 
                 

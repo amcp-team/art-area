@@ -1,6 +1,6 @@
 namespace ArtArea.Web.ViewModels
 {
-    public class FileData
+    public class FileViewModel
     {
         public string Id {get;set;}
         public string FileType{get;set;}
