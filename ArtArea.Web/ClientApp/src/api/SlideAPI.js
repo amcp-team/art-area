@@ -5,3 +5,7 @@ export function getSlide(){
     }
     return Promise.resolve(result)
 }
+
+export function addComment(newComment){
+    return Promise.resolve()
+}
