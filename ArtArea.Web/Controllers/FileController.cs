@@ -8,6 +8,7 @@ using ArtArea.Web.Models;
 using ArtArea.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace ArtArea.Web.Controllers
 {
@@ -27,10 +28,10 @@ namespace ArtArea.Web.Controllers
         [Route("{id}/comment")]
         public void PostComment(string id,[FromBody]CommentViewModel comment)
         {
-            comment.FileId = id;
+            comment.date = DateTime.Now.ToString();
             DataStorage.Comments.Add(comment);
         }
-
+    
         [HttpGet]
         [Route("{id}/comments")]
         public List<CommentViewModel> GetComments(string id)
@@ -39,6 +40,7 @@ namespace ArtArea.Web.Controllers
                 .Where(x => x.FileId == id)
                 .OrderByDescending(x => DateTime.Parse(x.Date))
                 .ToList();
+
             // new List<Comment>(new [] {
             //     new Comment
             //     {
@@ -62,7 +64,7 @@ namespace ArtArea.Web.Controllers
         [Route("{id}/thumbdata")]
         public FileViewModel GetThumbnail(string id)
             => DataStorage.UploadedFiles.First(x => x.Id == id);
-
+    
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> Download(string id)
@@ -78,17 +80,18 @@ namespace ArtArea.Web.Controllers
             return File(stream, "text/plain", "trash.txt");
         }
 
-        
+
+​        
         [HttpPost]
         public async Task<IActionResult> Upload([FromForm]FileFormViewModel fileData)
         {
             var fileLength = (int)fileData.MyFile.Length;
             if(fileLength == 0)return Ok();
-
+    
             var stream = new MemoryStream(fileLength);
             await fileData.MyFile.CopyToAsync(stream);
             stream.Position=0;
-
+    
             var newBytes = new byte[fileLength];
             using(var reader = new StreamReader(stream))
             {
@@ -100,7 +103,7 @@ namespace ArtArea.Web.Controllers
                     FileType = fileData.MyFile.ContentType,
                     Name = fileData.MyFile.Name
                 });
-
+    
             return Ok();
         }
     }
