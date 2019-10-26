@@ -16,6 +16,7 @@ namespace ArtArea.Web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -25,18 +26,9 @@ namespace ArtArea.Web
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseHttpsRedirection();
             app.UseRouting();
-
-            app.UseMvc(routes => {
-                
-                // endpoint for all comments of task /comments 
-                // endpoint for commnents of file /comments/{id} (get/post) 
-                // endpoint for file upload /upload
-                // endpoint for file download /download
-                // endpoitn for task itself /task
-                
-            });
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }
 }
