@@ -1,3 +1,4 @@
+using ArtArea.Web.Models;
 using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
 using System;
@@ -15,6 +16,9 @@ public class ApplicationDb
         database = client.GetDatabase("artareadb");
         bucket = new GridFSBucket(database);
     }
+    public IMongoCollection<ArtArea.Web.Models.Task> Tasks => database.GetCollection<ArtArea.Web.Models.Task>("tasks");
+    public IMongoCollection<File> Files => database.GetCollection<File>("files");
+    public IMongoCollection<Comment> Comments => database.GetCollection<Comment>("comments");
 
 
 
