@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ArtArea.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArtArea.Web 
@@ -14,11 +15,28 @@ namespace ArtArea.Web
             throw new NotImplementedException();
         }
 
+        // mock
         [HttpGet]
         [Route("comments")]
-        public List<Comments> GetComments()
+        public List<Comment> GetComments()
         {
-            throw new NotImplementedException();
+            return new List<Comment>(new Comment[] {
+                new Comment
+                {
+                    Text = "Comment 1",
+                    PublicationDate = DateTime.Now,
+                },
+                new Comment
+                {
+                    Text = "Comment 2",
+                    PublicationDate = DateTime.Now,
+                },
+                new Comment
+                {
+                    Text = "Comment 3",
+                    PublicationDate = DateTime.Now,
+                },
+            });
         }
     }
 }
