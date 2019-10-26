@@ -10,7 +10,7 @@ namespace ArtArea.Web.Models.DataServices
         Task<IEnumerable<Issue>> GetIssues();
         Task<Issue> GetIssue(string id);
         Task AddIssue(Issue issue);
-        //Task DeleteIssue(string id);
-        //Task UpdateIssue(Issue issue);
+        Task DeleteIssue(string id);
+        Task UpdateIssue(Issue issue);
     }
 }

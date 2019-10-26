@@ -10,7 +10,7 @@ namespace ArtArea.Web.Models
     {
         public ObjectId Id { get; set; }
         public ObjectId RealId { get; set;}
-        public string Version { get; set; }
+        public string NameVersion { get; set; }
         public DateTime DateCreation { get; set; }
         public ObjectId IssueId { get; set; }
         public string Type { get; set; }

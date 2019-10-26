@@ -11,8 +11,8 @@ namespace ArtArea.Web.Models.DataServices
         Task<File> GetFile(string id);
         Task<File> GetFileByIssue(string id);
         Task AddFile(File file);
-        //Task DeleteFile(string id);
-        // Task UpdateFile(File file);
+        Task DeleteFile(string id);
+        Task UpdateFile(File file);
 
 
 

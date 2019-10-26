@@ -12,9 +12,7 @@ namespace ArtArea.Web.Models.DataServices
     public class CommentDataService : ICommentDataService
     {
         public ApplicationDb db;
-
         public CommentDataService(ApplicationDb database) => db = database;
-
 
 
         public async Task<Comment> GetComment(string id)
@@ -27,5 +25,11 @@ namespace ArtArea.Web.Models.DataServices
 
         public async Task AddComment(Comment comment)
             => await db.Comments.InsertOneAsync(comment);
+
+        public async Task DeleteComment(string id) 
+            => await db.Comments.DeleteOneAsync(x => x.Id == new ObjectId(id));
+
+        public async Task UpdateComment(Comment comment) 
+            => await db.Comments.ReplaceOneAsync(new BsonDocument("id", comment.Id), comment);
     }
 }

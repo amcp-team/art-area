@@ -13,13 +13,19 @@ namespace ArtArea.Web.Models.DataServices
         public IssueDataService(ApplicationDb database) => db = database;
 
         public async Task AddIssue(Issue issue)
-        {
-            await db.Issues.InsertOneAsync(issue);
-        }
+            =>await db.Issues.InsertOneAsync(issue);
+       
+
+        public async Task DeleteIssue(string id) 
+            => await db.Issues.DeleteOneAsync(id);
 
         public async Task<Issue> GetIssue(string id) 
             => await db.Issues.Find(x => x.Id == new ObjectId(id)).FirstOrDefaultAsync();
 
-        public async Task<IEnumerable<Issue>> GetIssues() => await db.Issues.Find(x => true).ToListAsync();
+        public async Task<IEnumerable<Issue>> GetIssues() 
+            => await db.Issues.Find(x => true).ToListAsync();
+
+        public async Task UpdateIssue(Issue issue) 
+            => await db.Issues.ReplaceOneAsync(new BsonDocument("id", issue.Id), issue);
     }
 }

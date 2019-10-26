@@ -12,7 +12,7 @@ namespace ArtArea.Web.Models.DataServices
         Task<IEnumerable<Comment>> GetFileComments(ObjectId FileId);
         Task<Comment> GetComment(string id);
         Task AddComment(Comment comment);
-        //Task DeleteComment(string id);
-        //Task UpdateComment(Comment comment);
+        Task DeleteComment(string id);
+        Task UpdateComment(Comment comment);
     }
 }
