@@ -20,7 +20,7 @@ public class ApplicationDb
     public IMongoCollection<File> Files => database.GetCollection<File>("files");
     public IMongoCollection<Comment> Comments => database.GetCollection<Comment>("comments");
     public IMongoCollection<Project> Projects => database.GetCollection<Project>("projects");
-
+    public IMongoCollection<User> Users => database.GetCollection<User>("user");
 
 
 }
