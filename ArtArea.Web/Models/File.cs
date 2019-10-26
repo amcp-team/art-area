@@ -12,6 +12,6 @@ namespace ArtArea.Web.Models
         public ObjectId RealId { get; set;}
         public string Version { get; set; }
         public DateTime DateCreation { get; set; }
-        
+        public ObjectId IssueId { get; set; }
     }
 }

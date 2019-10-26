@@ -9,7 +9,6 @@ namespace ArtArea.Web.Models
     public class Issue
     {
         public ObjectId Id { get; set; }
-        public List<ObjectId> Files { get; set; }
         public string Name { get; set; }
         //public string Description { get; set; }
         //public ObjectId CreatorId { get; set; }
