@@ -84,7 +84,7 @@ export class Task extends React.Component{
         </div>
         <div className="row my-3 mb-5">
           <div className="col-12 form-inline">
-           <input type="file" className="form-control mr-3 mb-1" ref={this.inputRef}/>
+           <input type="file" className="form-control mr-3 mb-1 ml-2" ref={this.inputRef}/>
            <button type="button" class="btn btn-secondary" onClick={this.handleFileUpload}>Upload File</button>
           </div>
         </div>
