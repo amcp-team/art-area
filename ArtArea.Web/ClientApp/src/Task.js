@@ -1,4 +1,5 @@
 import React from "react"
+
 import { getTask } from "./api/taskAPI"
 export class Task extends React.Component{
 
@@ -20,7 +21,7 @@ export class Task extends React.Component{
         return (
         <>
         <div class="row">
-          <div class="col-12">
+          <div class="col-12 ">
             <div class="jumbotron">
               <h1 class="display-4">{this.state.name}</h1>
               <p class="lead">{this.state.description}</p>              
