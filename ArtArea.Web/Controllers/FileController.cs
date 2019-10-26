@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using ArtArea.Web.Controller;
 using ArtArea.Web.Models;
 using ArtArea.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -36,7 +35,10 @@ namespace ArtArea.Web.Controllers
         [Route("{id}/comments")]
         public List<CommentViewModel> GetComments(string id)
         {
-            return DataStorage.Comments.Where(x => x.FileId == id).ToList(); 
+            return DataStorage.Comments
+                .Where(x => x.FileId == id)
+                .OrderByDescending(x => DateTime.Parse(x.Date))
+                .ToList();
             // new List<Comment>(new [] {
             //     new Comment
             //     {
@@ -74,10 +76,6 @@ namespace ArtArea.Web.Controllers
                 stream.Position = 0;
             }
             return File(stream, "text/plain", "trash.txt");
-        }
-
-        public class FileFormViewModel{
-            public IFormFile MyFile {get;set;}
         }
 
         

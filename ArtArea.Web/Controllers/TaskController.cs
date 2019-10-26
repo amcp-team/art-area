@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ArtArea.Web.Controller;
 using ArtArea.Web.Models;
 using ArtArea.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;

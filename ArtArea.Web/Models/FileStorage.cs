@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using ArtArea.Web.Models;
 using ArtArea.Web.ViewModels;
 
-namespace ArtArea.Web.Controller
+namespace ArtArea.Web.Models
 {
     public static class DataStorage
     {
