@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using ArtArea.Web.Controller;
 using ArtArea.Web.Models;
 using ArtArea.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ThreadTask = System.Threading.Tasks.Task;
 
 namespace ArtArea.Web.Controllers
 {
    [Route("api/[controller]")]
-    public class FileController : Controller
+    public class FileController : ControllerBase
     { 
         // private IFileDataService fileDataService;
         // private ICommentDataService commentDataService;//???
@@ -79,10 +79,28 @@ namespace ArtArea.Web.Controllers
             public IFormFile MyFile {get;set;}
         }
 
+        
+       // List<byte[]> uploadedFiles=new List<byte[]>();
+        
+        
         [HttpPost]
-        public void Upload([FromForm]FormFile fileStuff)
+        public async Task<IActionResult> Upload([FromForm]FormFile fileData)
         {
-            throw new NotImplementedException();
+            var fileLength = (int)fileData.MyFile.Length;
+            if(fileLength == 0)return Ok();
+
+            var stream = new MemoryStream(fileLength);
+            await fileData.MyFile.CopyToAsync(stream);
+            stream.Position=0;
+
+            var newBytes = new byte[fileLength];
+            using(var reader = new StreamReader(stream))
+            {
+                stream.Read(newBytes, 0, fileLength);
+            }
+            FileStorage.uploadedFiles.Add(newBytes);
+
+            return Ok();
         }
     }
 }
