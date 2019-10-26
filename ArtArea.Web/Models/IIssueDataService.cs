@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace ArtArea.Web.Models
 {
-    interface ITaskDataService
+    interface IIssueDataService
     {
-        IEnumerable<Task> GetTasks();
-        public Task GetTask(string id);
-        public void AddTask(Task task);
+        IEnumerable<Issue> GetTasks();
+        public Issue GetTask(string id);
+        public void AddTask(Issue task);
         //public void DeleteTask(string id);
         //public void UpdateTask(Task task);
     }
