@@ -12,7 +12,7 @@ import {Comment} from "./Comment.js"
 export class Slide extends React.Component{
     state={
         slide:{},
-        comment:[]
+        comments:[]
     }
 
     componentDidMount(){
@@ -31,7 +31,7 @@ export class Slide extends React.Component{
         getComment(this.props.match.params.id)
         .then((data)=>{
             console.log(data)
-            this.setState({comment:data})
+            this.setState({comments:data})
         })
     }
 
@@ -51,9 +51,8 @@ export class Slide extends React.Component{
                 </div>              
                 
                 <div className="col-7">
-                    <Comment comment={this.state.comment} addComment={this.addComment}/>                
+                    <Comment comment={this.state.comments} addComment={this.addComment} fileId={this.props.match.params.id}/>                
                 </div>
-                
                 
 
             </div>

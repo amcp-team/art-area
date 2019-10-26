@@ -3,7 +3,7 @@ import React from "react"
 export class Comment extends React.Component{
     state={
         name: "",
-        commentText: ""
+        text: ""
     }
 
     onNameChange=(event)=>{
@@ -11,11 +11,11 @@ export class Comment extends React.Component{
     }
 
     onTextCommentChange=(event)=>{
-        this.setState({commentText: event.target.value})
+        this.setState({text: event.target.value})
     }
 
     addComment=(event)=>{
-        this.props.addComment(this.state)
+        this.props.addComment({...this.state, fileId:this.props.fileId})
     }
 
     render(){
@@ -27,7 +27,7 @@ export class Comment extends React.Component{
                                 (<div class="media">
                                     <div class="media-body">
                                         <h5 class="mt-0">{data.name}</h5>
-                                        {data.commentText}
+                                        {data.text}
                                     </div>
                                 
                                 </div>)            

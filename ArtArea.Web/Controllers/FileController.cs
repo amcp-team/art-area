@@ -9,6 +9,7 @@ using ArtArea.Web.Models;
 using ArtArea.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace ArtArea.Web.Controllers
 {
@@ -28,7 +29,7 @@ namespace ArtArea.Web.Controllers
         [Route("{id}/comment")]
         public void PostComment(string id,[FromBody]CommentViewModel comment)
         {
-            comment.FileId = id;
+            comment.date = DateTime.Now.ToString();
             DataStorage.Comments.Add(comment);
         }
 
@@ -36,7 +37,7 @@ namespace ArtArea.Web.Controllers
         [Route("{id}/comments")]
         public List<CommentViewModel> GetComments(string id)
         {
-            return DataStorage.Comments.Where(x => x.FileId == id).ToList(); 
+            return DataStorage.Comments.Where(x => x.fileId == id).ToList(); 
             // new List<Comment>(new [] {
             //     new Comment
             //     {

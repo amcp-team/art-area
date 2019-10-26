@@ -28,6 +28,10 @@ export async function getComment(id)
     return data;
 }
 
-export function addComment(newComment){
-    return Promise.resolve()
+export async function addComment(newComment){
+    await fetch('api/file/'+newComment.fileId+'/comment', {
+        method: 'POST',
+        body: JSON.stringify(newComment),
+        headers: new Headers({'content-type': 'application/json'})
+    })
 }
