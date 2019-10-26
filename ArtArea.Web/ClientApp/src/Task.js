@@ -48,7 +48,13 @@ export class Task extends React.Component{
         body: form
       });
       
-      console.log("111", this.inputRef.files);
+      getTask()
+      .then((data)=>{
+          console.log(data)
+          this.setState(data)
+        })
+
+      // console.log("111", this.inputRef.files);
     }
     render(){
       console.log(this.state)
