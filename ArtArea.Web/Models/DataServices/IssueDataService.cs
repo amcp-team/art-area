@@ -25,6 +25,9 @@ namespace ArtArea.Web.Models.DataServices
         public async Task<IEnumerable<Issue>> GetIssues() 
             => await db.Issues.Find(x => true).ToListAsync();
 
+        public async Task<IEnumerable<Issue>> GetProjectIssues(ObjectId projectId) 
+            => await db.Issues.Find(x => x.Id == projectId).ToListAsync();
+
         public async Task UpdateIssue(Issue issue) 
             => await db.Issues.ReplaceOneAsync(new BsonDocument("id", issue.Id), issue);
     }

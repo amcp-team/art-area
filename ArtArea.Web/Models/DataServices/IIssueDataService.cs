@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,5 +13,6 @@ namespace ArtArea.Web.Models.DataServices
         Task AddIssue(Issue issue);
         Task DeleteIssue(string id);
         Task UpdateIssue(Issue issue);
+        Task<IEnumerable<Issue>> GetProjectIssues(ObjectId projectId);
     }
 }

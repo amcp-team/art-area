@@ -19,6 +19,7 @@ public class ApplicationDb
     public IMongoCollection<Issue> Issues => database.GetCollection<Issue>("issues");
     public IMongoCollection<File> Files => database.GetCollection<File>("files");
     public IMongoCollection<Comment> Comments => database.GetCollection<Comment>("comments");
+    public IMongoCollection<Project> Projects => database.GetCollection<Project>("projects");
 
 
 
