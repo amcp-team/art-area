@@ -9,6 +9,7 @@ namespace ArtArea.Web.Models
     public class CommentDataService : ICommentDataService
     {
         public ApplicationDb db;
+        public CommentDataService(ApplicationDb database) => db = database;
         public Task<Issue> AddComment(Comment comment)
         {
             throw new NotImplementedException();

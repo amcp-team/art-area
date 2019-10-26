@@ -9,13 +9,19 @@ namespace ArtArea.Web.Models
     public class FileDataService:IFileDataService
     {
         public ApplicationDb db;
+        public FileDataService(ApplicationDb database) => db = database;
 
-        public Task<Issue> AddFile(File file)
+        public async Task AddFile(File file)
+        {
+            await db.Files.InsertOne(file);
+        }
+
+        public Task<File> GetFile(string id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<File> GetFile(string id)
+        public Task<File> GetFileByIssue(string id)
         {
             throw new NotImplementedException();
         }

@@ -9,7 +9,8 @@ namespace ArtArea.Web.Models
     {
         Task<IEnumerable<File>> GetFiles();
         Task<File> GetFile(string id);
-        Task<Issue> AddFile(File file);
+        Task<File> GetFileByIssue(string id);
+        Task AddFile(File file);
         //Task DeleteFile(string id);
         // Task UpdateFile(File file);
 
