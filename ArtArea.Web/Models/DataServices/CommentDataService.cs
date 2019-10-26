@@ -7,21 +7,14 @@ using System.IO;
 using System.Collections.Generic;
 using MongoDB.Driver;
 
-namespace ArtArea.Web.Models
+namespace ArtArea.Web.Models.DataServices
 {
     public class CommentDataService : ICommentDataService
     {
         public ApplicationDb db;
 
         public CommentDataService(ApplicationDb database) => db = database;
-        public Task<Issue> AddComment(Comment comment)
-        {
-            throw new NotImplementedException();
-        }
 
-
-        public CommentDataService(ApplicationDb database)
-            => db = database;
 
 
         public async Task<Comment> GetComment(string id)
@@ -29,11 +22,10 @@ namespace ArtArea.Web.Models
         public async Task<IEnumerable<Comment>> GetComments()
             => await db.Comments.Find(x => true).ToListAsync();
 
-        public async Task<IEnumerable<Comment>> GetCommentsByFile(ObjectId FileId)
+        public async Task<IEnumerable<Comment>> GetFileComments(ObjectId FileId)
             => await db.Comments.Find(x => x.FileId == FileId).ToListAsync();
 
         public async Task AddComment(Comment comment)
             => await db.Comments.InsertOneAsync(comment);
-        
     }
 }

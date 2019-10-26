@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ArtArea.Web.Models
+namespace ArtArea.Web.Models.DataServices
 {
     interface IIssueDataService
     {
