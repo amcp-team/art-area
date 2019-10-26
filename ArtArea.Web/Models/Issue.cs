@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ArtArea.Web.Models
 {
-    public class Task
+    public class Issue
     {
         public ObjectId Id { get; set; }
         public List<ObjectId> Files { get; set; }

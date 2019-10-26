@@ -8,11 +8,11 @@ namespace ArtArea.Web.Models
 {
     interface ICommentDataService
     {
-        IEnumerable<Comment> GetComments();
-        IEnumerable<Comment> GetCommentsByFile(ObjectId FileId);
-        public Comment GetComment(string id);
-        public void AddComment(Comment comment);
-        //public void DeleteComment(string id);
-        //public void UpdateComment(Comment comment);
+        Task<IEnumerable<Comment>> GetComments();
+        Task<IEnumerable<Comment>> GetCommentsByFile(ObjectId FileId);
+        Task<Comment> GetComment(string id);
+        Task<Issue> AddComment(Comment comment);
+        //Task DeleteComment(string id);
+        //Task UpdateComment(Comment comment);
     }
 }

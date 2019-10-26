@@ -16,7 +16,7 @@ public class ApplicationDb
         database = client.GetDatabase("artareadb");
         bucket = new GridFSBucket(database);
     }
-    public IMongoCollection<ArtArea.Web.Models.Task> Tasks => database.GetCollection<ArtArea.Web.Models.Task>("tasks");
+    public IMongoCollection<Issue> Issues => database.GetCollection<Issue>("issues");
     public IMongoCollection<File> Files => database.GetCollection<File>("files");
     public IMongoCollection<Comment> Comments => database.GetCollection<Comment>("comments");
 
