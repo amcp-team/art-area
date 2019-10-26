@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ArtArea.Web.Models.DataServices
 {
-    interface ICommentDataService
+    public interface ICommentDataService
     {
         Task<IEnumerable<Comment>> GetComments();
         Task<IEnumerable<Comment>> GetFileComments(string FileId);

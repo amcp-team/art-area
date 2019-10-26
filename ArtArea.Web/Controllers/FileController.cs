@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using ArtArea.Web.Models;
+using ArtArea.Web.Models.DataServices;
 using ArtArea.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,30 +17,51 @@ namespace ArtArea.Web.Controllers
     public class FileController : ControllerBase
     { 
         // private IFileDataService fileDataService;
-        // private ICommentDataService commentDataService;//???
-        // public FileController(IFileDataService fileDataService,ICommentDataService commentDataService)
-        // {
-        //     this.commentDataService=commentDataService;
+        private ICommentDataService commentDataService;//???
+        public FileController(ICommentDataService commentDataService)
+        {
+            this.commentDataService=commentDataService;
         //     this.fileDataService=fileDataService;
-        //   
-        // }
+        }
 
         [HttpPost]
         [Route("{id}/comment")]
         public void PostComment(string id,[FromBody]CommentViewModel comment)
         {
-            comment.date = DateTime.Now.ToString();
-            DataStorage.Comments.Add(comment);
+            var rawComment = new Comment
+            {
+                Name = comment.name,
+                Text = comment.text,
+                FileId = id,
+                PublicationDate = DateTime.Now
+            };
+
+            commentDataService.AddComment(rawComment);
+
+            // comment.date = DateTime.Now.ToString();
+            // DataStorage.Comments.Add(comment);
         }
     
         [HttpGet]
         [Route("{id}/comments")]
         public List<CommentViewModel> GetComments(string id)
         {
-            return DataStorage.Comments
-                .Where(x => x.fileId == id)
+            //return DataStorage.Comments
+            //    .Where(x => x.fileId == id)
+            //    .OrderByDescending(x => DateTime.Parse(x.date))
+            //    .ToList();
+             var res = commentDataService.GetFileComments(id).Result;
+
+            return res.Select(x => new CommentViewModel
+            {
+                fileId = x.Id,
+                name = x.Name,
+                text = x.Text,
+                date = x.PublicationDate.ToString()
+            })
                 .OrderByDescending(x => DateTime.Parse(x.date))
                 .ToList();
+
 
             // new List<Comment>(new [] {
             //     new Comment
@@ -58,7 +80,7 @@ namespace ArtArea.Web.Controllers
             //         PublicationDate = DateTime.Now,
             //     },
             // });
-        } 
+        }
 
         [HttpGet]
         [Route("{id}/thumbdata")]
