@@ -10,9 +10,17 @@ using ThreadTask = System.Threading.Tasks.Task;
 
 namespace ArtArea.Web.Controllers
 {
-    [Route("api/[controller]")]
+   [Route("api/[controller]")]
     public class FileController : Controller
-    {
+    { 
+        private IFileDataService fileDataService;
+        private ICommentDataService commentDataService;//???
+        public FileController(IFileDataService fileDataService,ICommentDataService commentDataService)
+        {
+            this.commentDataService=commentDataService;
+            this.fileDataService=fileDataService;
+          
+        }
         [HttpGet]
         [Route("{id}/comments")]
         public List<Comment> GetComments(string id)

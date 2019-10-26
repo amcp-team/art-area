@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ArtArea.Web.Models
 {
-    interface ITaskDataService
+     public interface ITaskDataService
     {
         IEnumerable<Task> GetTasks();
         public Task GetTask(string id);

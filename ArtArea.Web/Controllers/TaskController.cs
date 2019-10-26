@@ -8,9 +8,16 @@ namespace ArtArea.Web.Controllers
     [Route("api/[controller]")]
     public class TaskController : Controller
     {
+        private ITaskDataService taskDataService;
+        private ICommentDataService commentDataService;
+        public TaskController(ITaskDataService taskDataService,ICommentDataService commentDataService)
+        {
+          this.taskDataService=taskDataService;
+          this.commentDataService=commentDataService;
+        }
         // api/task/ -> return data realted to task
         [HttpGet]
-        public Task GetTask()
+         public Task GetTask()
         {
             throw new NotImplementedException();
         }
