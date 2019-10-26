@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using System.IO;
-using System.Collections.Generic;
 using MongoDB.Driver;
 
 namespace ArtArea.Web.Models.DataServices
