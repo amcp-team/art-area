@@ -7,11 +7,11 @@ namespace ArtArea.Web.Models
 {
     interface IFileDataService
     {
-        IEnumerable<File> GetFiles();
-        public File GetFile(string id);
-        public void AddFile(File file);
-        //public void DeleteFile(string id);
-        //public void UpdateFile(File file);
+        Task<IEnumerable<File>> GetFiles();
+        Task<File> GetFile(string id);
+        Task<Issue> AddFile(File file);
+        //Task DeleteFile(string id);
+        // Task UpdateFile(File file);
 
 
 

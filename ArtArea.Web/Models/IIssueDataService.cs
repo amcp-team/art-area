@@ -7,10 +7,10 @@ namespace ArtArea.Web.Models
 {
     interface IIssueDataService
     {
-        IEnumerable<Issue> GetTasks();
-        public Issue GetTask(string id);
-        public void AddTask(Issue task);
-        //public void DeleteTask(string id);
-        //public void UpdateTask(Task task);
+        Task<IEnumerable<Issue>> GetIssues();
+        Task<Issue> GetIssue(string id);
+        Task AddIssue(Issue issue);
+        //Task DeleteIssue(string id);
+        //Task UpdateIssue(Issue issue);
     }
 }
