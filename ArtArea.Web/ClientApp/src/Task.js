@@ -1,5 +1,7 @@
 import React from "react"
 import { getTask, getComments } from "./api/taskAPI"
+import{Link} from "react-router-dom"
+import {Picture} from "./Picture"
 export class Task extends React.Component{
 
     constructor(props){
@@ -45,39 +47,46 @@ export class Task extends React.Component{
       fetch("/api/file/", {
         method: "POST",
         body: form
-      });
-      
-      getTask()
-      .then((data)=>{
+      }).then(() => 
+      {
+        getTask()
+        .then((data)=>{
           console.log(data)
           this.setState(data)
         })
+      });
+
+      this.inputRef.current.value=""
 
       // console.log("111", this.inputRef.files);
     }
     render(){
       console.log(this.state)
-        return (
+      return (
         <>
-        <div class="row">
-          <div class="col-12 ">
-            <div class="jumbotron">
-              <h1 class="display-4">{this.state.name}</h1>
-              <p class="lead">{this.state.description}</p>              
+        <div className="row">
+          <div className="col-12 ">
+            <div className="jumbotron">
+              <h1 className="display-4">{this.state.name}</h1>
+              <p className="lead">{this.state.description}</p>              
             </div>
           </div>         
         </div>
 
-        <div class="row">
-          <div class="col-12">
-            {this.state.slides.map((slide)=>{
-                return(<a href={"/slide/"+slide.id} key={slide.id}><img src={"data:"+slide.fileType+";base64, "+slide.base64}/></a>)
-            })}           
+        <div className="row">
+          <div className="col-12">
+            <div className="d-flex justify-content-around flex-wrap">
+              {this.state.slides.map((slide)=>{
+                  return(<Link to={"/slide/"+slide.id} key={slide.id}><Picture src={"data:"+slide.fileType+";base64, "+slide.base64}/></Link>)
+              })}
+            </div>           
           </div>
         </div>
-        <div class="row">
-          <input type="file" id="uploadThumbnail" ref={this.inputRef}/>
-          <button type="button" onClick={this.handleFileUpload}>Upload File</button>
+        <div className="row my-3 mb-5">
+          <div className="col-12 form-inline">
+           <input type="file" className="form-control mr-3 mb-1" ref={this.inputRef}/>
+           <button type="button" class="btn btn-secondary" onClick={this.handleFileUpload}>Upload File</button>
+          </div>
         </div>
 
         <div class="row">
