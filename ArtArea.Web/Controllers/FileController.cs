@@ -37,8 +37,8 @@ namespace ArtArea.Web.Controllers
         public List<CommentViewModel> GetComments(string id)
         {
             return DataStorage.Comments
-                .Where(x => x.FileId == id)
-                .OrderByDescending(x => DateTime.Parse(x.Date))
+                .Where(x => x.fileId == id)
+                .OrderByDescending(x => DateTime.Parse(x.date))
                 .ToList();
 
             // new List<Comment>(new [] {
@@ -79,9 +79,7 @@ namespace ArtArea.Web.Controllers
             }
             return File(stream, "text/plain", "trash.txt");
         }
-
-
-​        
+     
         [HttpPost]
         public async Task<IActionResult> Upload([FromForm]FileFormViewModel fileData)
         {
