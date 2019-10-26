@@ -52,7 +52,9 @@ export class Task extends React.Component{
               return(
                 <div class="media">
                   <div class="media-body">
-                    <h5 class="mt-0">{comment.text}</h5>
+                    <h5 class="mt-0">{comment.name}</h5>
+                    {comment.text} <br/>
+                    {comment.date}
                   </div>  
                 </div>
               )

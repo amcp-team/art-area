@@ -35,23 +35,26 @@ namespace ArtArea.Web.Controllers
         // mock
         [HttpGet]
         [Route("comments")]
-        public List<Comment> GetComments()
+        public List<CommentViewModel> GetComments()
         {
-            return new List<Comment>(new Comment[] {
-                new Comment
-                {
-                    Text = "Comment 1",
-                    PublicationDate = DateTime.Now,
-                },
-                new Comment
-                {
-                    Text = "Comment 2",
-                    PublicationDate = DateTime.Now,
-                },
-                new Comment
+            return new List<CommentViewModel>(new CommentViewModel[] {
+                new CommentViewModel
                 {
                     Text = "Comment 3",
-                    PublicationDate = DateTime.Now,
+                    Date = DateTime.Now.ToString("d"),
+                    Name = "Andrew"
+                },
+                new CommentViewModel
+                {
+                    Text = "Comment 3",
+                    Date = DateTime.Now.ToString("d"),
+                    Name = "Ilya"
+                },
+                new CommentViewModel
+                {
+                    Text = "Comment 3",
+                    Date = DateTime.Now.ToString("d"),
+                    Name = "Ilya"
                 },
             });
         }
