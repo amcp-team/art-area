@@ -28,12 +28,14 @@ namespace ArtArea.Web
 
             app.UseRouting();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+            app.UseMvc(routes => {
+                
+                // endpoint for all comments of task /comments 
+                // endpoint for commnents of file /comments/{id} (get/post) 
+                // endpoint for file upload /upload
+                // endpoint for file download /download
+                // endpoitn for task itself /task
+                
             });
         }
     }
