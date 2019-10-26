@@ -1,4 +1,4 @@
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
@@ -7,18 +7,17 @@ using System.Threading.Tasks;
 
 namespace ArtArea.Web.Models
 {
-    public class Comment
+    public class Project
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-        //public ObjectId AuthorId { get; set; }
-        public string Name {get;set;}
-
         [BsonRepresentation(BsonType.ObjectId)]
-        public string FileId { get; set; }
-        public string Text { get; set; }
-        public DateTime PublicationDate { get; set; }
+        public string OwnerId { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        
+
 
     }
 }
