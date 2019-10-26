@@ -22,6 +22,21 @@ namespace ArtArea.Web.Controllers
         //     this.fileDataService=fileDataService;
         //   
         // }
+
+        [HttpPost]
+        [Route("{id}/comment")]
+        public void PostComment([FromBody]CommentViewModel comment)
+        {
+            DataStorage.Comments.Add(
+                new Comment
+                {
+                    Name = comment.Name,
+                    Text = comment.Text,
+                    PublicationDate = DateTime.Now,
+                }
+            );
+        }
+
         [HttpGet]
         [Route("{id}/comments")]
         public List<Comment> GetComments(string id)
@@ -98,7 +113,7 @@ namespace ArtArea.Web.Controllers
             {
                 stream.Read(newBytes, 0, fileLength);
             }
-            FileStorage.uploadedFiles.Add(newBytes);
+            DataStorage.UploadedFiles.Add(newBytes);
 
             return Ok();
         }
