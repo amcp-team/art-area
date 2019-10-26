@@ -19,9 +19,12 @@ namespace ArtArea.Web.Controllers
         // }
         // api/task/ -> return data realted to task
         [HttpGet]
-         public TaskViewModel GetTask()
+         public TaskViewModel GetTask(string id)
         {
-            return new TaskViewModel{
+           return DataStorage.Tasks.First(x =>x.Id==id);
+           
+           
+            /*return new TaskViewModel{
                 Name = "API Pirate",
                 Description = "This pirate we got from API",
                 Slides = DataStorage.UploadedFiles
@@ -32,7 +35,7 @@ namespace ArtArea.Web.Controllers
                         Base64 = x.Base64,
                         FileType = x.FileType
                     }).ToList()
-                };
+                };*/
         }
 
         // mock
