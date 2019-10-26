@@ -1,40 +1,62 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using ArtArea.Web.Controller;
 using ArtArea.Web.Models;
+using ArtArea.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArtArea.Web.Controllers
 {
     [Route("api/[controller]")]
-    public class TaskController : Controller
+    public class TaskController : ControllerBase
     {
+        // private ITaskDataService taskDataService;
+        // private ICommentDataService commentDataService;
+        // public TaskController(ITaskDataService taskDataService,ICommentDataService commentDataService)
+        // {
+        //   this.taskDataService=taskDataService;
+        //   this.commentDataService=commentDataService;
+        // }
         // api/task/ -> return data realted to task
         [HttpGet]
-        public Task GetTask()
+         public TaskViewModel GetTask()
         {
-            throw new NotImplementedException();
+            return new TaskViewModel{
+                Name = "API Pirate",
+                Description = "This pirate we got from API",
+                Slides = FileStorage.uploadedFiles
+                    .Select(x => new FileData
+                    {
+                        Name = "some name",
+                        Base64 = Convert.ToBase64String(x)
+                    }).ToList()
+                };
         }
 
         // mock
         [HttpGet]
         [Route("comments")]
-        public List<Comment> GetComments()
+        public List<CommentViewModel> GetComments()
         {
-            return new List<Comment>(new Comment[] {
-                new Comment
-                {
-                    Text = "Comment 1",
-                    PublicationDate = DateTime.Now,
-                },
-                new Comment
-                {
-                    Text = "Comment 2",
-                    PublicationDate = DateTime.Now,
-                },
-                new Comment
+            return new List<CommentViewModel>(new CommentViewModel[] {
+                new CommentViewModel
                 {
                     Text = "Comment 3",
-                    PublicationDate = DateTime.Now,
+                    Date = DateTime.Now.ToString("d"),
+                    Name = "Andrew"
+                },
+                new CommentViewModel
+                {
+                    Text = "Comment 3",
+                    Date = DateTime.Now.ToString("d"),
+                    Name = "Ilya"
+                },
+                new CommentViewModel
+                {
+                    Text = "Comment 3",
+                    Date = DateTime.Now.ToString("d"),
+                    Name = "Ilya"
                 },
             });
         }
