@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,19 +10,16 @@ namespace ArtArea.Web.Models
     public class IssueDataService : IIssueDataService
     {
         public ApplicationDb db;
-        public Task AddIssue(Issue issue)
+        public IssueDataService(ApplicationDb database) => db = database;
+
+        public async Task AddIssue(Issue issue)
         {
-            throw new NotImplementedException();
+            await db.Issues.InsertOneAsync(issue);
         }
 
-        public Task<Issue> GetIssue(string id)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<Issue> GetIssue(string id) 
+            => await db.Issues.Find(x => x.Id == new ObjectId(id)).FirstOrDefaultAsync();
 
-        public Task<IEnumerable<Issue>> GetIssues()
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<IEnumerable<Issue>> GetIssues() => await db.Issues.Find(x => true).ToListAsync();
     }
 }

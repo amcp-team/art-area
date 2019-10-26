@@ -13,6 +13,13 @@ namespace ArtArea.Web.Models
     {
         public ApplicationDb db;
 
+        public CommentDataService(ApplicationDb database) => db = database;
+        public Task<Issue> AddComment(Comment comment)
+        {
+            throw new NotImplementedException();
+        }
+
+
         public CommentDataService(ApplicationDb database)
             => db = database;
 
