@@ -79,7 +79,7 @@ namespace ArtArea.Web.Controllers
             }
             return File(stream, "text/plain", "trash.txt");
         }
-     
+      
         [HttpPost]
         public async Task<IActionResult> Upload([FromForm]FileFormViewModel fileData)
         {
