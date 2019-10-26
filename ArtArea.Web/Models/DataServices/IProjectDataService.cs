@@ -10,8 +10,8 @@ namespace ArtArea.Web.Models.DataServices
     {
         Task AddProject(Project project);
         Task<IEnumerable<Project>> GetProjects();
-        Task<Project> GetProject(ObjectId id);
-        Task DeleteProject(ObjectId id);
+        Task<Project> GetProject(string id);
+        Task DeleteProject(string id);
         Task UpdateProject(Project project);
     }
 }

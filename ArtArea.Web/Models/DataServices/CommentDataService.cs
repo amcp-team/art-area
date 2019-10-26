@@ -15,18 +15,18 @@ namespace ArtArea.Web.Models.DataServices
 
 
         public async Task<Comment> GetComment(string id)
-            => await db.Comments.Find(x => x.Id == new ObjectId(id)).FirstOrDefaultAsync();
+            => await db.Comments.Find(x => x.Id == id).FirstOrDefaultAsync();
         public async Task<IEnumerable<Comment>> GetComments()
             => await db.Comments.Find(x => true).ToListAsync();
 
-        public async Task<IEnumerable<Comment>> GetFileComments(ObjectId FileId)
+        public async Task<IEnumerable<Comment>> GetFileComments(string FileId)
             => await db.Comments.Find(x => x.FileId == FileId).ToListAsync();
 
         public async Task AddComment(Comment comment)
             => await db.Comments.InsertOneAsync(comment);
 
         public async Task DeleteComment(string id) 
-            => await db.Comments.DeleteOneAsync(x => x.Id == new ObjectId(id));
+            => await db.Comments.DeleteOneAsync(x => x.Id == id);
 
         public async Task UpdateComment(Comment comment) 
             => await db.Comments.ReplaceOneAsync(new BsonDocument("id", comment.Id), comment);

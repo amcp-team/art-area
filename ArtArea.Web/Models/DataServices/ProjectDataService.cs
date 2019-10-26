@@ -12,23 +12,19 @@ namespace ArtArea.Web.Models.DataServices
         public ApplicationDb db;
         public ProjectDataService(ApplicationDb database) => db = database;
 
-        public async Task AddProject(Project project) => await db.Projects.InsertOneAsync(project);
+        public async Task AddProject(Project project) 
+            => await db.Projects.InsertOneAsync(project);
 
-        public async Task DeleteProject(string id) => await db.Projects.DeleteOneAsync(x => x.Id == new ObjectId(id));
+        public async Task DeleteProject(string id) 
+            => await db.Projects.DeleteOneAsync(x => x.Id == id);
 
-        public Task<Project> GetProject(string id)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<Project> GetProject(string id) 
+            => await db.Projects.Find(x => x.Id == id).FirstOrDefaultAsync();
 
-        public Task<IEnumerable<Project>> GetProjects()
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<IEnumerable<Project>> GetProjects() 
+            => await db.Projects.Find(x => true).ToListAsync();
 
-        public Task UpdateProject(Project project)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task UpdateProject(Project project) 
+            => await db.Projects.ReplaceOneAsync(new BsonDocument("id", project.Id),project);
     }
 }

@@ -1,4 +1,5 @@
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +9,14 @@ namespace ArtArea.Web.Models
 {
     public class File
     {
-        public ObjectId Id { get; set; }
-        public ObjectId RealId { get; set;}
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
+        public string RealId { get; set;}
         public string NameVersion { get; set; }
         public DateTime DateCreation { get; set; }
-        public ObjectId IssueId { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string IssueId { get; set; }
         public string Type { get; set; }
     }
 }
