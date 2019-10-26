@@ -5,8 +5,7 @@ namespace ArtArea.Web.ViewModels
   {
     public string Name {get;set;}
     public string Description{get;set;}
-
-    public List<FileData> Thumbnails{get;set;}
+    public List<FileData> Slides{get;set;}
 
   }
 
