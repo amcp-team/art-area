@@ -26,10 +26,12 @@ namespace ArtArea.Web.Controllers
                 Name = "API Pirate",
                 Description = "This pirate we got from API",
                 Slides = DataStorage.UploadedFiles
-                    .Select(x => new FileData
+                    .Select(x => new FileViewModel
                     {
-                        Name = "some name",
-                        Base64 = Convert.ToBase64String(x)
+                        Name = x.Name,
+                        Id = x.Id,
+                        Base64 = x.Base64,
+                        FileType = x.FileType
                     }).ToList()
                 };
         }
@@ -39,13 +41,8 @@ namespace ArtArea.Web.Controllers
         [Route("comments")]
         public List<CommentViewModel> GetComments()
         {
-            return DataStorage.Comments
-                .Select(x => new CommentViewModel{
-                    Text = x.Text,
-                    Date = x.PublicationDate.ToString("d"),
-                    Name = x.Name
-                }).ToList();
-                
+            return DataStorage.Comments;
+
             // return new List<CommentViewModel>(new CommentViewModel[] {
             //     new CommentViewModel
             //     {

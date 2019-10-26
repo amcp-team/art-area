@@ -5,8 +5,7 @@ import {
     Route,
     Link
   } from "react-router-dom";
-import { getSlide,addComment } from "./api/SlideAPI";
-import { getSlideComment } from "./api/GetSlideComment";
+import { getSlide,addComment,getComment } from "./api/SlideAPI";
 import {Comment} from "./Comment.js"
 
 
@@ -17,7 +16,7 @@ export class Slide extends React.Component{
     }
 
     componentDidMount(){
-        getSlide()
+        getSlide(this.props.match.params.id)
         .then((data)=>{
             console.log(data)
             this.setState({slide: data})
@@ -29,7 +28,7 @@ export class Slide extends React.Component{
     }
 
     getComments(){
-        getSlideComment()
+        getComment(this.props.match.params.id)
         .then((data)=>{
             console.log(data)
             this.setState({comment:data})
@@ -44,7 +43,7 @@ export class Slide extends React.Component{
     }
 
     render(){
-        console.log(this.props) 
+        console.log("111", this.props, this.state) 
         return (<>
             <div className="row">
                 <div className="col-5">
