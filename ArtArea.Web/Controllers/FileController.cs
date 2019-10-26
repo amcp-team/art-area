@@ -6,19 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace ArtArea.Web.Controllers
 {
     [Route("api/[controller]")]
-    public class TaskController : Controller
+    public class FileController : Controller
     {
-        // api/task/ -> return data realted to task
         [HttpGet]
-        public Task GetTask()
-        {
-            throw new NotImplementedException();
-        }
-
-        // mock
-        [HttpGet]
-        [Route("comments")]
-        public List<Comment> GetComments()
+        [Route("{id}/comments")]
+        public List<Comment> GetComments(string id)
         {
             return new List<Comment>(new Comment[] {
                 new Comment
@@ -37,6 +29,6 @@ namespace ArtArea.Web.Controllers
                     PublicationDate = DateTime.Now,
                 },
             });
-        }
+        }    
     }
 }
