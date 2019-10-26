@@ -1,59 +1,24 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace ArtArea.Web 
 {
+    [Route("api/[controller]")]
     public class TaskController : Controller
     {
+        // api/task/ -> return data realted to task
         [HttpGet]
-        public IActionResult GetTaskComments()
-        {
-            throw new NotImplementedException();
-        }
-
-        [HttpPost]
-        public IActionResult GetTaskComments(File file)
-        {
-            throw new NotImplementedException();
-        }
-        [HttpGet]
-        public IActionResult GetFileComments()
-        {
-            throw new NotImplementedException();
-        }
-
-        [HttpPost]
-        public IActionResult GetFileComments(File file)
+        public Task GetTask()
         {
             throw new NotImplementedException();
         }
 
         [HttpGet]
-        public IActionResult Upload()
+        [Route("comments")]
+        public List<Comments> GetComments()
         {
             throw new NotImplementedException();
         }
-
-        [HttpGet]
-        public IActionResult Download()
-        {
-            throw new NotImplementedException();
-        }
-
-        [HttpGet]
-        public IActionResult Task()
-        {
-            throw new NotImplementedException();
-        }
-
     }
-
-
-
-
-
-
 }
