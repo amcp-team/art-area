@@ -1,23 +1,57 @@
 import React from "react"
-
-import { getTask } from "./api/taskAPI"
+import { getTask, getComments } from "./api/taskAPI"
 export class Task extends React.Component{
 
     state={
         name:"",
         description:"",
-        slides:[]
-
+        slides:[],
+        comments:[]
     }
     componentDidMount(){
         getTask()
         .then((data)=>{
             console.log(data)
             this.setState(data)
-
+          })
+          
+          getComments()
+          .then((data) => {
+            console.log(data)
+            let newstate = this.state;
+            newstate.comments = data;
+            this.setState(data)
         })
+
+        
+    }
+
+    setFileRef = (ref) =>
+    {
+      if(!ref) return;
+
+      this.inputRef = ref;
+    }
+
+    handleFileUpload = () =>
+    {
+      const form = new FormData();
+      if(!this.inputRef.files.length)
+      return;
+      
+      const [file] = this.inputRef.files;
+      
+      form.append("myfile", file);
+
+      fetch("/api/file/", {
+        method: "POST",
+        body: form
+      });
+      
+      console.log("111", this.inputRef.files);
     }
     render(){
+      console.log(this.state)
         return (
         <>
         <div class="row">
@@ -32,35 +66,27 @@ export class Task extends React.Component{
         <div class="row">
           <div class="col-12">
             {this.state.slides.map((slide)=>{
-                return(<a href={"/slide/"+slide.id}><img src={slide.path}/></a>)
+                return(<a href={"/slide/"+slide.id} key={slide.id}><img src={"data:"+slide.fileType+";base64, "+slide.base64}/></a>)
             })}           
           </div>
+        </div>
+        <div class="row">
+          <input type="file" id="uploadThumbnail" ref={this.setFileRef}/>
+          <button type="button" onClick={this.handleFileUpload}>Upload File</button>
         </div>
 
         <div class="row">
           <div class="col-12">
-            <div class="media">     
-              <div class="media-body">
-                <h5 class="mt-0">Media heading</h5>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-              </div>              
-            </div>
-
-
-            <div class="media">      
-              <div class="media-body">
-                <h5 class="mt-0">Media heading</h5>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-              </div>              
-            </div>
-
-
-            <div class="media">     
-              <div class="media-body">
-                <h5 class="mt-0">Media heading</h5>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-              </div>             
-            </div>
+            {this.state.comments.map((comment) => {
+              return(
+                <div class="media">
+                  <div class="media-body">
+                    <h5 class="mt-0">{comment.name}</h5>
+                    {comment.text} <br/>
+                    {comment.date}
+                  </div>  
+                </div>
+            )})}
           <div/>
         </div>
       </div></>
