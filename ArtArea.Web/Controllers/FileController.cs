@@ -62,8 +62,8 @@ namespace ArtArea.Web.Controllers
             return File(stream, "text/plain", "trash.txt");
         }
       
-        [HttpPost]
-        public async Task<IActionResult> Upload([FromForm]FileFormViewModel fileData)
+        [HttpPost("{issueId}")]
+        public async Task<IActionResult> Upload(string issueId,[FromForm]FileFormViewModel fileData)
         {
             var fileLength = (int)fileData.MyFile.Length;
             if(fileLength == 0)return Ok();
@@ -81,7 +81,8 @@ namespace ArtArea.Web.Controllers
                     Base64 = Convert.ToBase64String(newBytes),
                     Id = Guid.NewGuid().ToString(),
                     FileType = fileData.MyFile.ContentType,
-                    Name = fileData.MyFile.Name
+                    Name = fileData.MyFile.Name,
+                    IssueId = issueId
                 });
     
             return Ok();

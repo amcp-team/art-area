@@ -20,12 +20,12 @@ namespace ArtArea.Web.Controllers
               new Issue{
                 Name = "API Pirate",
                 Description = "This is cool API Pirate",
-                Id = "mockedIdLol",
+                Id = "1",
               },
               new Issue{
                 Name = "Art Area Logo",
                 Description = "This is where we try to create logo for our service",
-                Id = "someotherloldir",
+                Id = "2",
               }
             });
            return new ProjectViewModel{ Issues = DataStorage.Issues};   
