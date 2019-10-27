@@ -40,24 +40,6 @@ namespace ArtArea.Web.Controllers
                 .Where(x => x.fileId == id)
                 .OrderByDescending(x => DateTime.Parse(x.date))
                 .ToList();
-
-            // new List<Comment>(new [] {
-            //     new Comment
-            //     {
-            //         Text = "Comment 1",
-            //         PublicationDate = DateTime.Now,
-            //     },
-            //     new Comment
-            //     {
-            //         Text = "Comment 2",
-            //         PublicationDate = DateTime.Now,
-            //     },
-            //     new Comment
-            //     {
-            //         Text = "Comment 3",
-            //         PublicationDate = DateTime.Now,
-            //     },
-            // });
         } 
 
         [HttpGet]
@@ -80,8 +62,8 @@ namespace ArtArea.Web.Controllers
             return File(stream, downFile.FileType, downFile.Name); 
         }
       
-        [HttpPost]
-        public async Task<IActionResult> Upload([FromForm]FileFormViewModel fileData)
+        [HttpPost("{issueId}")]
+        public async Task<IActionResult> Upload(string issueId,[FromForm]FileFormViewModel fileData)
         {
             var fileLength = (int)fileData.MyFile.Length;
             if(fileLength == 0)return Ok();
@@ -99,7 +81,8 @@ namespace ArtArea.Web.Controllers
                     Base64 = Convert.ToBase64String(newBytes),
                     Id = Guid.NewGuid().ToString(),
                     FileType = fileData.MyFile.ContentType,
-                    Name = fileData.MyFile.Name
+                    Name = fileData.MyFile.Name,
+                    IssueId = issueId
                 });
     
             return Ok();

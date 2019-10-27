@@ -15,13 +15,13 @@ export class Task extends React.Component{
         comments:[]
     }
     componentDidMount(){
-        getTask()
+        getTask(this.props.match.params.id)
         .then((data)=>{
             console.log(data)
             this.setState(data)
           })
           
-          getComments()
+          getComments(this.props.match.params.id)
           .then((data) => {
             console.log(data)
             let newstate = this.state;
@@ -44,12 +44,12 @@ export class Task extends React.Component{
       
       form.append("myfile", file);
 
-      fetch("/api/file/", {
+      fetch("/api/file/"+this.props.match.params.id, {
         method: "POST",
         body: form
       }).then(() => 
       {
-        getTask()
+        getTask(this.props.match.params.id)
         .then((data)=>{
           console.log(data)
           this.setState(data)
