@@ -33,9 +33,12 @@ namespace ArtArea.Web.Controllers
         }
 
         [HttpPost]
-        public void PostIssues([FromBody]Issue issue)
+        public ActionResult PostIssue([FromBody]Issue issue)
         {
+            issue.Id = Guid.NewGuid().ToString();
+
             DataStorage.Issues.Add(issue);
+            return Redirect("issue/"+issue.Id);
         }
 
     }
