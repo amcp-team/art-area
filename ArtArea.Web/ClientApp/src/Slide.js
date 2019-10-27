@@ -48,10 +48,12 @@ export class Slide extends React.Component{
         return (<>
             <div className="row">
                 <div className="col-8 my-4">
-                <Link to="/">Home page</Link>
+                <Link to={"/issue/"+this.state.slide.id}>Home page</Link>
+                <a href={"/api/file/"+this.state.slide.id} download={this.state.slide.name}>
                 <div style={{width: 600,height: 600}} class="img-thumbnail d-flex align-items-center justify-content-center bg-light">
-                <img src={"data:"+this.state.slide.fileType+";base64, "+this.state.slide.base64} class="img-thumbnail img-fluid"/>
-            </div>
+                    <img src={"data:"+this.state.slide.fileType+";base64, "+this.state.slide.base64} class="img-thumbnail img-fluid"/>
+                </div>
+                </a>
                 </div>              
                 
                 <div className="col-4 my-4">

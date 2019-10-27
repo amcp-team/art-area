@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using ArtArea.Web.Models;
 using ArtArea.Web.ViewModels;
@@ -12,7 +13,7 @@ using Newtonsoft.Json;
 
 namespace ArtArea.Web.Controllers
 {
-    [Route("api/[controller]")]
+   [Route("api/[controller]")]
     public class FileController : ControllerBase
     { 
         // private IFileDataService fileDataService;
@@ -23,7 +24,7 @@ namespace ArtArea.Web.Controllers
         //     this.fileDataService=fileDataService;
         //   
         // }
-        // done & works
+
         [HttpPost]
         [Route("{id}/comment")]
         public void PostComment(string id,[FromBody]CommentViewModel comment)
@@ -32,7 +33,6 @@ namespace ArtArea.Web.Controllers
             DataStorage.Comments.Add(comment);
         }
     
-        // done & works
         [HttpGet]
         [Route("{id}/comments")]
         public List<CommentViewModel> GetComments(string id)
@@ -43,7 +43,6 @@ namespace ArtArea.Web.Controllers
                 .ToList();
         } 
 
-        // done & works
         [HttpGet]
         [Route("{id}/thumbdata")]
         public FileViewModel GetThumbnail(string id)
@@ -51,22 +50,25 @@ namespace ArtArea.Web.Controllers
     
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> Download(string id)
+        public IActionResult Download(string id)
         {
-            FileViewModel downFile=DataStorage.UploadedFiles.First(x => x.Id == id);
+            // get stream from database
+            var file = DataStorage.UploadedFiles
+                .First(x => x.Id == id);
+
             var stream = new MemoryStream();
-            using(var writer = new StreamWriter(stream, leaveOpen: true))
+            using(var writer = new BinaryWriter(stream, Encoding.ASCII,leaveOpen: true))
             {
-                await writer.WriteLineAsync(downFile.Base64);
-                await writer.FlushAsync();
+                writer.Write(Convert.FromBase64String(file.Base64));
+                writer.Flush();
                 stream.Position = 0;
             }
-            return File(stream, downFile.FileType, downFile.Name); 
+
+            return File(stream, file.FileType, file.Name);
         }
       
-        // done & works
-        [HttpPost("{issueId}")]
-        public async Task<IActionResult> Upload(string issueId,[FromForm]FileFormViewModel fileData)
+        [HttpPost]
+        public async Task<IActionResult> Upload([FromForm]FileFormViewModel fileData)
         {
             var fileLength = (int)fileData.MyFile.Length;
             if(fileLength == 0)return Ok();
@@ -84,8 +86,7 @@ namespace ArtArea.Web.Controllers
                     Base64 = Convert.ToBase64String(newBytes),
                     Id = Guid.NewGuid().ToString(),
                     FileType = fileData.MyFile.ContentType,
-                    Name = fileData.MyFile.Name,
-                    IssueId = issueId
+                    Name = fileData.MyFile.Name
                 });
     
             return Ok();
