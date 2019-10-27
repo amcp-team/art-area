@@ -9,6 +9,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import {Project} from "./Project"
 
 function App() {
   return (
@@ -16,11 +17,12 @@ function App() {
       <div class="container">
         <Router>
           <Switch>
-            <Route exact path="/" >
-              <Task />
+            <Route exact path="/">
+              <Project/>
+            </Route>
+            <Route path="/issue/:id" component={Task}>
             </Route>
             <Route path="/slide/:id" component={Slide}>
-              
             </Route>
           </Switch>
         </Router>

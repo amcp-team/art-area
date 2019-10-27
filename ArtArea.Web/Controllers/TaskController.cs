@@ -19,13 +19,9 @@ namespace ArtArea.Web.Controllers
         // }
         // api/task/ -> return data realted to task
         [HttpGet]
-         public TaskViewModel GetTask(
-            //  string id
-             )
+        public TaskViewModel GetTask(string id)
         {
         //    return DataStorage.Tasks.First(x =>x.Id==id);
-           
-           
             return new TaskViewModel{
                 Name = "API Pirate",
                 Description = "This pirate we got from API",
