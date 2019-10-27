@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using ArtArea.Web.Models;
 using ArtArea.Web.Models.DataServices;
@@ -41,7 +42,7 @@ namespace ArtArea.Web.Controllers
             // comment.date = DateTime.Now.ToString();
             // DataStorage.Comments.Add(comment);
         }
-    
+
         [HttpGet]
         [Route("{id}/comments")]
         public List<CommentViewModel> GetComments(string id)
@@ -61,26 +62,8 @@ namespace ArtArea.Web.Controllers
             })
                 .OrderByDescending(x => DateTime.Parse(x.date))
                 .ToList();
+        } 
 
-
-            // new List<Comment>(new [] {
-            //     new Comment
-            //     {
-            //         Text = "Comment 1",
-            //         PublicationDate = DateTime.Now,
-            //     },
-            //     new Comment
-            //     {
-            //         Text = "Comment 2",
-            //         PublicationDate = DateTime.Now,
-            //     },
-            //     new Comment
-            //     {
-            //         Text = "Comment 3",
-            //         PublicationDate = DateTime.Now,
-            //     },
-            // });
-        }
 
         [HttpGet]
         [Route("{id}/thumbdata")]
@@ -89,23 +72,26 @@ namespace ArtArea.Web.Controllers
     
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> Download(string id)
+        public IActionResult Download(string id)
         {
-            var res = await fileDataService.GetFile(id);
             // get stream from database
-            var stream = new MemoryStream();
-            using(var writer = new StreamWriter(stream, leaveOpen: true))
-            {
+            var file = DataStorage.UploadedFiles
+                .First(x => x.Id == id);
 
-                await writer.WriteLineAsync(res.Base64);
-                await writer.FlushAsync();
+            var stream = new MemoryStream();
+            using(var writer = new BinaryWriter(stream, Encoding.ASCII,leaveOpen: true))
+            {
+                writer.Write(Convert.FromBase64String(file.Base64));
+                writer.Flush();
                 stream.Position = 0;
             }
-            return File(stream, res.Type, res.Name);
+
+            return File(stream, file.FileType, file.Name);
+
         }
-     
-        [HttpPost]
-        public async Task<IActionResult> Upload([FromForm]FileFormViewModel fileData)
+      
+        [HttpPost("{issueId}")]
+        public async Task<IActionResult> Upload(string issueId,[FromForm]FileFormViewModel fileData)
         {
             var fileLength = (int)fileData.MyFile.Length;
             if(fileLength == 0)return Ok();
@@ -119,21 +105,14 @@ namespace ArtArea.Web.Controllers
             {
                 stream.Read(newBytes, 0, fileLength);
             }
-            //DataStorage.UploadedFiles.Add(new FileViewModel{
-            //        Base64 = Convert.ToBase64String(newBytes),
-            //        Id = Guid.NewGuid().ToString(),
-            //        FileType = fileData.MyFile.ContentType,
-            //        Name = fileData.MyFile.Name
-            //    });
-            await fileDataService.AddFile(new ArtArea.Web.Models.File
-            {
-                Base64 = Convert.ToBase64String(newBytes),
-                //Id = Guid.NewGuid().ToString(),
-                Type = fileData.MyFile.ContentType,
-                Name = fileData.MyFile.Name,
-                //TODO:Insert IssueId
-                DateCreation = DateTime.Now
-            });
+            DataStorage.UploadedFiles.Add(new FileViewModel{
+                    Base64 = Convert.ToBase64String(newBytes),
+                    Id = Guid.NewGuid().ToString(),
+                    FileType = fileData.MyFile.ContentType,
+                    Name = fileData.MyFile.FileName,
+                    IssueId = issueId
+                });
+
             return Ok();
         }
     }

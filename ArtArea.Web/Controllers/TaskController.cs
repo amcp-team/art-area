@@ -18,55 +18,44 @@ namespace ArtArea.Web.Controllers
         //   this.commentDataService=commentDataService;
         // }
         // api/task/ -> return data realted to task
-        [HttpGet]
-         public TaskViewModel GetTask(
-            //  string id
-             )
+        
+        // done & works
+        [HttpGet("{id}")]
+        public TaskViewModel GetTask(string id)
         {
-        //    return DataStorage.Tasks.First(x =>x.Id==id);
-           
-           
-            return new TaskViewModel{
-                Name = "API Pirate",
-                Description = "This pirate we got from API",
+            return DataStorage.Issues.Where(x => x.Id == id)
+            .Select(x => new TaskViewModel {
+                Name = x.Name,
+                Description = x.Description,
+                Id = x.Id,
                 Slides = DataStorage.UploadedFiles
-                    .Select(x => new FileViewModel
-                    {
-                        Name = x.Name,
-                        Id = x.Id,
-                        Base64 = x.Base64,
-                        FileType = x.FileType
-                    }).ToList()
-                };
+                .Where(x => x.IssueId == id)
+                .Select(x => new FileViewModel
+                {
+                    Name = x.Name,
+                    Id = x.Id,
+                    Base64 = x.Base64,
+                    FileType = x.FileType
+                }).ToList()
+            }).First();
         }
 
-        // mock
+        // done & works
         [HttpGet]
-        [Route("comments")]
-        public List<CommentViewModel> GetComments()
+        [Route("{id}/comments")]
+        public List<CommentViewModel> GetComments(string id)
         {
-            return DataStorage.Comments;
+            var comments = new List<CommentViewModel>(); 
 
-            // return new List<CommentViewModel>(new CommentViewModel[] {
-            //     new CommentViewModel
-            //     {
-            //         Text = "Comment 3",
-            //         Date = DateTime.Now.ToString("d"),
-            //         Name = "Andrew"
-            //     },
-            //     new CommentViewModel
-            //     {
-            //         Text = "Comment 3",
-            //         Date = DateTime.Now.ToString("d"),
-            //         Name = "Ilya"
-            //     },
-            //     new CommentViewModel
-            //     {
-            //         Text = "Comment 3",
-            //         Date = DateTime.Now.ToString("d"),
-            //         Name = "Ilya"
-            //     },
-            // });
+            DataStorage.UploadedFiles
+                .Where(x => x.IssueId == id)
+                .ToList()
+                .ForEach(x => comments.AddRange(DataStorage.Comments.Where(y => y.fileId == x.Id)));
+
+
+            return comments
+                .OrderByDescending(x => DateTime.Parse(x.date))
+                .ToList();
         }
     }
 }
