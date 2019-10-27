@@ -12,8 +12,8 @@ namespace ArtArea.Web.Models
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-        public string RealId { get; set;}
-        public string NameVersion { get; set; }
+        public string Base64 { get; set; }
+        public string Name { get; set; }
         public DateTime DateCreation { get; set; }
         [BsonRepresentation(BsonType.ObjectId)]
         public string IssueId { get; set; }

@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 public class ApplicationDb
 {
     private IMongoDatabase database;
-    private IGridFSBucket bucket;
+    public IGridFSBucket Bucket;
     public ApplicationDb()
     {
         var client = new MongoClient();
         database = client.GetDatabase("artareadb");
-        bucket = new GridFSBucket(database);
+        Bucket = new GridFSBucket(database);
     }
     public IMongoCollection<Issue> Issues => database.GetCollection<Issue>("issues");
     public IMongoCollection<File> Files => database.GetCollection<File>("files");

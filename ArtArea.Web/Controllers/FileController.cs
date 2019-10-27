@@ -16,12 +16,12 @@ namespace ArtArea.Web.Controllers
    [Route("api/[controller]")]
     public class FileController : ControllerBase
     { 
-        // private IFileDataService fileDataService;
+        private IFileDataService fileDataService;
         private ICommentDataService commentDataService;//???
-        public FileController(ICommentDataService commentDataService)
+        public FileController(ICommentDataService commentDataService,IFileDataService fileDataService)
         {
             this.commentDataService=commentDataService;
-        //     this.fileDataService=fileDataService;
+            this.fileDataService=fileDataService;
         }
 
         [HttpPost]
@@ -117,13 +117,21 @@ namespace ArtArea.Web.Controllers
             {
                 stream.Read(newBytes, 0, fileLength);
             }
-            DataStorage.UploadedFiles.Add(new FileViewModel{
-                    Base64 = Convert.ToBase64String(newBytes),
-                    Id = Guid.NewGuid().ToString(),
-                    FileType = fileData.MyFile.ContentType,
-                    Name = fileData.MyFile.Name
-                });
-    
+            //DataStorage.UploadedFiles.Add(new FileViewModel{
+            //        Base64 = Convert.ToBase64String(newBytes),
+            //        Id = Guid.NewGuid().ToString(),
+            //        FileType = fileData.MyFile.ContentType,
+            //        Name = fileData.MyFile.Name
+            //    });
+            await fileDataService.AddFile(new ArtArea.Web.Models.File
+            {
+                Base64 = Convert.ToBase64String(newBytes),
+                //Id = Guid.NewGuid().ToString(),
+                Type = fileData.MyFile.ContentType,
+                Name = fileData.MyFile.Name,
+                //TODO:Insert IssueId
+                DateCreation = DateTime.Now
+            });
             return Ok();
         }
     }

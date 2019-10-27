@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ArtArea.Web.Models.DataServices
 {
-    interface IFileDataService
+    public interface IFileDataService
     {
         Task<IEnumerable<File>> GetFiles();
         Task<File> GetFile(string id);
