@@ -91,15 +91,17 @@ namespace ArtArea.Web.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Download(string id)
         {
+            var res = await fileDataService.GetFile(id);
             // get stream from database
             var stream = new MemoryStream();
             using(var writer = new StreamWriter(stream, leaveOpen: true))
             {
-                await writer.WriteLineAsync("Hrello!");
+
+                await writer.WriteLineAsync(res.Base64);
                 await writer.FlushAsync();
                 stream.Position = 0;
             }
-            return File(stream, "text/plain", "trash.txt");
+            return File(stream, res.Type, res.Name);
         }
      
         [HttpPost]
