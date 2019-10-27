@@ -43,6 +43,8 @@ export class Project extends React.Component{
                     </div>           
                 </div>
             </div>
+            <Link to={"/create"}>Create new isshue
+            </Link>
             </>
         )
     }

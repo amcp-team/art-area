@@ -10,6 +10,7 @@ import {
   Link
 } from "react-router-dom";
 import {Project} from "./Project"
+import { NewIshue } from './NewIshue';
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
           <Switch>
             <Route exact path="/">
               <Project/>
+            </Route>
+            <Route path="/create" component={NewIshue}>
             </Route>
             <Route path="/issue/:id" component={Task}>
             </Route>
