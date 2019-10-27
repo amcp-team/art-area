@@ -23,7 +23,8 @@ namespace ArtArea.Web.Controllers
         //     this.fileDataService=fileDataService;
         //   
         // }
-
+        
+        // done & works
         [HttpPost]
         [Route("{id}/comment")]
         public void PostComment(string id,[FromBody]CommentViewModel comment)
@@ -32,6 +33,7 @@ namespace ArtArea.Web.Controllers
             DataStorage.Comments.Add(comment);
         }
     
+        // done & works
         [HttpGet]
         [Route("{id}/comments")]
         public List<CommentViewModel> GetComments(string id)
@@ -42,6 +44,7 @@ namespace ArtArea.Web.Controllers
                 .ToList();
         } 
 
+        // done & works
         [HttpGet]
         [Route("{id}/thumbdata")]
         public FileViewModel GetThumbnail(string id)
@@ -51,7 +54,7 @@ namespace ArtArea.Web.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Download(string id)
         {
-            FileViewModel downFile=DataStorage.UploadedFiles.First(x=>x.Id==id);
+            FileViewModel downFile=DataStorage.UploadedFiles.First(x => x.Id == id);
             var stream = new MemoryStream();
             using(var writer = new StreamWriter(stream, leaveOpen: true))
             {
