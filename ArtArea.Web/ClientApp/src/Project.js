@@ -16,7 +16,7 @@ export class Project extends React.Component{
 
     render()
     {
-        console.log(this.state)
+        console.log(111,this.state)
 
         return(
             <>
@@ -33,7 +33,12 @@ export class Project extends React.Component{
                 <div className="col-12">
                     <div className="d-flex justify-content-around flex-wrap">
                         {this.state.issues.map((issue)=>{
-                            return(<Link to={"/issue/"+issue.id} key={issue.id}></Link>)
+                            return(<Link to={"/issue/"+issue.id} key={issue.id}>
+                                <div class="card">
+                                    <h5 class="card-title">{issue.name}</h5>
+                                    <p class="card-text">{issue.description}</p>
+                                </div>
+                            </Link>)
                         })}
                     </div>           
                 </div>
