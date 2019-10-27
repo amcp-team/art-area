@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using ArtArea.Web.Models;
 using ArtArea.Web.ViewModels;
@@ -51,17 +52,22 @@ namespace ArtArea.Web.Controllers
     
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> Download(string id)
+        public IActionResult Download(string id)
         {
-            FileViewModel downFile=DataStorage.UploadedFiles.First(x => x.Id == id);
+
+            // get stream from database
+            var file = DataStorage.UploadedFiles
+                .First(x => x.Id == id);
+
             var stream = new MemoryStream();
-            using(var writer = new StreamWriter(stream, leaveOpen: true))
+            using(var writer = new BinaryWriter(stream, Encoding.ASCII,leaveOpen: true))
             {
-                await writer.WriteLineAsync(downFile.Base64);
-                await writer.FlushAsync();
+                writer.Write(Convert.FromBase64String(file.Base64));
+                writer.Flush();
                 stream.Position = 0;
             }
-            return File(stream, downFile.FileType, downFile.Name); 
+
+            return File(stream, file.FileType, file.Name);
         }
       
         // done & works

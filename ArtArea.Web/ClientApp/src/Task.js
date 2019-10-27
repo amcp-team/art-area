@@ -64,7 +64,7 @@ export class Task extends React.Component{
       console.log(this.state)
       return (
         <>
-        <div className="row">
+        <div className="row-flex">
           <div className="col-12 ">
             <div className="jumbotron">
               <h1 className="display-4">{this.state.name}</h1>
@@ -83,7 +83,7 @@ export class Task extends React.Component{
           </div>
         </div>
         <div className="row my-3 mb-5">
-          <div className="col-12 form-inline">
+          <div className="col-12 form-inline border-0">
            <input type="file" className="form-control mr-3 mb-1 ml-2" ref={this.inputRef}/>
            <button type="button" class="btn btn-secondary" onClick={this.handleFileUpload}>Upload File</button>
           </div>
