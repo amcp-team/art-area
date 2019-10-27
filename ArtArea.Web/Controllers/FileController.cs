@@ -40,24 +40,6 @@ namespace ArtArea.Web.Controllers
                 .Where(x => x.fileId == id)
                 .OrderByDescending(x => DateTime.Parse(x.date))
                 .ToList();
-
-            // new List<Comment>(new [] {
-            //     new Comment
-            //     {
-            //         Text = "Comment 1",
-            //         PublicationDate = DateTime.Now,
-            //     },
-            //     new Comment
-            //     {
-            //         Text = "Comment 2",
-            //         PublicationDate = DateTime.Now,
-            //     },
-            //     new Comment
-            //     {
-            //         Text = "Comment 3",
-            //         PublicationDate = DateTime.Now,
-            //     },
-            // });
         } 
 
         [HttpGet]
