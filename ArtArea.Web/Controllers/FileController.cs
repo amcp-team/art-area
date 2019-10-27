@@ -62,6 +62,7 @@ namespace ArtArea.Web.Controllers
             return File(stream, "text/plain", "trash.txt");
         }
       
+        // done & works
         [HttpPost("{issueId}")]
         public async Task<IActionResult> Upload(string issueId,[FromForm]FileFormViewModel fileData)
         {
