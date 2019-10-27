@@ -16,50 +16,21 @@ namespace ArtArea.Web.Controllers
 {
    [Route("api/[controller]")]
     public class FileController : ControllerBase
-    { 
-        private IFileDataService fileDataService;
-        private ICommentDataService commentDataService;//???
-        public FileController(ICommentDataService commentDataService,IFileDataService fileDataService)
-        {
-            this.commentDataService=commentDataService;
-            this.fileDataService=fileDataService;
-        }
-
+    {
         [HttpPost]
         [Route("{id}/comment")]
         public void PostComment(string id,[FromBody]CommentViewModel comment)
         {
-            var rawComment = new Comment
-            {
-                Name = comment.name,
-                Text = comment.text,
-                FileId = id,
-                PublicationDate = DateTime.Now
-            };
-
-            commentDataService.AddComment(rawComment);
-
-            // comment.date = DateTime.Now.ToString();
-            // DataStorage.Comments.Add(comment);
+            comment.date = DateTime.Now.ToString();
+            DataStorage.Comments.Add(comment);
         }
 
         [HttpGet]
         [Route("{id}/comments")]
         public List<CommentViewModel> GetComments(string id)
         {
-            //return DataStorage.Comments
-            //    .Where(x => x.fileId == id)
-            //    .OrderByDescending(x => DateTime.Parse(x.date))
-            //    .ToList();
-             var res = commentDataService.GetFileComments(id).Result;
-
-            return res.Select(x => new CommentViewModel
-            {
-                fileId = x.Id,
-                name = x.Name,
-                text = x.Text,
-                date = x.PublicationDate.ToString()
-            })
+            return DataStorage.Comments
+                .Where(x => x.fileId == id)
                 .OrderByDescending(x => DateTime.Parse(x.date))
                 .ToList();
         } 
