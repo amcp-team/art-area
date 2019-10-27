@@ -15,11 +15,11 @@ export class NewIshue extends React.Component{
             <>
             <div className="row">
                 <div className="col-12">
-                    <div className="form-group">
+                    <div className="form-group my-5">
                         <input onInput={this.onNameChange} type="email" className="form-control form-group" placeholder="Name of Ishue"/>
 
                         <textarea onInput={this.onTextCommentChange} className="form-control form-group"  aria-label="With textarea" placeholder="Enter description"></textarea>
-                        <button class="btn btn-primary"><a href="/issue/:id">Create new issue</a></button>
+                        <a href="/issue/:id" class="btn btn-primary" role="button">Create Issue</a>
                     </div> 
                 </div>
 
