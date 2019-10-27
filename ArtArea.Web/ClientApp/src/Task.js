@@ -94,10 +94,10 @@ export class Task extends React.Component{
             {this.state.comments.map((comment) => {
               return(
                 <div class="media">
-                  <div class="media-body">
-                    <h5 class="mt-0">{comment.name}</h5>
-                    {comment.text} <br/>
-                    {comment.date}
+                  <div class="media-body">                    
+                    <h5 class="mt-0">{comment.name}<small class="ml-2">{comment.date}</small></h5>
+                    {comment.text} 
+                    
                   </div>  
                 </div>
             )})}

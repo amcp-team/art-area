@@ -45,7 +45,7 @@ namespace ArtArea.Web.Controllers
         [Route("comments")]
         public List<CommentViewModel> GetComments()
         {
-            return DataStorage.Comments;
+            return DataStorage.Comments.OrderByDescending(x=>x.date).ToList();
 
             // return new List<CommentViewModel>(new CommentViewModel[] {
             //     new CommentViewModel
