@@ -51,15 +51,15 @@ namespace ArtArea.Web.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Download(string id)
         {
-            // get stream from database
+            FileViewModel downFile=DataStorage.UploadedFiles.First(x=>x.Id==id);
             var stream = new MemoryStream();
             using(var writer = new StreamWriter(stream, leaveOpen: true))
             {
-                await writer.WriteLineAsync("Hrello!");
+                await writer.WriteLineAsync(downFile.Base64);
                 await writer.FlushAsync();
                 stream.Position = 0;
             }
-            return File(stream, "text/plain", "trash.txt");
+            return File(stream, downFile.FileType, downFile.Name); 
         }
       
         // done & works
