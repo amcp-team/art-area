@@ -41,7 +41,7 @@ export class NewIshue extends React.Component{
             <>
             <div className="row">
                 <div className="col-12 ">
-                    <div className="jumbotron text-white Header">
+                    <div className="jumbotron">
                         <h1 className="display-4">Create New Issue</h1>
                     </div>
                 </div>         
@@ -51,14 +51,14 @@ export class NewIshue extends React.Component{
                 <div className="col-12">
                     <div className="form-group">
                         <p>
-                            <label><h3>Name</h3></label>
+                            <label>Name</label>
                             <input onInput={this.onNameChange} type="email" className="form-control form-group" placeholder="Name of Ishue"/>
                         </p>
                         <p>
-                            <label><h3>Description</h3></label>
-                            <textarea onInput={this.onTextCommentChange} className="form-control form-group SizeText"  aria-label="With textarea" placeholder="Enter description"></textarea>
+                            <label>Description</label>
+                            <textarea onInput={this.onTextCommentChange} className="form-control form-group"  aria-label="With textarea" placeholder="Enter description"></textarea>
                         </p>
-                        <div class="bg-dark Lin ml-5 mr-5 mt-4"><button class="btn btn-dark text-white " onClick={this.addIssue}>CREATE NEW</button></div>
+                        <button class="btn btn-primary" onClick={this.addIssue}>Create new issue</button>
                     </div> 
                 </div>
 
