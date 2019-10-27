@@ -52,6 +52,7 @@ namespace ArtArea.Web.Controllers
                 .ToList()
                 .ForEach(x => comments.AddRange(DataStorage.Comments.Where(y => y.fileId == x.Id)));
 
+
             return comments
                 .OrderByDescending(x => DateTime.Parse(x.date))
                 .ToList();
