@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 
 namespace ArtArea.Web.Controllers
 {
-   [Route("api/[controller]")]
+    [Route("api/[controller]")]
     public class FileController : ControllerBase
     { 
         // private IFileDataService fileDataService;
@@ -23,7 +23,6 @@ namespace ArtArea.Web.Controllers
         //     this.fileDataService=fileDataService;
         //   
         // }
-        
         // done & works
         [HttpPost]
         [Route("{id}/comment")]
