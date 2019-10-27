@@ -4,19 +4,20 @@ import './App.css';
 import {Task} from "./Task.js"
 import { Slide } from './Slide';
 import {
-  BrowserRouter as Router,
+  Router,
   Switch,
   Route,
   Link
 } from "react-router-dom";
 import {Project} from "./Project"
-import { NewIshue } from './NewIshue';
+import { NewIshue } from './NewIssue';
+import {getHistory} from "./History"
 
 function App() {
   return (
     <div className="App">
       <div class="container">
-        <Router>
+        <Router history={getHistory()}>
           <Switch>
             <Route exact path="/">
               <Project/>
