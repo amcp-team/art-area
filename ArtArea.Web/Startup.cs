@@ -1,3 +1,4 @@
+using ArtArea.Web.Models.DataServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -22,6 +23,9 @@ namespace ArtArea.Web
         {
 
             services.AddControllersWithViews();
+            services.AddSingleton<ApplicationDb>();
+            services.AddSingleton<IFileDataService, FileDataService>();
+            services.AddSingleton<ICommentDataService, CommentDataService>();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

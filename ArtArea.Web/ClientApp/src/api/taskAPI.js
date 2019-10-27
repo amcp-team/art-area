@@ -1,5 +1,6 @@
 export async function getTask(id){
     const res = await fetch('https://localhost:5001/api/task/'+id, {
+
         method: 'GET'
     });
 
@@ -19,7 +20,7 @@ export async function getTask(id){
 }
 export async function getComments(id)
 {
-    const res = await fetch('https://localhost:5001/api/task/'+id+'/comments', {
+    const res = await fetch('/api/task/comments', {
         method: 'GET'
     });
 

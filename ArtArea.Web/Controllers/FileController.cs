@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using ArtArea.Web.Models;
+using ArtArea.Web.Models.DataServices;
 using ArtArea.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,32 +17,53 @@ namespace ArtArea.Web.Controllers
    [Route("api/[controller]")]
     public class FileController : ControllerBase
     { 
-        // private IFileDataService fileDataService;
-        // private ICommentDataService commentDataService;//???
-        // public FileController(IFileDataService fileDataService,ICommentDataService commentDataService)
-        // {
-        //     this.commentDataService=commentDataService;
-        //     this.fileDataService=fileDataService;
-        //   
-        // }
+        private IFileDataService fileDataService;
+        private ICommentDataService commentDataService;//???
+        public FileController(ICommentDataService commentDataService,IFileDataService fileDataService)
+        {
+            this.commentDataService=commentDataService;
+            this.fileDataService=fileDataService;
+        }
 
         [HttpPost]
         [Route("{id}/comment")]
         public void PostComment(string id,[FromBody]CommentViewModel comment)
         {
-            comment.date = DateTime.Now.ToString();
-            DataStorage.Comments.Add(comment);
+            var rawComment = new Comment
+            {
+                Name = comment.name,
+                Text = comment.text,
+                FileId = id,
+                PublicationDate = DateTime.Now
+            };
+
+            commentDataService.AddComment(rawComment);
+
+            // comment.date = DateTime.Now.ToString();
+            // DataStorage.Comments.Add(comment);
         }
 
         [HttpGet]
         [Route("{id}/comments")]
         public List<CommentViewModel> GetComments(string id)
         {
-            return DataStorage.Comments
-                .Where(x => x.fileId == id)
+            //return DataStorage.Comments
+            //    .Where(x => x.fileId == id)
+            //    .OrderByDescending(x => DateTime.Parse(x.date))
+            //    .ToList();
+             var res = commentDataService.GetFileComments(id).Result;
+
+            return res.Select(x => new CommentViewModel
+            {
+                fileId = x.Id,
+                name = x.Name,
+                text = x.Text,
+                date = x.PublicationDate.ToString()
+            })
                 .OrderByDescending(x => DateTime.Parse(x.date))
                 .ToList();
         } 
+
 
         [HttpGet]
         [Route("{id}/thumbdata")]
@@ -52,7 +74,6 @@ namespace ArtArea.Web.Controllers
         [Route("{id}")]
         public IActionResult Download(string id)
         {
-
             // get stream from database
             var file = DataStorage.UploadedFiles
                 .First(x => x.Id == id);
@@ -66,6 +87,7 @@ namespace ArtArea.Web.Controllers
             }
 
             return File(stream, file.FileType, file.Name);
+
         }
       
         [HttpPost("{issueId}")]
@@ -90,7 +112,7 @@ namespace ArtArea.Web.Controllers
                     Name = fileData.MyFile.FileName,
                     IssueId = issueId
                 });
-    
+
             return Ok();
         }
     }
