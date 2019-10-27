@@ -90,7 +90,7 @@ namespace ArtArea.Web.Controllers
                     Base64 = Convert.ToBase64String(newBytes),
                     Id = Guid.NewGuid().ToString(),
                     FileType = fileData.MyFile.ContentType,
-                    Name = fileData.MyFile.Name,
+                    Name = fileData.MyFile.FileName,
                     IssueId = issueId
                 });
     
