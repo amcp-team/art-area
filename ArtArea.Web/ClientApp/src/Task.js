@@ -64,7 +64,7 @@ export class Task extends React.Component{
       console.log(this.state)
       return (
         <>
-        <div className="row">
+        <div className="row-flex">
           <div className="col-12 ">
             <div className="jumbotron">
               <h1 className="display-4">{this.state.name}</h1>
