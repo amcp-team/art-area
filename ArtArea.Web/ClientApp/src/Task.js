@@ -73,6 +73,8 @@ export class Task extends React.Component{
           </div>         
         </div>
 
+        <Link to={"/"}>Home</Link>
+
         <div className="row">
           <div className="col-12">
             <div className="d-flex justify-content-around flex-wrap">

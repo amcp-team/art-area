@@ -16,7 +16,8 @@ import {getHistory} from "./History"
 function App() {
   return (
     <div className="App">
-      <div class="container">
+      <div class="container
+      ">
         <Router history={getHistory()}>
           <Switch>
             <Route exact path="/">

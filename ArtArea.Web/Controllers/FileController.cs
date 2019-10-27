@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 
 namespace ArtArea.Web.Controllers
 {
-    [Route("api/[controller]")]
+   [Route("api/[controller]")]
     public class FileController : ControllerBase
     { 
         // private IFileDataService fileDataService;
@@ -24,7 +24,7 @@ namespace ArtArea.Web.Controllers
         //     this.fileDataService=fileDataService;
         //   
         // }
-        // done & works
+
         [HttpPost]
         [Route("{id}/comment")]
         public void PostComment(string id,[FromBody]CommentViewModel comment)
@@ -32,8 +32,7 @@ namespace ArtArea.Web.Controllers
             comment.date = DateTime.Now.ToString();
             DataStorage.Comments.Add(comment);
         }
-    
-        // done & works
+
         [HttpGet]
         [Route("{id}/comments")]
         public List<CommentViewModel> GetComments(string id)
@@ -44,7 +43,6 @@ namespace ArtArea.Web.Controllers
                 .ToList();
         } 
 
-        // done & works
         [HttpGet]
         [Route("{id}/thumbdata")]
         public FileViewModel GetThumbnail(string id)
@@ -70,7 +68,6 @@ namespace ArtArea.Web.Controllers
             return File(stream, file.FileType, file.Name);
         }
       
-        // done & works
         [HttpPost("{issueId}")]
         public async Task<IActionResult> Upload(string issueId,[FromForm]FileFormViewModel fileData)
         {
