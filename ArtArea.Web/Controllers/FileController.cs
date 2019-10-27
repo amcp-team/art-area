@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 
 namespace ArtArea.Web.Controllers
 {
-   [Route("api/[controller]")]
+    [Route("api/[controller]")]
     public class FileController : ControllerBase
     { 
         // private IFileDataService fileDataService;
@@ -23,7 +23,7 @@ namespace ArtArea.Web.Controllers
         //     this.fileDataService=fileDataService;
         //   
         // }
-
+        // done & works
         [HttpPost]
         [Route("{id}/comment")]
         public void PostComment(string id,[FromBody]CommentViewModel comment)
@@ -32,6 +32,7 @@ namespace ArtArea.Web.Controllers
             DataStorage.Comments.Add(comment);
         }
     
+        // done & works
         [HttpGet]
         [Route("{id}/comments")]
         public List<CommentViewModel> GetComments(string id)
@@ -42,6 +43,7 @@ namespace ArtArea.Web.Controllers
                 .ToList();
         } 
 
+        // done & works
         [HttpGet]
         [Route("{id}/thumbdata")]
         public FileViewModel GetThumbnail(string id)
@@ -51,19 +53,20 @@ namespace ArtArea.Web.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Download(string id)
         {
-            // get stream from database
+            FileViewModel downFile=DataStorage.UploadedFiles.First(x => x.Id == id);
             var stream = new MemoryStream();
             using(var writer = new StreamWriter(stream, leaveOpen: true))
             {
-                await writer.WriteLineAsync("Hrello!");
+                await writer.WriteLineAsync(downFile.Base64);
                 await writer.FlushAsync();
                 stream.Position = 0;
             }
-            return File(stream, "text/plain", "trash.txt");
+            return File(stream, downFile.FileType, downFile.Name); 
         }
       
-        [HttpPost]
-        public async Task<IActionResult> Upload([FromForm]FileFormViewModel fileData)
+        // done & works
+        [HttpPost("{issueId}")]
+        public async Task<IActionResult> Upload(string issueId,[FromForm]FileFormViewModel fileData)
         {
             var fileLength = (int)fileData.MyFile.Length;
             if(fileLength == 0)return Ok();
@@ -81,7 +84,8 @@ namespace ArtArea.Web.Controllers
                     Base64 = Convert.ToBase64String(newBytes),
                     Id = Guid.NewGuid().ToString(),
                     FileType = fileData.MyFile.ContentType,
-                    Name = fileData.MyFile.Name
+                    Name = fileData.MyFile.Name,
+                    IssueId = issueId
                 });
     
             return Ok();
