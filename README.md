@@ -41,7 +41,7 @@ We will use mainly powerful .NET Core 3.0 platform:
 
 - Web Client
    - ASP.NET Core (C#) - OOP
-   - Angular (TypeScript/JS) - Declarative
+   - Angular (TypeScript) - Declarative
 - Desktop
    - Web API (F#) - Functional
    - WPF (C#) - OOP
