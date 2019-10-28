@@ -25,7 +25,7 @@ export class Project extends React.Component{
                 <div className="col-12 ">
                     <div className="jumbotron text-white Header ml-3">
                         <h1 className="display-4y">Art Area Design</h1>
-                        <p className="lead"><b>Project for developing design of Art Area service</b></p>              
+                        <p className="lead">Project for developing design of Art Area service</p>              
                     </div>
                 </div>         
             </div>
@@ -37,7 +37,7 @@ export class Project extends React.Component{
                 </div>
                 <div className="col-5"></div>
                 <div className="col-3">
-                    {<div class="bg-dark Lin mr-5 mt-1"><Link to={"/create"} className="text-white L btn btn-link">CREATE</Link></div>           }
+                    {<div class="bg-dark Lin mr-5 mt-1"><Link to={"/create"} className="text-white L btn btn-link">Create new isshue</Link></div>           }
                 </div>
                 
             </div>
@@ -48,8 +48,8 @@ export class Project extends React.Component{
                     
                         {this.state.issues.map((issue)=>{
                             return(
-                                    <li class="list-group-item border-top" key={issue.id}>
-                                <Link to={"/issue/"+issue.id}  className="L ">
+                                    <li class="list-group-item" key={issue.id}>
+                                <Link to={"/issue/"+issue.id}  className="L">
                                         <div class="card border-light">
                                     <h5 class="card-title pt-4 pl-4 text-dark">{issue.name}</h5>
                                     <p class="card-text pl-4 pb-4 text-dark">{issue.description}</p>

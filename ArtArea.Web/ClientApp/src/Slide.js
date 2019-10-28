@@ -51,7 +51,7 @@ export class Slide extends React.Component{
                 <Link to={"/issue/"+this.state.slide.issueId}>Home page</Link>
                 <a href={"/api/file/"+this.state.slide.id} download={this.state.slide.name}>
                 <div style={{width: 600,height: 600}} class="img-thumbnail d-flex align-items-center justify-content-center bg-light">
-                    <img src={"data:"+this.state.slide.fileType+";base64, "+this.state.slide.base64} style={{objectFit: "contain"}} class="img-thumbnail img-fluid"/>
+                    <img src={"data:"+this.state.slide.fileType+";base64, "+this.state.slide.base64} class="img-thumbnail img-fluid"/>
                 </div>
                 </a>
                 </div>              
