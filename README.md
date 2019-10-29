@@ -95,7 +95,7 @@ More details about used technologies & frameworks will be provided in appropriat
    - [ ] Manage Pin accessibility (private, locked, public)
    - [ ] Group Pin by source files => create Pin history (works for source files with the same name)
    
-   #### Desktop Client
+#### Desktop Client
    
    - [ ] Sign In
    - [ ] Clone Project 
