@@ -1,5 +1,7 @@
 # ArtArea
 
+[![Join the chat at https://gitter.im/art-area/community](https://badges.gitter.im/art-area/community.svg)](https://gitter.im/art-area/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 > Currently readme works as a project description for PL project description, but worth mentioning, that it's not only for university, but also for our team personal work out
 
 Service for source control and management of digital art projects
