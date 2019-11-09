@@ -28,8 +28,12 @@ Service for source control and management of digital art projects
 
 **Технические требования**
 
-1. Веб-приложение (ASP.NET & Angular)
-2. Десктопное приложение (ASP.NET (Giraffe) & WPF?) для Windows
+1. Веб-приложение 
+   1. Back-end ASP.NET C#  
+   2. Angular
+2. Десктопное приложение 
+   1. ASP.NET (Giraffe - F#
+   2. WPF? для Windows
 3. База данных MongoDB
 4. Доступ к данным производится через RESTfull API
 5. Асинхронность поведения сервиса с целью защиты от лагов и провисаний
