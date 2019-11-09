@@ -32,7 +32,7 @@ Service for source control and management of digital art projects
    1. Back-end ASP.NET C#  
    2. Angular
 2. Десктопное приложение 
-   1. ASP.NET (Giraffe - F#
+   1. ASP.NET Giraffe - F#
    2. WPF? для Windows
 3. База данных MongoDB
 4. Доступ к данным производится через RESTfull API
