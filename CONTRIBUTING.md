@@ -49,16 +49,16 @@ To develop projects effectively this strict style guide is provided.
     - with `EventHandler` suffix for delegates that are used in events
     - with `Callback` suffix for delegates that are used as events
   - Events with `On` prefix
-- Use **camelCase** for fields (even public one) and local variables and method arguments, if they overlap class fields than use this.
+- Use **camelCase** for local variables and method arguments, if they overlap class fields than use this. For private fields use **camelCase** with underscore `_` in the beginning
 - Each **brace** should be on it's **own line**
 - Use **tabs** for lining text
-- Do not make lines with more than 100 characters
+- Do not make lines with more than 100 characters (120 is top of top)
 - Write summaries with `///` for classes and methods
-- Fields should be provided with one line comment
+- Fields should be provided with one line comment (optionally)
 - One line does one thing
 - Provide with comments only **blocks of code** not lines
-- **Align comments** for fields
-- When declaring classes **write separate regions** for fields and methods
+- **Align comments**
+- When declaring classes **write separate regions** for fields and methods (& generally different logical parts of class or whatever you develop - and remember about Single Resposibility Principle)
 - **Never use all caps**
 
 ### Git Commit Messages

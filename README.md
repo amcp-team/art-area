@@ -1,8 +1,44 @@
 # ArtArea
 
+[![Join the chat at https://gitter.im/art-area/community](https://badges.gitter.im/art-area/community.svg)](https://gitter.im/art-area/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 > Currently readme works as a project description for PL project description, but worth mentioning, that it's not only for university, but also for our team personal work out
 
 Service for source control and management of digital art projects
+
+## Требования к проекту (rus)
+
+### Проект Art Area
+
+**Описание**
+
+Сервис, нацеленный на автоматизацию и организацию процесса создания визуального контента группами и отдельными художниками, а так же для организации процесса обучения групп начинающих художников.
+
+**Функциональные требования**
+
+1. Пользователь может создавать новые проекты
+2. В рамках проекта пользователь может создавать задачи по проекту
+3. Пользователь может добавлять участников и настраивать их уровень доступа к данным проекта
+4. Загружать изображения и исходники для проекта 
+5. Обсуждать изображения и исходники
+6. Отправлять результаты работы на проверку
+7. Делать запросы на редактирование арта
+8. Локально задавать структуру проекта на компьютере художника
+9. Автоматизировано проводить контроль версий по исходникам
+
+**Технические требования**
+
+1. Веб-приложение 
+   1. Back-end ASP.NET C#  
+   2. Angular
+2. Десктопное приложение 
+   1. ASP.NET Giraffe - F#
+   2. WPF? для Windows
+3. База данных MongoDB
+4. Доступ к данным производится через RESTfull API
+5. Асинхронность поведения сервиса с целью защиты от лагов и провисаний
+
+Катун Илья, Агеев Андрей, Нестеров Сергей, Дзюба Виктория
 
 ## Problem
 
