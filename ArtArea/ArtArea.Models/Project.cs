@@ -1,8 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ArtArea.Models
 {
@@ -11,7 +9,7 @@ namespace ArtArea.Models
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-        public Access ProjectAccess;
+        public Access ProjectAccess { get; set; }
     }
 
     class Project
