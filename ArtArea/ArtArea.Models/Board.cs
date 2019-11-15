@@ -4,14 +4,14 @@ using System.Collections.Generic;
 
 namespace ArtArea.Models
 {
-    struct AccessToBoard
+    public struct AccessToBoard
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         public Access BoardAccess { get; set; }
     }
-    class Board
+    public class Board
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

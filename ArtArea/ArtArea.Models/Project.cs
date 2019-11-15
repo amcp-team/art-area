@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ArtArea.Models
 {
-    struct AccessToProj
+    public struct AccessToProject
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -12,12 +12,12 @@ namespace ArtArea.Models
         public Access ProjectAccess { get; set; }
     }
 
-    class Project
+    public class Project
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         public string Name { get; set; }
-        public List<AccessToProj> ProjCollab { get; set; }
+        public List<AccessToProject> ProjCollab { get; set; }
     }
 }

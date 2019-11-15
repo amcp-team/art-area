@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace ArtArea.Models
 {
-    class User
+    public class User
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
