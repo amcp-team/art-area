@@ -1,23 +1,25 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace ArtArea.Models
 {
-    public struct AccessToProject
+    struct AccessToProj
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-        public Access ProjectAccess { get; set; }
+        public Access ProjectAccess;
     }
 
-    public class Project
+    class Project
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         public string Name { get; set; }
-        public List<AccessToProject> ProjCollab { get; set; }
+        public List<AccessToProj> ProjCollab { get; set; }
     }
 }
