@@ -1,11 +1,17 @@
-﻿namespace ArtArea.Web.Data.Interface
+﻿using System.Collections.Generic;
+using ArtArea.Models;
+
+namespace ArtArea.Web.Data.Interface
 {
-    // TODO - CRUD interface for user entity in db
-    //      - get user by id, name
-    //      - post new user
-    //      - change user by id, name (passing new user object)
-    //      - delete user by id name
     public interface IUserRepository
     {
+        IEnumerable<User> GetUsers();
+        User GetUserById(string id);
+        User GetUserByName(string Name);
+        string CreateUser(User user);
+        void UpdateUserById(string id, User user);
+        void UpdateUserByName(string name, User user);
+        void DeleteUserById(string id);
+        void DeleteUserByName(string id);
     }
 }
