@@ -5,8 +5,7 @@ using ArtArea.Web.Data.Interface;
 
 namespace ArtArea.Web.Data.Mock
 {
-    // TODO implement all the methods
-
+    // TODO [Andrey] implement all the methods via list
     public class UserRepositoryMock : IUserRepository
     {
         public string CreateUser(User user)
@@ -36,6 +35,7 @@ namespace ArtArea.Web.Data.Mock
 
         public IEnumerable<User> GetUsers()
         {
+            // FIXME [Andrew] implement it as field
             return
                 new [] {
                     new User {
