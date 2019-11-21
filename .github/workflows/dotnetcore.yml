@@ -20,4 +20,6 @@ jobs:
       with:
         dotnet-version: 3.0.100
     - name: Build with dotnet
-      run: dotnet build --configuration Release
+      run: 
+        cd ArtArea/ArtArea.Web
+        dotnet build --configuration Release
