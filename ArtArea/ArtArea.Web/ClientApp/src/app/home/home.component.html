@@ -17,7 +17,7 @@
             <label class="form-check-label" for="exampleCheck1">Check me out</label>
             <p routerLink='/counter' class="text-right">SignUp</p>
           </div>
-          <button type="submit" class="btn btn-primary text-right">Submit</button>
+          <button type="submit" [routerLink]="['/user']" routerLinkActive="router-link-active"  class="btn btn-primary text-right">Submit</button>
         </form>
       </div>
     <div class="col-4"></div>

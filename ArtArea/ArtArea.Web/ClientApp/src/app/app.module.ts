@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { UserPageComponent } from './user-page/user-page.component';
+import { UserPlateComponent } from './user-plate/user-plate.component';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { UserPageComponent } from './user-page/user-page.component';
     CounterComponent,
     FetchDataComponent,
     UserPageComponent,
+    UserPlateComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -29,6 +31,7 @@ import { UserPageComponent } from './user-page/user-page.component';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
+      { path: 'user', component: UserPageComponent}
     ])
   ],
   providers: [],
