@@ -1,4 +1,4 @@
-name: .NET Core
+name: Web Client Build
 
 on: 
   push:
