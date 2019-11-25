@@ -27,7 +27,7 @@ namespace ArtArea.Web.Controllers
         public AuthController(JwtBearerSettings jwtBearerSettings)
             => _jwtBearerSettings = jwtBearerSettings; 
 
-        [HttpPost, Route("signin")]
+        [HttpPost, Route("login")]
         public IActionResult Login([FromBody] UserLoginViewModel userLoginViewModel)
         {
             if (userLoginViewModel == null)

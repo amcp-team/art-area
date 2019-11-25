@@ -7,15 +7,17 @@ import { JwtModule } from '@auth0/angular-jwt'
 
 import { AppComponent } from './app.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { LoginComponent } from './login/login.component';
 
-export function tokenGetter(){
+export function tokenGetter() {
   return localStorage.getItem("jwt");
 }
 
 @NgModule({
   declarations: [
     AppComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -23,9 +25,10 @@ export function tokenGetter(){
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: WelcomeComponent, pathMatch: 'full' },
+      { path: 'login', component: LoginComponent }
     ]),
     JwtModule.forRoot({
-      config:{
+      config: {
         tokenGetter: tokenGetter,
         whitelistedDomains: ["ArtArea"],
         blacklistedRoutes: []
