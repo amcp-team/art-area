@@ -21,4 +21,4 @@ jobs:
         dotnet-version: 3.0.100
     - name: Build with dotnet
       run: 
-        dotnet build ArtArea/ArtArea.Web/ArtArea.Web.csproj --configuration Release
+        dotnet build src/ArtArea.Web/ArtArea.Web.csproj --configuration Release
