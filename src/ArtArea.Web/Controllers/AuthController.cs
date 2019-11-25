@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using ArtArea.Web.Services.Auth;
 using ArtArea.Web.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -35,7 +36,7 @@ namespace ArtArea.Web.Controllers
 
             if (_users.Where(x => x.username == userLoginViewModel.Username && x.password == userLoginViewModel.Password).Any())
                 return Ok(new { Token = GetToken(userLoginViewModel.Username) });
-            else 
+            else
                 return Unauthorized();
         }
 
@@ -48,6 +49,18 @@ namespace ArtArea.Web.Controllers
             _users.Add((username: userLoginViewModel.Username, password: userLoginViewModel.Password));
 
             return Ok(new { Token = GetToken(userLoginViewModel.Username) });
+        }
+
+        [HttpGet, Authorize, Route("username")]
+        public IActionResult GetUsername()
+        {
+            return Ok(new
+            {
+                username = User.Claims
+                .Where(claim => claim.Type == ClaimTypes.Name)
+                .FirstOrDefault()
+                .Value
+            });
         }
 
         private string GetToken(string username)

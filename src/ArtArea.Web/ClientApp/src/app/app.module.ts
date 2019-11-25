@@ -10,6 +10,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './guards/auth-guard.service';
 import { JoinComponent } from './join/join.component';
+import { UsernameBadgeComponent } from './username-badge/username-badge.component';
 
 export function tokenGetter() {
   return localStorage.getItem("jwt");
@@ -21,6 +22,7 @@ export function tokenGetter() {
     WelcomeComponent,
     LoginComponent,
     JoinComponent,
+    UsernameBadgeComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
