@@ -21,4 +21,5 @@ jobs:
         dotnet-version: 3.0.100
     - name: Build with dotnet
       run: 
-        dotnet build ArtArea/ArtArea.Web/ArtArea.Web.csproj --configuration Release
+        # TODO place there a valid command for building
+        # dotnet build ArtArea/ArtArea.Web/ArtArea.Web.csproj --configuration Release
