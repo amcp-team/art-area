@@ -1,4 +1,4 @@
-﻿namespace ArtArea.Models
+namespace ArtArea.Models
 {
     public enum Access
     {
