@@ -1,1 +1,16 @@
-<p>welcome works!</p>
+<h1>Welcome Page</h1>
+
+<br>
+<div *ngIf="isUserAuthenticated()" style="color:blue;">
+  <h2>
+    YOU ARE LOGGED IN AS 
+  </h2>
+  <app-username-badge></app-username-badge>
+</div>
+
+<br>
+<ul>
+  <li *ngIf="!isUserAuthenticated()"><a routerLink="/join">Join</a></li>
+  <li *ngIf="!isUserAuthenticated()"><a routerLink="/login">Login</a></li>
+  <li *ngIf="isUserAuthenticated()"><a class="logout" (click)="logOut()">Logout</a></li>
+</ul>

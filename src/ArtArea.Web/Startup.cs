@@ -6,17 +6,20 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using ArtArea.Web.Services.Auth;
 
 namespace ArtArea.Web
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -26,6 +29,40 @@ namespace ArtArea.Web
             Configuration.Bind(serverConfig);
 
             services.AddSingleton(serverConfig.MongoDb);
+
+            var jwtBearerSettings = new JwtBearerSettings();
+            Configuration.Bind(nameof(JwtBearerSettings), jwtBearerSettings);
+            services.AddSingleton(jwtBearerSettings);
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+
+                    ValidIssuer = jwtBearerSettings.Issuer,
+                    ValidAudience = jwtBearerSettings.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtBearerSettings.SecretKey))
+                };
+            });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("EnableCORS", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                       .AllowAnyHeader()
+                       .AllowAnyMethod();
+                });
+            });
 
             services.AddControllers();
             
@@ -46,15 +83,14 @@ namespace ArtArea.Web
             {
                 app.UseHsts();
             }
-
+            
+            app.UseRouting();
+            app.UseCors("EnableCORS");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            if (!env.IsDevelopment())
-            {
-                app.UseSpaStaticFiles();
-            }
-
-            app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseSpaStaticFiles();
 
             app.UseEndpoints(endpoints =>
             {
@@ -63,9 +99,6 @@ namespace ArtArea.Web
 
             app.UseSpa(spa =>
             {
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
-
                 spa.Options.SourcePath = "ClientApp";
 
                 if (env.IsDevelopment())
