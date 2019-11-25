@@ -3,6 +3,10 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
+// TODO this component should work a bit better:
+//     - we should get the route we are going to after successfull login to navigate to
+//     - we should get a bit more sophisticated error result to show more acccurate output on login 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

@@ -3,6 +3,11 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 
+// TODO join component requires much more live functionality
+//      - we need to show user that ones login is unavailable (live) 
+//          back-end can provide undpoint that return boolean result
+//      - we need to get a bit more sophisticated error data after registry attempt 
+
 @Component({
   selector: 'app-join',
   templateUrl: './join.component.html',
