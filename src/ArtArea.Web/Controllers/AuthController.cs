@@ -25,7 +25,7 @@ namespace ArtArea.Web.Controllers
         private JwtBearerSettings _jwtBearerSettings;
 
         public AuthController(JwtBearerSettings jwtBearerSettings)
-            => _jwtBearerSettings = jwtBearerSettings; 
+            => _jwtBearerSettings = jwtBearerSettings;
 
         [HttpPost, Route("login")]
         public IActionResult Login([FromBody] UserLoginViewModel userLoginViewModel)
@@ -33,23 +33,38 @@ namespace ArtArea.Web.Controllers
             if (userLoginViewModel == null)
                 return BadRequest("Invalid client request");
 
-            if(_users.Where(x => x.username == userLoginViewModel.Username && x.password == userLoginViewModel.Password).Any())
-            {
-                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtBearerSettings.SecretKey));
-                var signInCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+            if (_users.Where(x => x.username == userLoginViewModel.Username && x.password == userLoginViewModel.Password).Any())
+                return Ok(new { Token = GetToken(userLoginViewModel.Username) });
+            else 
+                return Unauthorized();
+        }
 
-                var tokenOptions = new JwtSecurityToken(
-                    issuer: _jwtBearerSettings.Issuer,
-                    audience: _jwtBearerSettings.Audience,
-                    claims: new List<Claim>(),
-                    expires: DateTime.Now.AddSeconds(30),
-                    signingCredentials: signInCredentials
-                );
+        [HttpPost, Route("join")]
+        public IActionResult Join([FromBody] UserLoginViewModel userLoginViewModel)
+        {
+            if (_users.Where(user => user.username == userLoginViewModel.Username).Any())
+                return BadRequest();
 
-                var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-                return Ok(new {Token = tokenString});
-            }
-            else return Unauthorized();
+            _users.Add((username: userLoginViewModel.Username, password: userLoginViewModel.Password));
+
+            return Ok(new { Token = GetToken(userLoginViewModel.Username) });
+        }
+
+        private string GetToken(string username)
+        {
+            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtBearerSettings.SecretKey));
+            var signInCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+
+            var tokenOptions = new JwtSecurityToken(
+                issuer: _jwtBearerSettings.Issuer,
+                audience: _jwtBearerSettings.Audience,
+                // TODO fix this crutch
+                claims: new List<Claim>(new[] { new Claim(ClaimTypes.Name, username) }.AsEnumerable()),
+                expires: DateTime.Now.AddSeconds(30),
+                signingCredentials: signInCredentials
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
         }
     }
 }

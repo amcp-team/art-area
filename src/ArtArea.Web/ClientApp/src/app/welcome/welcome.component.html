@@ -1,3 +1,15 @@
-<h2>Welcome Page</h2>
-<a [routerLink]="['/login']" >Login</a>
+<h1>Welcome Page</h1>
 
+<br>
+<div *ngIf="isUserAuthenticated()" style="color:blue;">
+  <h2>
+    YOU ARE LOGGED IN
+  </h2>
+</div>
+
+<br>
+<ul>
+  <li *ngIf="!isUserAuthenticated()"><a routerLink="/join">Join</a></li>
+  <li *ngIf="!isUserAuthenticated()"><a routerLink="/login">Login</a></li>
+  <li *ngIf="isUserAuthenticated()"><a class="logout" (click)="logOut()">Logout</a></li>
+</ul>

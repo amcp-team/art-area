@@ -8,6 +8,8 @@ import { JwtModule } from '@auth0/angular-jwt'
 import { AppComponent } from './app.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './guards/auth-guard.service';
+import { JoinComponent } from './join/join.component';
 
 export function tokenGetter() {
   return localStorage.getItem("jwt");
@@ -17,7 +19,8 @@ export function tokenGetter() {
   declarations: [
     AppComponent,
     WelcomeComponent,
-    LoginComponent
+    LoginComponent,
+    JoinComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -25,12 +28,13 @@ export function tokenGetter() {
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: WelcomeComponent, pathMatch: 'full' },
-      { path: 'login', component: LoginComponent }
+      { path: 'login', component: LoginComponent },
+      { path: 'join', component: JoinComponent }
     ]),
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ["ArtArea"],
+        whitelistedDomains: ["localhost:5000", "localhost:5001"],
         blacklistedRoutes: []
       }
     })

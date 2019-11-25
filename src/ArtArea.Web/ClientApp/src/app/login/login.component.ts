@@ -19,13 +19,15 @@ export class LoginComponent {
       headers: new HttpHeaders({
         "Content-Type": "application/json"
       })
-    }).subscribe(response => {
-      let token = (<any>response).token;
-      localStorage.setItem("jwt", token);
-      this.invalidLogin = false;
-      this.router.navigate(["/"]);
-    }, err => {
-      this.invalidLogin = true;
-    });
+    }).subscribe(
+      response => {
+        let token = (<any>response).token;
+        localStorage.setItem("jwt", token);
+        this.invalidLogin = false;
+        this.router.navigate(["/"]);
+      },
+      error => {
+        this.invalidLogin = true;
+      });
   }
 }
