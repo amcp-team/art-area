@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using ArtArea.Web.Data.Config;
+using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
 
 namespace ArtArea.Web.Data
@@ -8,11 +9,12 @@ namespace ArtArea.Web.Data
     {
         private IMongoDatabase _database;
         private IGridFSBucket _bucket;
-
-        public ApplicationDb()
+        private ApplicationDbConfig _config;
+        public ApplicationDb(ApplicationDbConfig config)
         {
-            var client = new MongoClient();
-            _database = client.GetDatabase("artareadb");
+            _config = config;
+            var client = new MongoClient(_config.ConnectionString);
+            _database = client.GetDatabase(_config.Database);
             _bucket = new GridFSBucket(_database);
         }
 

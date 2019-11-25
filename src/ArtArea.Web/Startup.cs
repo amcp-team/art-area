@@ -1,3 +1,4 @@
+using ArtArea.Web.Data.Config;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -17,10 +18,17 @@ namespace ArtArea.Web
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Configure DI there for repositories & other required components
+
+            var serverConfig = new ServerConfig();
+            Configuration.Bind(serverConfig);
+
+            services.AddSingleton(serverConfig.MongoDb);
+
             services.AddControllers();
+            
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -28,7 +36,6 @@ namespace ArtArea.Web
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
