@@ -35,7 +35,6 @@ namespace ArtArea.Web.Controllers
 
             if(_users.Where(x => x.username == userLoginViewModel.Username && x.password == userLoginViewModel.Password).Any())
             {
-                // TODO automate this process, inject security key from appsettings.json
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtBearerSettings.SecretKey));
                 var signInCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
