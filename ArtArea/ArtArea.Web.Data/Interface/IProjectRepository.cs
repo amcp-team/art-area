@@ -1,3 +1,7 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using ArtArea.Models;
+
 namespace ArtArea.Web.Data.Interface
 {
 
@@ -8,6 +12,14 @@ namespace ArtArea.Web.Data.Interface
     //      - delete by id
     public interface IProjectRepository
     {
-        
+       Task<IEnumerable<Project>> GetProjects();
+       Task GetProjectById(string id);
+       Task GetProjectByName(string name);
+       Task CreateProject(Project project);
+       Task UpdateProjectById(string id);
+       Task UpdateProjectByName(string name);
+       Task DeleteProjectById(string id);
+       Task DeleteProjectByName(string name);
     }
+
 }

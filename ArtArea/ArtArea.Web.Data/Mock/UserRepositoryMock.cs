@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ArtArea.Models;
 using ArtArea.Web.Data.Interface;
 
@@ -8,32 +9,52 @@ namespace ArtArea.Web.Data.Mock
     // TODO [Andrey] implement all the methods via list
     public class UserRepositoryMock : IUserRepository
     {
-        public string CreateUser(User user)
+        private List<User> users;
+
+        public async Task CreateUser(User user)
         {
-            throw new System.NotImplementedException();
+            users.Add(user);
         }
 
-        public void DeleteUserById(string id)
+        public async Task DeleteUserById(string id)
         {
-            throw new System.NotImplementedException();
+            var userToDelete = await Task.Run(() =>users.Where(x=>x.Id==id).First() ); 
+            users.Remove(userToDelete);
         }
-
-        public void DeleteUserByName(string id)
+            
+        public async Task DeleteUserByName(string name)
         {
-            throw new System.NotImplementedException();
+            var userToDelete=await Task.Run(()=>users.Where(x=>x.Name==name).First());
+            users.Remove(userToDelete);
         }
 
         public User GetUserById(string id)
         {
-            throw new System.NotImplementedException();
+            return 
+                new User {
+                         Id = "1",
+                        Name = "Ilya",
+                        Login = "ilyakatun",
+                        Password = "pass_1",
+                        Email = "somemail@mail.cz"
+
+                         }
         }
 
         public User GetUserByName(string Name)
         {
-            throw new System.NotImplementedException();
+            return 
+                new User {
+                         Id = "1",
+                        Name = "Ilya",
+                        Login = "ilyakatun",
+                        Password = "pass_1",
+                        Email = "somemail@mail.cz"
+
+                         }
         }
 
-        public IEnumerable<User> GetUsers()
+        public async Task<IEnumerable<User>> GetUsers()
         {
             // FIXME [Andrew] implement it as field
             return
@@ -62,12 +83,13 @@ namespace ArtArea.Web.Data.Mock
                 }.AsEnumerable<User>();
         }
 
-        public void UpdateUserById(string id, User user)
+        public async Task UpdateUserById(string id, User user)
         {
-            throw new System.NotImplementedException();
+            var userToUpdate=await Task.Run(()=>users.Where(x=>x.Id==id).First());
+            users.Where(x=>x.Id==id)
         }
 
-        public void UpdateUserByName(string name, User user)
+        public async Task UpdateUserByName(string name, User user)
         {
             throw new System.NotImplementedException();
         }

@@ -19,6 +19,6 @@ namespace ArtArea.Models
         public string Name { get; set; }
         [BsonRepresentation(BsonType.ObjectId)]
         public string ProjectId { get; set; }
-        public List<AccessToBoard> ProjCollab { get; set; }
+        public List<AccessToBoard> ProjectCollab { get; set; }
     }
 }
