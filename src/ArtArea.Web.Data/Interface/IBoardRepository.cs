@@ -11,8 +11,8 @@ namespace ArtArea.Web.Data.Interface
     public interface IBoardRepository
     {
         Task<IEnumerable<Board>> GetBoards();
-        Task GetBoardById(string id);
-        Task GetBoardByName(string name);
+        Task<Board> GetBoardById(string id);
+        Task<Board> GetBoardByName(string name);
         Task CreateBoard(Board board);
         Task UpdateBoardById(string id);
         Task UpdateBoardByName(string name);

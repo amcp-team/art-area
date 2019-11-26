@@ -26,12 +26,12 @@ namespace ArtArea.Web.Data.Mock
             throw new System.NotImplementedException();
         }
 
-        public User GetUserById(string id)
+        public Task<User> GetUserById(string id)
         {
             throw new System.NotImplementedException();
         }
 
-        public User GetUserByName(string Name)
+        public Task<User> GetUserByName(string Name)
         {
             throw new System.NotImplementedException();
         }

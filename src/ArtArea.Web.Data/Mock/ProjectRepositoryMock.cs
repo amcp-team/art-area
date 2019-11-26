@@ -23,12 +23,12 @@ namespace ArtArea.Web.Data
             throw new System.NotImplementedException();
         }
 
-        public async Task GetProjectById(string id)
+        public async Task<Project> GetProjectById(string id)
         {
             throw new System.NotImplementedException();
         }
 
-        public async Task GetProjectByName(string name)
+        public async Task<Project> GetProjectByName(string name)
         {
             throw new System.NotImplementedException();
         }

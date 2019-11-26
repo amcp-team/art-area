@@ -13,8 +13,8 @@ namespace ArtArea.Web.Data.Interface
     public interface IProjectRepository
     {
        Task<IEnumerable<Project>> GetProjects();
-       Task GetProjectById(string id);
-       Task GetProjectByName(string name);
+       Task<Project> GetProjectById(string id);
+       Task<Project> GetProjectByName(string name);
        Task CreateProject(Project project);
        Task UpdateProjectById(string id);
        Task UpdateProjectByName(string name);

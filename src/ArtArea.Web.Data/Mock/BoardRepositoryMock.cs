@@ -23,12 +23,12 @@ namespace ArtArea.Web.Data.Mock
             throw new System.NotImplementedException();
         }
 
-        public async Task GetBoardById(string id)
+        public async Task<Board> GetBoardById(string id)
         {
             throw new System.NotImplementedException();
         }
 
-        public async Task GetBoardByName(string name)
+        public async Task<Board> GetBoardByName(string name)
         {
             throw new System.NotImplementedException();
         }
