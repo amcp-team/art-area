@@ -11,6 +11,7 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { UserPageComponent } from './user-page/user-page.component';
 import { UserPlateComponent } from './user-plate/user-plate.component';
+import { UserPageServiceService } from './services/user-page-service.service'
 
 
 @NgModule({
@@ -34,7 +35,9 @@ import { UserPlateComponent } from './user-plate/user-plate.component';
       { path: 'user', component: UserPageComponent}
     ])
   ],
-  providers: [],
+  providers: [
+    UserPageServiceService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

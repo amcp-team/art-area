@@ -1,2 +1,7 @@
-<h1>{{userInfo.name}}</h1>
-<p>{{userInfo.description}}</p>
+<ng-container *ngIf="(userPage$ | async) as userPage">
+
+    <h1>{{ userPage.userName }}</h1>
+    <p>{{ userPage.userDescription }}</p>
+
+
+</ng-container>
