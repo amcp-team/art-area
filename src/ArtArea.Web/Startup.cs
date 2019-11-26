@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using ArtArea.Web.Services.Auth;
+using ArtArea.Web.Data.Interface;
+using ArtArea.Web.Data.Mock;
 
 namespace ArtArea.Web
 {
@@ -24,6 +26,10 @@ namespace ArtArea.Web
         public void ConfigureServices(IServiceCollection services)
         {
             // Configure DI there for repositories & other required components
+
+            services.AddTransient<IUserRepository, UserRepositoryMock>();
+            services.AddTransient<IBoardRepository, BoardRepositoryMock>();
+            services.AddTransient<IProjectRepository, ProjectRepositoryMock>();
 
             var serverConfig = new ServerConfig();
             Configuration.Bind(serverConfig);
