@@ -13,7 +13,7 @@ namespace ArtArea.Web.Data.Mock
             await Task.Run(() => ApplicationDbMock.Projects.Add(project));
         }
 
-        public async Task DeleteProjectById(string id)
+        public async Task DeleteProject(string id)
         {
             await Task.Run(() =>
             {
@@ -23,24 +23,9 @@ namespace ArtArea.Web.Data.Mock
             });
         }
 
-        public async Task DeleteProjectByName(string name)
-        {
-            await Task.Run(() =>
-            {
-                var project = ApplicationDbMock.Projects
-                    .SingleOrDefault(p => p.Name == name);
-                ApplicationDbMock.Projects.Remove(project);
-            });
-        }
-
-        public async Task<Project> ReadProjectById(string id)
+        public async Task<Project> ReadProject(string id)
         {
             return await Task.Run(() => ApplicationDbMock.Projects.SingleOrDefault(p => p.Id == id));
-        }
-
-        public async Task<Project> ReadProjectByName(string name)
-        {
-            return await Task.Run(() => ApplicationDbMock.Projects.SingleOrDefault(p => p.Name == name));
         }
 
         public async Task<IEnumerable<Project>> ReadProjects()

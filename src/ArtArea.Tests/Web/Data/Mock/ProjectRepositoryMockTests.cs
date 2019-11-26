@@ -19,38 +19,21 @@ namespace ArtArea.Tests.Web.Data.Mock
             Assert.Equal(projects, ApplicationDbMock.Projects);
         }
 
+        
         [Fact]
-        public async Task Test_ReadProjectByName_Success()
-        {
-            string projectName = ApplicationDbMock.Projects.FirstOrDefault().Name;
-
-            var project = await repository.ReadProjectByName(projectName);
-
-            Assert.Equal(projectName, project.Name);
-        }
-
-        [Fact]
-        public async Task Test_ReadProjectByName_Fail()
-        {
-            var project = await repository.ReadProjectByName("some odd name");
-
-            Assert.Null(project);
-        }
-
-        [Fact]
-        public async Task Test_ReadProjectById_Success()
+        public async Task Test_ReadProject_Success()
         {
             string projectId = ApplicationDbMock.Projects.FirstOrDefault().Id;
             
-            var project = await repository.ReadProjectById(projectId);
+            var project = await repository.ReadProject(projectId);
 
             Assert.Equal(projectId, project.Id);
         }
 
         [Fact]
-        public async Task Test_ReadProjectById_Fail()
+        public async Task Test_ReadProject_Fail()
         {
-            var project = await repository.ReadProjectById(Guid.NewGuid().ToString());
+            var project = await repository.ReadProject(Guid.NewGuid().ToString());
 
             Assert.Null(project);
         }

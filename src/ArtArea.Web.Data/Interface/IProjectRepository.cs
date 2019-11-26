@@ -8,12 +8,10 @@ namespace ArtArea.Web.Data.Interface
     public interface IProjectRepository
     {
        Task<IEnumerable<Project>> ReadProjects();
-       Task<Project> ReadProjectById(string id);
-       Task<Project> ReadProjectByName(string name);
+       Task<Project> ReadProject(string id);
        Task CreateProject(Project project);
        Task UpdateProject(Project project);
-       Task DeleteProjectById(string id);
-       Task DeleteProjectByName(string name);
+       Task DeleteProject(string id);
     }
 
 }
