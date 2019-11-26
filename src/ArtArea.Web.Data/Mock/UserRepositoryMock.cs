@@ -19,7 +19,7 @@ namespace ArtArea.Web.Data.Mock
             await Task.Run(() => 
             {
                 var user = ApplicationDbMock.Users
-                    .Single(u => u.Username == username);
+                    .SingleOrDefault(u => u.Username == username);
 
                 if(user != null)
                     ApplicationDbMock.Users.Remove(user);
@@ -28,7 +28,7 @@ namespace ArtArea.Web.Data.Mock
 
         public async Task<User> ReadUser(string username)
         {
-            return await Task.Run(() => ApplicationDbMock.Users.Single(u => u.Username == username));
+            return await Task.Run(() => ApplicationDbMock.Users.SingleOrDefault(u => u.Username == username));
         }
 
         public async Task<IEnumerable<User>> ReadUsers()
@@ -41,7 +41,7 @@ namespace ArtArea.Web.Data.Mock
             await Task.Run(() => 
             {
                 var _user = ApplicationDbMock.Users
-                    .Single(u => u.Username == user.Username);
+                    .SingleOrDefault(u => u.Username == user.Username);
 
                 if(_user != null)
                     _user = user;
