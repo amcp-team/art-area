@@ -1,16 +1,10 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System.Collections.Generic;
+using ArtArea.Models.Privacy;
 
 namespace ArtArea.Models
 {
-    public struct AccessToBoard
-    {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
-        public Access BoardAccess { get; set; }
-    }
     public class Board
     {
         [BsonId]
@@ -19,6 +13,6 @@ namespace ArtArea.Models
         public string Name { get; set; }
         [BsonRepresentation(BsonType.ObjectId)]
         public string ProjectId { get; set; }
-        public List<AccessToBoard> ProjectCollaborators { get; set; }
+        public List<UserAccess> BoardCollaborators { get; set; }
     }
 }
