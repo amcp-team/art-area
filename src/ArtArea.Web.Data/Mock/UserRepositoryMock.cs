@@ -13,42 +13,41 @@ namespace ArtArea.Web.Data.Mock
 
         public async Task CreateUser(User user)
         {
-            throw new System.NotImplementedException();
+            await Task.Run(() => ApplicationDbMock.Users.Add(user));
         }
 
-        public async Task DeleteUserById(string id)
+        public async Task DeleteUser(string username)
         {
-            throw new System.NotImplementedException();
+            await Task.Run(() => 
+            {
+                var user = ApplicationDbMock.Users
+                    .Single(u => u.Username == username);
+
+                if(user != null)
+                    ApplicationDbMock.Users.Remove(user);
+            });
         }
 
-        public async Task DeleteUserByName(string name)
+        public async Task<User> ReadUser(string username)
         {
-            throw new System.NotImplementedException();
+            return await Task.Run(() => ApplicationDbMock.Users.Single(u => u.Username == username));
         }
 
-        public Task<User> GetUserById(string id)
+        public async Task<IEnumerable<User>> ReadUsers()
         {
-            throw new System.NotImplementedException();
+            return await Task.Run(() => ApplicationDbMock.Users);
         }
 
-        public Task<User> GetUserByName(string Name)
+        public async Task UpdateUser(User user)
         {
-            throw new System.NotImplementedException();
-        }
+            await Task.Run(() => 
+            {
+                var _user = ApplicationDbMock.Users
+                    .Single(u => u.Username == user.Username);
 
-        public async Task<IEnumerable<User>> GetUsers()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public async Task UpdateUserById(string id, User user)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public async Task UpdateUserByName(string name, User user)
-        {
-            throw new System.NotImplementedException();
+                if(_user != null)
+                    _user = user;
+            });
         }
     }
 }
