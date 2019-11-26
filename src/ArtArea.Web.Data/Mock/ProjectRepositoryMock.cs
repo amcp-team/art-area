@@ -1,51 +1,61 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ArtArea.Models;
 using ArtArea.Web.Data.Interface;
 
-namespace ArtArea.Web.Data
+namespace ArtArea.Web.Data.Mock
 {
     // TODO [Andrey] add list with board models & accessors to it based on interface
     public class ProjectRepositoryMock : IProjectRepository
     {
         public async Task CreateProject(Project project)
         {
-            throw new System.NotImplementedException();
+            await Task.Run(() => ApplicationDbMock.Projects.Add(project));
         }
 
         public async Task DeleteProjectById(string id)
         {
-            throw new System.NotImplementedException();
+            await Task.Run(() => {
+                var project = ApplicationDbMock.Projects
+                    .Single(p => p.Id == id);
+                ApplicationDbMock.Projects.Remove(project);
+            });
         }
 
         public async Task DeleteProjectByName(string name)
         {
-            throw new System.NotImplementedException();
+            await Task.Run(() => {
+                var project = ApplicationDbMock.Projects
+                    .Single(p => p.Name == name);
+                ApplicationDbMock.Projects.Remove(project);
+            });
         }
 
-        public async Task<Project> GetProjectById(string id)
+        public async Task<Project> ReadProjectById(string id)
         {
-            throw new System.NotImplementedException();
+            return await Task.Run(() => ApplicationDbMock.Projects.Single(p => p.Id == id));
         }
 
-        public async Task<Project> GetProjectByName(string name)
+        public async Task<Project> ReadProjectByName(string name)
         {
-            throw new System.NotImplementedException();
+            return await Task.Run(() => ApplicationDbMock.Projects.Single(p => p.Name == name));
         }
 
-        public async Task<IEnumerable<Project>> GetProjects()
+        public async Task<IEnumerable<Project>> ReadProjects()
         {
-            throw new System.NotImplementedException();
+            return await Task.Run(() => ApplicationDbMock.Projects);
         }
 
-        public async Task UpdateProjectById(string id)
+        public async Task UpdateProject(Project project)
         {
-            throw new System.NotImplementedException();
-        }
+            await Task.Run(() =>
+            {
+                var _project = ApplicationDbMock.Projects.Single(p => p.Id == project.Id);
 
-        public async Task UpdateProjectByName(string name)
-        {
-            throw new System.NotImplementedException();
+                if(_project != null)
+                    _project = project;
+            });
         }
     }
 }

@@ -12,12 +12,11 @@ namespace ArtArea.Web.Data.Interface
     //      - delete by id
     public interface IProjectRepository
     {
-       Task<IEnumerable<Project>> GetProjects();
-       Task<Project> GetProjectById(string id);
-       Task<Project> GetProjectByName(string name);
+       Task<IEnumerable<Project>> ReadProjects();
+       Task<Project> ReadProjectById(string id);
+       Task<Project> ReadProjectByName(string name);
        Task CreateProject(Project project);
-       Task UpdateProjectById(string id);
-       Task UpdateProjectByName(string name);
+       Task UpdateProject(Project project);
        Task DeleteProjectById(string id);
        Task DeleteProjectByName(string name);
     }
