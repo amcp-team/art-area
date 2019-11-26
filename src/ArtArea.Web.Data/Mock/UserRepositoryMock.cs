@@ -9,8 +9,6 @@ namespace ArtArea.Web.Data.Mock
     // TODO [Andrey] implement all the methods via list
     public class UserRepositoryMock : IUserRepository
     {
-        private List<User> users;
-
         public async Task CreateUser(User user)
         {
             await Task.Run(() => ApplicationDbMock.Users.Add(user));
