@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ArtArea.Models;
 using ArtArea.Web.Data.Interface;
@@ -10,42 +11,64 @@ namespace ArtArea.Web.Data.Mock
     {
         public async Task CreateBoard(Board board)
         {
-            throw new System.NotImplementedException();
+            await Task.Run(() => ApplicationDbMock.Boards.Add(board));
         }
 
         public async Task DeleteBoardById(string id)
         {
-            throw new System.NotImplementedException();
+            await Task.Run(() =>
+            {
+                var board = ApplicationDbMock.Boards
+                    .Where(b => b.Id == id)
+                    .FirstOrDefault();
+
+                if(board != null)
+                    ApplicationDbMock.Boards.Remove(board);
+            });
         }
 
         public async Task DeleteBoardByName(string name)
         {
-            throw new System.NotImplementedException();
+            await Task.Run(() =>
+            {
+                var board = ApplicationDbMock.Boards
+                    .Where(b => b.Name == name)
+                    .FirstOrDefault();
+
+                if(board != null)
+                    ApplicationDbMock.Boards.Remove(board);
+            });
         }
 
-        public async Task<Board> GetBoardById(string id)
+        public async Task<Board> ReadBoardById(string id)
         {
-            throw new System.NotImplementedException();
+            return await Task.Run(() => 
+            {
+                return ApplicationDbMock.Boards
+                    .Where(b => b.Id == id)
+                    .FirstOrDefault();
+            });
         }
 
-        public async Task<Board> GetBoardByName(string name)
+        public async Task<Board> ReadBoardByName(string name)
         {
-            throw new System.NotImplementedException();
+            return await Task.Run(() => 
+            {
+                return ApplicationDbMock.Boards
+                    .Where(b => b.Name == name)
+                    .FirstOrDefault();
+            });
         }
 
-        public async Task<IEnumerable<Board>> GetBoards()
+        public async Task<IEnumerable<Board>> ReadBoards()
         {
-            throw new System.NotImplementedException();
+            return await Task.Run(() => ApplicationDbMock.Boards);
         }
 
-        public async Task UpdateBoardById(string id)
+        public async Task UpdateBoard(Board board)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public async Task UpdateBoardByName(string name)
-        {
-            throw new System.NotImplementedException();
+            await Task.Run(() => 
+                ApplicationDbMock.Boards[ApplicationDbMock.Boards.FindIndex(b => b.Id == board.Id)] = board);
         }
     }
 }
