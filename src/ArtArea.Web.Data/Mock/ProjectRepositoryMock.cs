@@ -16,30 +16,32 @@ namespace ArtArea.Web.Data.Mock
 
         public async Task DeleteProjectById(string id)
         {
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
                 var project = ApplicationDbMock.Projects
-                    .Single(p => p.Id == id);
+                    .SingleOrDefault(p => p.Id == id);
                 ApplicationDbMock.Projects.Remove(project);
             });
         }
 
         public async Task DeleteProjectByName(string name)
         {
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
                 var project = ApplicationDbMock.Projects
-                    .Single(p => p.Name == name);
+                    .SingleOrDefault(p => p.Name == name);
                 ApplicationDbMock.Projects.Remove(project);
             });
         }
 
         public async Task<Project> ReadProjectById(string id)
         {
-            return await Task.Run(() => ApplicationDbMock.Projects.Single(p => p.Id == id));
+            return await Task.Run(() => ApplicationDbMock.Projects.SingleOrDefault(p => p.Id == id));
         }
 
         public async Task<Project> ReadProjectByName(string name)
         {
-            return await Task.Run(() => ApplicationDbMock.Projects.Single(p => p.Name == name));
+            return await Task.Run(() => ApplicationDbMock.Projects.SingleOrDefault(p => p.Name == name));
         }
 
         public async Task<IEnumerable<Project>> ReadProjects()
@@ -51,9 +53,9 @@ namespace ArtArea.Web.Data.Mock
         {
             await Task.Run(() =>
             {
-                var _project = ApplicationDbMock.Projects.Single(p => p.Id == project.Id);
+                var _project = ApplicationDbMock.Projects.SingleOrDefault(p => p.Id == project.Id);
 
-                if(_project != null)
+                if (_project != null)
                     _project = project;
             });
         }
