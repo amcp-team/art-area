@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using ArtArea.Models;
 namespace ArtArea.Web.Data.Interface
 {
     // TODO [Andrey] CRUD interface for board entity in db
@@ -7,6 +10,14 @@ namespace ArtArea.Web.Data.Interface
     //      - delete board by id
     public interface IBoardRepository
     {
+        Task<IEnumerable<Board>> GetBoards();
+        Task GetBoardById(string id);
+        Task GetBoardByName(string name);
+        Task CreateBoard(Board board);
+        Task UpdateBoardById(string id);
+        Task UpdateBoardByName(string name);
+        Task DeleteBoardById(string id);
+        Task DeleteBoardByName(string name);
     }
 
 }
