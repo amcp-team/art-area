@@ -44,6 +44,7 @@ namespace ArtArea.Web.Data.Mock
             {
                 return ApplicationDbMock.Boards
                     .Single(b => b.Id == id);
+
             });
         }
 
@@ -70,6 +71,7 @@ namespace ArtArea.Web.Data.Mock
                 if(_board != null)
                     _board = board;
             });
+
         }
     }
 }
