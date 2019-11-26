@@ -14,46 +14,25 @@ namespace ArtArea.Web.Data.Mock
             await Task.Run(() => ApplicationDbMock.Boards.Add(board));
         }
 
-        public async Task DeleteBoardById(string id)
+        public async Task DeleteBoard(string id)
         {
             await Task.Run(() =>
             {
                 var board = ApplicationDbMock.Boards
-                    .Single(b => b.Id == id);
+                    .SingleOrDefault(b => b.Id == id);
 
                 if(board != null)
                     ApplicationDbMock.Boards.Remove(board);
             });
         }
 
-        public async Task DeleteBoardByName(string name)
-        {
-            await Task.Run(() =>
-            {
-                var board = ApplicationDbMock.Boards
-                    .Single(b => b.Name == name);
-
-                if(board != null)
-                    ApplicationDbMock.Boards.Remove(board);
-            });
-        }
-
-        public async Task<Board> ReadBoardById(string id)
+        public async Task<Board> ReadBoard(string id)
         {
             return await Task.Run(() => 
             {
                 return ApplicationDbMock.Boards
-                    .Single(b => b.Id == id);
+                    .SingleOrDefault(b => b.Id == id);
 
-            });
-        }
-
-        public async Task<Board> ReadBoardByName(string name)
-        {
-            return await Task.Run(() => 
-            {
-                return ApplicationDbMock.Boards
-                    .Single(b => b.Name == name);
             });
         }
 
@@ -66,7 +45,7 @@ namespace ArtArea.Web.Data.Mock
         {
             await Task.Run(() =>
             {
-                var _board = ApplicationDbMock.Boards.Single(p => p.Id == board.Id);
+                var _board = ApplicationDbMock.Boards.SingleOrDefault(p => p.Id == board.Id);
 
                 if(_board != null)
                     _board = board;

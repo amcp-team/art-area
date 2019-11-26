@@ -11,12 +11,10 @@ namespace ArtArea.Web.Data.Interface
     public interface IBoardRepository
     {
         Task<IEnumerable<Board>> ReadBoards();
-        Task<Board> ReadBoardById(string id);
-        Task<Board> ReadBoardByName(string name);
+        Task<Board> ReadBoard(string id);
         Task CreateBoard(Board board);
         Task UpdateBoard(Board name);
-        Task DeleteBoardById(string id);
-        Task DeleteBoardByName(string name);
+        Task DeleteBoard(string id);
     }
 
 }
