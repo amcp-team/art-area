@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ArtArea.Models;
 
 namespace ArtArea.Web.Data.Interface
 {
     public interface IUserRepository
     {
-        IEnumerable<User> GetUsers();
+        Task<IEnumerable<User>> GetUsers();
         User GetUserById(string id);
         User GetUserByName(string Name);
-        string CreateUser(User user);
-        void UpdateUserById(string id, User user);
-        void UpdateUserByName(string name, User user);
-        void DeleteUserById(string id);
-        void DeleteUserByName(string id);
+        Task CreateUser(User user);
+        Task UpdateUserById(string id, User user);
+        Task UpdateUserByName(string name, User user);
+        Task DeleteUserById(string id);
+        Task DeleteUserByName(string id);
     }
 }
