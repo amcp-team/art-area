@@ -46,7 +46,8 @@ namespace ArtArea.Web.Controllers
             {
                 var token = GetToken(user.Username);
 
-                return Ok(new {
+                return Ok(new
+                {
                     token = new JwtSecurityTokenHandler().WriteToken(token),
                     expiresIn = token.ValidTo,
                     username = user.Username
@@ -55,27 +56,29 @@ namespace ArtArea.Web.Controllers
             else return Unauthorized();
         }
 
-        // [HttpPost, Route("register")]
-        // public async Task<IActionResult> Register([FromBody] User userForm)
-        // {
-        //     var user = await _userRepository.ReadUser(userForm.Username);
-        //     if (user != null)
-        //         return BadRequest(response);
+        [HttpPost, Route("register")]
+        public async Task<IActionResult> Register([FromBody] User userRegister)
+        {
+            var user = await _userRepository.ReadUser(userRegister.Username);
+            if (user != null)
+                return BadRequest();
 
-        //     await _userRepository.CreateUser(new User
-        //     {
-        //         Username = userForm.Username,
-        //         Password = userForm.Password,
-        //         Email = userForm.Email,
-        //         Name = userForm.Name
-        //     });
+            await _userRepository.CreateUser(new User
+            {
+                Username = userRegister.Username,
+                Password = userRegister.Password,
+                Email = userRegister.Email,
+                Name = userRegister.Name
+            });
 
-        //     response.Username = userForm.Username;
-        //     response.Token = GetToken(userForm.Username);
-        //     response.Successfull = true;
+            var token = GetToken(userRegister.Username);
 
-        //     return Ok(response);
-        // }
+            return Ok(new {
+                token = new JwtSecurityTokenHandler().WriteToken(token),
+                expiresIn = token.ValidTo,
+                username = userRegister.Username
+            });
+        }
 
         private JwtSecurityToken GetToken(string username)
         {

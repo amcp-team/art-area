@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators'
+import { JsonPipe } from '@angular/common';
 
 export interface ApplicationUser {
   token: string;
@@ -13,6 +14,24 @@ export interface ApplicationUser {
   providedIn: 'root'
 })
 export class AuthenticationService {
+
+  register(username: any, password: any, email: any, name: any) {
+    return this.http.post<any>(
+      'api/auth/register', 
+      {
+        username,
+        password,
+        email,
+        name
+      })
+      .pipe(map(user => {
+        if(user && user.token) {
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          this.currentUserSubject.next(user);
+        }
+        return user;
+      }))
+  }
 
   private currentUserSubject: BehaviorSubject<ApplicationUser>;
   public currentUser: Observable<ApplicationUser>;
