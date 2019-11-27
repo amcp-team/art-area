@@ -8,12 +8,17 @@ using System.Threading.Tasks;
 using ArtArea.Models;
 using ArtArea.Web.Data.Interface;
 using ArtArea.Web.Services.Auth;
-using ArtArea.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 namespace ArtArea.Web.Controllers
 {
+    public class UserLogin
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+    }
+
     [ApiController]
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
@@ -30,63 +35,49 @@ namespace ArtArea.Web.Controllers
         }
 
         [HttpPost, Route("login")]
-        public async Task<IActionResult> Login([FromBody] UserAuthViewModel userLoginViewModel)
+        public async Task<IActionResult> Login([FromBody] UserLogin userLogin)
         {
-            if (userLoginViewModel == null)
+            if (userLogin == null)
                 return BadRequest("Invalid client request");
 
-            var user = await _userRepository.ReadUser(userLoginViewModel.Username);
+            var user = await _userRepository.ReadUser(userLogin.Username);
 
-            if (user != null && user.Password == userLoginViewModel.Password)
+            if (user != null && user.Password == userLogin.Password)
             {
-                var response = new UserAuthResponseViewModel
-                {
-                    Username = user.Username,
-                    Token = GetToken(user.Username),
-                    Successfull = true
-                };
+                var token = GetToken(user.Username);
 
-                return Ok(response);
+                return Ok(new {
+                    token = new JwtSecurityTokenHandler().WriteToken(token),
+                    expiresIn = token.ValidTo,
+                    username = user.Username
+                });
             }
-            else
-            {
-                var response = new UserAuthResponseViewModel
-                {
-                    Successfull = false
-                };
-
-                return Unauthorized(response);
-            }
+            else return Unauthorized();
         }
 
-        [HttpPost, Route("register")]
-        public async Task<IActionResult> Register([FromBody] User userForm)
-        {
-            var response = new UserAuthResponseViewModel
-            {
-                Successfull = false
-            };
+        // [HttpPost, Route("register")]
+        // public async Task<IActionResult> Register([FromBody] User userForm)
+        // {
+        //     var user = await _userRepository.ReadUser(userForm.Username);
+        //     if (user != null)
+        //         return BadRequest(response);
 
-            var user = await _userRepository.ReadUser(userForm.Username);
-            if (user != null)
-                return BadRequest(response);
+        //     await _userRepository.CreateUser(new User
+        //     {
+        //         Username = userForm.Username,
+        //         Password = userForm.Password,
+        //         Email = userForm.Email,
+        //         Name = userForm.Name
+        //     });
 
-            await _userRepository.CreateUser(new User
-            {
-                Username = userForm.Username,
-                Password = userForm.Password,
-                Email = userForm.Email,
-                Name = userForm.Name
-            });
+        //     response.Username = userForm.Username;
+        //     response.Token = GetToken(userForm.Username);
+        //     response.Successfull = true;
 
-            response.Username = userForm.Username;
-            response.Token = GetToken(userForm.Username);
-            response.Successfull = true;
+        //     return Ok(response);
+        // }
 
-            return Ok(response);
-        }
-
-        private string GetToken(string username)
+        private JwtSecurityToken GetToken(string username)
         {
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtBearerSettings.SecretKey));
             var signInCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
@@ -97,7 +88,7 @@ namespace ArtArea.Web.Controllers
                 }.AsEnumerable()
             );
 
-            var tokenOptions = new JwtSecurityToken(
+            var token = new JwtSecurityToken(
                 issuer: _jwtBearerSettings.Issuer,
                 audience: _jwtBearerSettings.Audience,
                 claims: claims,
@@ -105,7 +96,7 @@ namespace ArtArea.Web.Controllers
                 signingCredentials: signInCredentials
             );
 
-            return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+            return token;
         }
     }
 }
