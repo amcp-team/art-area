@@ -10,12 +10,24 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { jwtInterceptorProvider } from './app-auth/jwt.interceptor';
 import { errorInterceptorProvider } from './app-auth/error.interceptor';
+import { HomeComponent } from './home/home.component';
+import { UserComponent } from './user/user.component';
+import { NavComponent } from './nav/nav.component';
+import { NavUserBadgeComponent } from './nav-user-badge/nav-user-badge.component';
+import { UserDataComponent } from './user-data/user-data.component';
+import { UserProjectsComponent } from './user-projects/user-projects.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    HomeComponent,
+    UserComponent,
+    NavComponent,
+    NavUserBadgeComponent,
+    UserDataComponent,
+    UserProjectsComponent
   ],
   imports: [
     HttpClientModule,
