@@ -60,27 +60,27 @@ namespace ArtArea.Web.Controllers
         }
 
         [HttpPost, Route("register")]
-        public IActionResult Join([FromBody] UserAuthViewModel userLoginViewModel)
+        public async Task<IActionResult> Register([FromBody] User userForm)
         {
             var response = new UserAuthResponseViewModel
             {
                 Successfull = false
             };
 
-            var user = _userRepository.ReadUser(userLoginViewModel.Username);
+            var user = await _userRepository.ReadUser(userForm.Username);
             if (user != null)
                 return BadRequest(response);
 
-            _userRepository.CreateUser(new User
+            await _userRepository.CreateUser(new User
             {
-                Username = userLoginViewModel.Username,
-                Password = userLoginViewModel.Password,
-                Email = "",
-                Name = ""
+                Username = userForm.Username,
+                Password = userForm.Password,
+                Email = userForm.Email,
+                Name = userForm.Name
             });
 
-            response.Username = userLoginViewModel.Username;
-            response.Token = GetToken(userLoginViewModel.Username);
+            response.Username = userForm.Username;
+            response.Token = GetToken(userForm.Username);
             response.Successfull = true;
 
             return Ok(response);
