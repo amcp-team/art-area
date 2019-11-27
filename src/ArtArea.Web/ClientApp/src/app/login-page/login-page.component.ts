@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { UserLogin } from '../models/user-login.model';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserLoginResponse } from '../models/user-login-response';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-login-page',
@@ -11,7 +11,7 @@ import { UserLoginResponse } from '../models/user-login-response';
   styleUrls: ['./login-page.component.css']
 })
 export class LoginPageComponent {
-  loginSuccessfull:boolean = true;
+  loginSuccessfull: boolean = true;
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -22,18 +22,16 @@ export class LoginPageComponent {
         "Content-Type": "application/json"
       })
     })
-    .subscribe(response =>
-      {
-        var loginResult = (<UserLoginResponse>response);
-        console.log(loginResult);
-        this.loginSuccessfull = loginResult.Successfull;
-        localStorage.setItem("jwt", loginResult.Token);
-        this.router.navigate(["/user/" + loginResult.Username]);
+      .subscribe(response => {
+        let username = (<any>response).username;
+        let token = (<any>response).token;
+        localStorage.setItem("jwt", token);
+        this.router.navigate(["/user/" + username]);
       },
-      error => {
-        console.log(<UserLoginResponse>error);
-        this.loginSuccessfull = false;
-      })
+        error => {
+          console.log(<UserLoginResponse>error);
+          this.loginSuccessfull = false;
+        })
 
   }
 }

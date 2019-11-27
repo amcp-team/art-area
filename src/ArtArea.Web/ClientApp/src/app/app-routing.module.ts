@@ -12,7 +12,7 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
 const routes: Routes = [
   // place there routes
   { path: '', component: HomePageComponent },
-  { path: 'login', component: LoginPageComponent },
+  { path: 'login', component: LoginPageComponent, data: {redirectTo : ''} },
   { path: 'register', component: RegisterPageComponent },
   { path: 'user/:username', component: UserPageComponent },
   { path: '**', component: NotFoundPageComponent }
