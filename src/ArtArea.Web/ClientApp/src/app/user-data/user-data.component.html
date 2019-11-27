@@ -1,1 +1,5 @@
-<p>user-data works!</p>
+<ng-container *ngIf="(userData$ | async) as userData">
+    <h1>{{userData.name}}</h1>
+    <h3>{{userData.username}}</h3>
+    <p>{{userData.email}}</p>
+</ng-container>
