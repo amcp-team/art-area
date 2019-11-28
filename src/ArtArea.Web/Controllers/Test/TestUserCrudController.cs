@@ -22,27 +22,19 @@ namespace ArtArea.Web.Controllers.Test
 
         [HttpGet("{username}")]
         public async Task<User> GetUser(string username)
-        {
-            throw new NotImplementedException();
-        } 
+                => await _userRepository.ReadUser(username);
 
         [HttpGet]
         public async Task<IEnumerable<User>> GetUsers()
-        {
-            throw new NotImplementedException();
-        }
+                => await _userRepository.ReadUsers();
 
         [HttpPost]
         public async Task PostUser([FromBody]User user)
-        {
-            throw new NotImplementedException();
-        }
+                => await _userRepository.CreateUser(user);
 
         [HttpPut]
         public async Task PutUser([FromBody]User user)
-        {
-            throw new NotImplementedException();
-        }
+                => await _userRepository.UpdateUser(user);
 
         [HttpDelete("{username}")]
         public async Task DeleteUser(string username)

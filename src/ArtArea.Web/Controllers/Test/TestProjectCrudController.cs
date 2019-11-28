@@ -23,31 +23,27 @@ namespace ArtArea.Web.Controllers.Test
         [HttpGet("{id}")]
         public async Task<Project> GetProject(string id)
         {
-            throw new NotImplementedException();
-        } 
+
+            var result = await _projectRepository.ReadProject(id);
+            return result;
+        }
 
         [HttpGet]
         public async Task<IEnumerable<Project>> GetProjects()
-        {
-            throw new NotImplementedException();
-        }
+                => await _projectRepository.ReadProjects();
 
         [HttpPost]
         public async Task PostProject([FromBody]Project project)
-        {
-            throw new NotImplementedException();
-        }
+                => await _projectRepository.CreateProject(project);
 
         [HttpPut]
         public async Task PutProject([FromBody]Project project)
-        {
-            throw new NotImplementedException();
-        }
+                => await _projectRepository.UpdateProject(project);
 
         [HttpDelete("{id}")]
         public async Task DeleteProject(string id)
         {
-            throw new NotImplementedException();
+            var result = _projectRepository.ReadProject(id);
         }
     }
 }
