@@ -31,9 +31,9 @@ namespace ArtArea.Web
             // TODO change services implementation like
             // service.AddTransient<IUserRepository, UserRepository>();
 
-            services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<IBoardRepository, BoardRepository>();
-            services.AddTransient<IProjectRepository, ProjectRepository>();
+            services.AddTransient<IUserRepository, UserRepositoryMock>();
+            services.AddTransient<IBoardRepository, BoardRepositoryMock>();
+            services.AddTransient<IProjectRepository, ProjectRepositoryMock>();
 
             var serverConfig = new ServerConfig();
             Configuration.Bind(serverConfig);
