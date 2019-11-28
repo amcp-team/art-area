@@ -5,9 +5,9 @@ ul {
     display: flex;
     li {
         padding: 0em 1em 0em 1em;
-        &:hover {
-            background: darken($primary, 10%);
-        }
+        // &:hover {
+        //     background: darken($primary, 10%);
+        // }
     }
 }
 
