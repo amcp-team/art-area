@@ -8,7 +8,7 @@ namespace ArtArea.Web.Data.Interface
         Task<IEnumerable<Board>> ReadBoards();
         Task<Board> ReadBoard(string id);
         Task CreateBoard(Board board);
-        Task UpdateBoard(Board name);
+        Task UpdateBoard(Board board);
         Task DeleteBoard(string id);
     }
 

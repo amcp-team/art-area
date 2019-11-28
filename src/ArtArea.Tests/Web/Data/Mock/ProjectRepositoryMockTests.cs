@@ -9,12 +9,12 @@ namespace ArtArea.Tests.Web.Data.Mock
 {
     public class ProjectRepositoryMockTests
     {
-        private IProjectRepository repository = new ProjectRepositoryMock();
+        private IProjectRepository _repository = new ProjectRepositoryMock();
         
         [Fact]
         public async Task Test_ReadProjects()
         {
-            var projects = await repository.ReadProjects();
+            var projects = await _repository.ReadProjects();
 
             Assert.Equal(projects, ApplicationDbMock.Projects);
         }
@@ -25,7 +25,7 @@ namespace ArtArea.Tests.Web.Data.Mock
         {
             string projectId = ApplicationDbMock.Projects.FirstOrDefault().Id;
             
-            var project = await repository.ReadProject(projectId);
+            var project = await _repository.ReadProject(projectId);
 
             Assert.Equal(projectId, project.Id);
         }
@@ -33,7 +33,7 @@ namespace ArtArea.Tests.Web.Data.Mock
         [Fact]
         public async Task Test_ReadProject_Fail()
         {
-            var project = await repository.ReadProject(Guid.NewGuid().ToString());
+            var project = await _repository.ReadProject(Guid.NewGuid().ToString());
 
             Assert.Null(project);
         }
