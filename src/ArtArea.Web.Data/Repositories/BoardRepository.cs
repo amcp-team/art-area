@@ -5,22 +5,24 @@ using ArtArea.Web.Data;
 using ArtArea.Web.Data.Interface;
 using MongoDB.Bson;
 using MongoDB.Driver;
-
-public class BoardRepository : IBoardRepository
+namespace ArtArea.Web.Data.Repositories
 {
-    public ApplicationDb db;
-    BoardRepository(ApplicationDb database) => db = database;
-    public async Task CreateBoard(Board board)
-        => await db.Boards.InsertOneAsync(board);
-    public async Task DeleteBoard(string id)
-        => await db.Boards.DeleteOneAsync(x => x.Id == id);
+    public class BoardRepository : IBoardRepository
+    {
+        private ApplicationDb _database;
+        BoardRepository(ApplicationDb database) => _database = database;
+        public async Task CreateBoard(Board board)
+            => await _database.Boards.InsertOneAsync(board);
+        public async Task DeleteBoard(string id)
+            => await _database.Boards.DeleteOneAsync(x => x.Id == id);
 
-    public async Task<Board> ReadBoard(string id)
-        => await db.Boards.Find(x => x.Id == id).FirstOrDefaultAsync();
+        public async Task<Board> ReadBoard(string id)
+            => await _database.Boards.Find(x => x.Id == id).FirstOrDefaultAsync();
 
-    public async Task<IEnumerable<Board>> ReadBoards()
-        => await db.Boards.Find(x => true).ToListAsync();
+        public async Task<IEnumerable<Board>> ReadBoards()
+            => await _database.Boards.Find(x => true).ToListAsync();
 
-    public async Task UpdateBoard(Board board)
-        => await db.Boards.ReplaceOneAsync(new BsonDocument("id", board.Id), board);
+        public async Task UpdateBoard(Board board)
+            => await _database.Boards.ReplaceOneAsync(new BsonDocument("_id", board.Id), board);
+    }
 }

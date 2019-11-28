@@ -1,27 +1,31 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ArtArea.Models;
-using ArtArea.Web.Data;
 using ArtArea.Web.Data.Interface;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-public class UserRepository : IUserRepository
+namespace ArtArea.Web.Data.Repositories
 {
-    public ApplicationDb db;
-    public UserRepository(ApplicationDb database) => db = database;
-    public async Task CreateUser(User user)
-        => await db.Users.InsertOneAsync(user);
+    public class UserRepository : IUserRepository
+    {
+        private ApplicationDb _database;
+        public UserRepository(ApplicationDb database) => _database = database;
+        public async Task CreateUser(User user)
+            => await _database.Users.InsertOneAsync(user);
 
-    public async Task DeleteUser(string name)
-        => await db.Users.DeleteOneAsync(x => x.Name == name);
+        public async Task DeleteUser(string username)
+            => await _database.Users.DeleteOneAsync(x => x.Username == username);
 
-    public async Task<User> ReadUser(string name)
-        => await db.Users.Find(x => x.Name == name).FirstOrDefaultAsync();
+        public async Task<User> ReadUser(string username)
+            => await _database.Users.Find(x => x.Username == username).FirstOrDefaultAsync();
 
-    public async Task<IEnumerable<User>> ReadUsers()
-        => await db.Users.Find(x => true).ToListAsync();
+        public async Task<IEnumerable<User>> ReadUsers()
+            => await _database.Users.Find(x => true).ToListAsync();
 
-    public async Task UpdateUser(User user)
-        => await db.Users.ReplaceOneAsync(new BsonDocument("id", user.Id), user);
+        // TODO check if mongo will store Username property which is marked
+        // as BsonId as `username` or as '_id'
+        public async Task UpdateUser(User user)
+            => await _database.Users.ReplaceOneAsync(new BsonDocument("_id", user.Username), user);
+    }
 }

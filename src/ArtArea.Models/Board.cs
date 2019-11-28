@@ -1,5 +1,4 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
 using System.Collections.Generic;
 using ArtArea.Models.Privacy;
 
@@ -12,6 +11,9 @@ namespace ArtArea.Models
 
             - Title : 
                 displayed title of the board
+
+            - Number : 
+                unique number for board
             
             - Task : 
                 Message object that stores when board was created & what problem it should solve
@@ -87,13 +89,14 @@ namespace ArtArea.Models
     public class Board
     {
         [BsonId]
-        public int Id { get; set; }
+        public string Id { get; set; }
+        public int Number { get; set; }
         public string Title { get; set; }
         public string ProjectId { get; set; }
         public Message Task { get; set; }
         public BoardPrivacy Privacy { get; set; }
         public IEnumerable<UserAccess> Collaborators { get; set; }
         public string Description { get; set; }
-        public IEnumerable<string> PinGroups {get;set;}
+        public IEnumerable<string> PinGroups { get; set; }
     }
 }
