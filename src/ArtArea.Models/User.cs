@@ -3,6 +3,24 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace ArtArea.Models
 {
+    /*
+        TODO defines rules for user password & user name 
+             restrict some symbols that mey interfer with
+             route in adress bar & make it not working
+
+        USER:
+            - Username : 
+                each user has a unniques username that we can user as PK
+                
+            - Password : 
+                password of the user
+
+            - Name : 
+                name of the user which we should show (ex: Ilya Katun)
+
+            - Email : 
+                user email (possibly hiddent by some privacy settings of the user) 
+    */
     public class User
     {
         [BsonId]
