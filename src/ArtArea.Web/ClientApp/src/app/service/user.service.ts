@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { UserData } from '../model/userdata';
 import { catchError, retry } from 'rxjs/operators';
-import { Projects } from '../model/projects';
+import { Project } from '../model/project';
 
 
 @Injectable({
@@ -27,8 +27,8 @@ export class UserService {
       );
   }
 
-  getProjects(): Observable<Projects[]> {
-    return this.http.get<Projects[]>('api/user/', this.httpOptions)
+  getProjects(username: string): Observable<Project[]> {
+    return this.http.get<Project[]>('api/user/projects/' + username, this.httpOptions)
       .pipe(
         retry(1),
         catchError(this.errorHandler)

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../service/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { from, Observable } from 'rxjs';
-import { Projects } from '../model/projects'
+import { Project } from '../model/project'
 import { UserData } from '../model/userdata'
 
 @Component({
@@ -11,7 +11,7 @@ import { UserData } from '../model/userdata'
   styleUrls: ['./user-projects.component.scss']
 })
 export class UserProjectsComponent implements OnInit {
-  projects$: Observable<Projects[]>
+  projects$: Observable<Project[]>
   username: string;
 
   constructor(private UserService: UserService, private route: ActivatedRoute) {
@@ -22,10 +22,12 @@ export class UserProjectsComponent implements OnInit {
 
   ngOnInit() {
     this.loadProjects();
+
+    this.projects$.subscribe(x => console.log(x));
   }
 
   loadProjects(){
-    this.projects$ = this.UserService.getProjects();
+    this.projects$ = this.UserService.getProjects(this.username);
   }
 
 }
