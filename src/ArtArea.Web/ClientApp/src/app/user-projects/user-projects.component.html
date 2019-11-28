@@ -1,10 +1,17 @@
 <div *ngIf="(projects$ | async) as projects">
-    <div class="container">
+    <div class="container pt-4">
         <div class="row">
             <div class="col-12">
                 <ul class="list-group list-group-flush">
+                    <li class="list-group-item">                        
+                        <h2 class="align-middle">Your projects</h2>                                             
+                        <div class="text-right">
+                            <button type="button" class="btn btn-dark rounded-circle text-right">+</button>
+                        </div>
+                    </li>
                     <li class="list-group-item" *ngFor="let project of projects">
                         <h2>{{project.title}}</h2>
+                        <hr class="my-4">
                         <p>{{project.description}}</p>
                     </li>
                 </ul>
