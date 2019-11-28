@@ -8,12 +8,12 @@ namespace ArtArea.Tests.Web.Data.Mock
 {
     public class UserRepositoryMockTests
     {
-        private IUserRepository repository = new UserRepositoryMock();
+        private IUserRepository _repository = new UserRepositoryMock();
 
         [Fact]
         public async Task Test_ReadUsers()
         {
-            var users = await repository.ReadUsers();
+            var users = await _repository.ReadUsers();
 
             Assert.Equal(users, ApplicationDbMock.Users);
         }
@@ -23,7 +23,7 @@ namespace ArtArea.Tests.Web.Data.Mock
         {
             var username = ApplicationDbMock.Users.FirstOrDefault().Username;
 
-            var user = await repository.ReadUser(username);
+            var user = await _repository.ReadUser(username);
 
             Assert.Equal(username, user.Username);
         }
@@ -31,7 +31,7 @@ namespace ArtArea.Tests.Web.Data.Mock
         [Fact]
         public async Task Test_ReadUser_Fail()
         {
-            var user = await repository.ReadUser("invalidusername");
+            var user = await _repository.ReadUser("invalidusername");
 
             Assert.Null(user);
         }
