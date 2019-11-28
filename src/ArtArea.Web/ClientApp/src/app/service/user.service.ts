@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { UserData } from '../model/userdata';
 import { catchError, retry } from 'rxjs/operators';
+import { Projects } from '../model/projects';
 
 
 @Injectable({
@@ -25,6 +26,14 @@ export class UserService {
         catchError(this.errorHandler)
       );
   }
+
+  getProjects(): Observable<Projects[]> {
+    return this.http.get<Projects[]>('api/user/', this.httpOptions)
+      .pipe(
+        retry(1),
+        catchError(this.errorHandler)
+      );
+  } 
 
   errorHandler(error) {
     let errorMessage = 'You are dumbhead and have error';
