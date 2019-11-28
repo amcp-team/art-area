@@ -27,8 +27,11 @@ namespace ArtArea.Web
         {
             // Configure DI there for repositories & other required components
 
+            // TODO change services implementation like
+            // service.AddTransient<IUserRepository, UserRepository>();
+
             services.AddTransient<IUserRepository, UserRepositoryMock>();
-            services.AddTransient<IBoardRepository, BoardRepositoryMock>();
+            services.AddTransient<IUserRepository, BoardRepositoryMock>();
             services.AddTransient<IProjectRepository, ProjectRepositoryMock>();
 
             var serverConfig = new ServerConfig();

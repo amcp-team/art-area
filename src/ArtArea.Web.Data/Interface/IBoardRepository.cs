@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using ArtArea.Models;
 namespace ArtArea.Web.Data.Interface
 {
-    public interface IBoardRepository
+    public interface IUserRepository
     {
         Task<IEnumerable<Board>> ReadBoards();
         Task<Board> ReadBoard(string id);

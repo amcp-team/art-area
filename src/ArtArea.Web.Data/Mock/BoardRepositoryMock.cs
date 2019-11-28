@@ -6,7 +6,7 @@ using ArtArea.Web.Data.Interface;
 
 namespace ArtArea.Web.Data.Mock
 {
-    public class BoardRepositoryMock : IBoardRepository
+    public class BoardRepositoryMock : IUserRepository
     {
         public async Task CreateBoard(Board board)
         {

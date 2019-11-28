@@ -7,7 +7,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 namespace ArtArea.Web.Data.Repositories
 {
-    public class BoardRepository : IBoardRepository
+    public class BoardRepository : IUserRepository
     {
         private ApplicationDb _database;
         BoardRepository(ApplicationDb database) => _database = database;

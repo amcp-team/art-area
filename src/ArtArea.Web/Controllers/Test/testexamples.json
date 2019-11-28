@@ -1,0 +1,239 @@
+{
+    // Run this tests in Postman
+    //
+    // For PUT & POST one should place json objects inside Request Body & mark it 
+    // as json
+    // ----------------------------------------------------------------------------
+    //
+    // ----------------------------------------------------------------------------
+    // Before running tests we should check if Docker Mongo Server is running
+    // We can do this by going to http://localhost:8081, which is Mongo Express 
+    // client
+    // If everything is alright request to this url will work out
+    // If not than one should:
+    //  - follow to the repository folder
+    //  - open it in PowerShell
+    //  - run command: docker-compose up -d
+    // After doing this try accessing Mongo Express again
+    // ----------------------------------------------------------------------------
+    //
+    // ----------------------------------------------------------------------------
+    // <-- POST -->
+    //
+    // User CRUD API
+    //
+    // POST : http://localhost:5000/api/user/test
+    // for each user entity in this array
+    // During posting data it's worth creating breakpoints on corresponding methods
+    // in controllers to check if we get data properly (comparing it with sent) 
+    // json values
+    "POST_USER": [
+        {
+            "Username": "hypnospinner",
+            "Password": "hspassword123",
+            "Name": "Ilya Katun",
+            "Email": "hypnospinner@gmail.com"
+        },
+        {
+            "Username": "SixDevelop",
+            "Password": "snpassword123",
+            "Name": "Sergey Nesterov",
+            "Email": "flamingo221100@gmail.com"
+        },
+        {
+            "Username": "AndyS1mpson",
+            "Password": "aspassword123",
+            "Name": "Andrey Ageev",
+            "Email": "andysimpson@gmail.com"
+        }
+    ],
+    // ----------------------------------------------------------------------------
+    // after posting all this user one can go to http://localhost:8081 & check in
+    // Mongo Express if database was created & everything was added successfully
+    // ----------------------------------------------------------------------------
+    //
+    // Project CRUD API
+    //
+    // POST: http://localhost:5000/api/project/test
+    // for each project entity in this array
+    "POST_PROJECT": [
+        {
+            "Id": "hypnospinner.art-area-design",
+            "Title": "Art Area Design",
+            "Description": "UI/UX design for Art Area service for artists & designer",
+            "IsPrivate": false,
+            "Collaborators": [
+                {
+                    "Username": "hypnospinner",
+                    "Role": 0
+                },
+                {
+                    "Username": "SixDevelop",
+                    "Role": 2
+                }
+            ],
+            "Tags": [
+                {
+                    "Name": "important",
+                    "ColorHex": "#7bfc03",
+                    "Description": "For important task"
+                },
+                {
+                    "Name": "urgent",
+                    "ColorHex": "#7bfc03",
+                    "Description": "Should be done as soon as possible"
+                }
+            ]
+        },
+        {
+            "Id": "AndyS1mpson.game",
+            "Title": "Game",
+            "Description": "Consept art & models for our brand-new computer game",
+            "IsPrivate": true,
+            "Collaborators": [
+                {
+                    "Username": "AndyS1mpson",
+                    "Role": 0
+                },
+                {
+                    "Username": "SixDevelop",
+                    "Role": 2
+                }
+            ],
+            "Tags": [
+                {
+                    "Name": "important",
+                    "ColorHex": "#7bfc03",
+                    "Description": "For important task"
+                }
+            ]
+        }
+    ],
+    // ----------------------------------------------------------------------------
+    // again you can check if everything was alright in Mongo Express
+    // ----------------------------------------------------------------------------
+    //
+    // Board CRUD API
+    //
+    // POST: http://localhost:5000/api/project/test
+    // for each board entity in this array
+    "POST_BOARD": [
+        {
+            "Id": "hypnospinner.art-area-design.1",
+            "Number": 1,
+            "Title": "User Page UI",
+            "ProjectId": "hypnospinner.art-area-design",
+            "Task": null,
+            "Privacy": 0,
+            "Collaborators": [
+                {
+                    "Username": "hypnospinner",
+                    "Role": 0
+                },
+                {
+                    "Username": "SixDevelop",
+                    "Role": 2
+                }
+            ],
+            "Description": "UI for individual user page",
+            "PinGroups": null
+        },
+        {
+            "Id": "hypnospinner.art-area-design.2",
+            "Number": 2,
+            "Title": "Project Page UI",
+            "ProjectId": "hypnospinner.art-area-design",
+            "Task": null,
+            "Privacy": 0,
+            "Collaborators": [
+                {
+                    "Username": "hypnospinner",
+                    "Role": 0
+                },
+                {
+                    "Username": "SixDevelop",
+                    "Role": 2
+                }
+            ],
+            "Description": "UI for individual user page",
+            "PinGroups": null
+        },
+        {
+            "Id": "AndyS1mpson.game.1",
+            "Number": 1,
+            "Title": "Pirate Black Beard Consept",
+            "ProjectId": "AndyS1mpson.game",
+            "Task": null,
+            "Privacy": 0,
+            "Collaborators": [
+                {
+                    "Username": "AndyS1mpson",
+                    "Role": 0
+                },
+                {
+                    "Username": "SixDevelop",
+                    "Role": 2
+                }
+            ],
+            "Description": "UI for individual user page",
+            "PinGroups": null
+        }
+    ]
+    // ----------------------------------------------------------------------------
+    //
+    // ----------------------------------------------------------------------------
+    // <-- GET -->
+    // 
+    // User CRUD API:
+    // GET: http://localhost:5000/api/user/test
+    // GET: http://localhost:5000/api/user/test/hypnospinner
+    // GET: http://localhost:5000/api/user/test/AndyS1mpson
+    // GET: http://localhost:5000/api/user/test/SixDevelop
+    //
+    // Project CRUD API
+    // GET: http://localhost:5000/api/project/test
+    // GET: http://localhost:5000/api/project/test/hypnospinner.art-area-design
+    // GET: http://localhost:5000/api/project/test/AndyS1mpson.game
+    //
+    // Board CRUD API:
+    // GET: http://localhost/api/board/test
+    // GET: http://localhost/api/board/test/hypnospinner.art-area-design.1
+    // GET: http://localhost/api/board/test/hypnospinner.art-area-design.2
+    // GET: http://localhost/api/board/test/AndyS1mpson.game.1
+    // ----------------------------------------------------------------------------
+    //
+    // ----------------------------------------------------------------------------
+    // <-- PUT -->
+    // 
+    // Change something in the existing users, projects & boards (better not do it
+    // with ids - Username, project Id (Title) & board Id + Number). 
+    // Change password, Descriptions, etc.
+    // 
+    // Put edited version of the entity inside BODY of the call
+    //
+    // User CRUD API:
+    // PUT: http://localhost:5000/api/user/test
+    //
+    // Project CRUD API
+    // PUT: http://localhost:5000/api/project/test
+    //
+    // Board CRUD API:
+    // PUT: http://localhost/api/board/test
+    // ----------------------------------------------------------------------------
+    //
+    // ----------------------------------------------------------------------------
+    // <-- DELETE -->
+    //
+    // For deletion we should implement cascade deletion - when we delete project =>
+    // we delete all the boards inside => when we delete board => we delete 
+    // everything board specific inside, etc.
+    //
+    // User CRUD API:
+    // DELETE: http://localhost:5000/api/user/test/SixDevelop
+    //
+    // Project CRUD API
+    // DELETE: http://localhost:5000/api/project/test/hypnospinner.art-area-design
+    //
+    // Board CRUD API:
+    // DELETE: http://localhost/api/board/test/AndyS1mpson.game.1
+}
