@@ -35,8 +35,8 @@ namespace ArtArea.Web.Data.Mock
                 new Project
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = "Art Area Design",
-                    ProjectCollaborators = new List<UserAccess>(new []
+                    Title = "Art Area Design",
+                    Collaborators = new List<UserAccess>(new []
                     {
                         new UserAccess
                         {
@@ -60,9 +60,9 @@ namespace ArtArea.Web.Data.Mock
                 new Board
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = "User Page UI/UX",
+                    Title = "User Page UI/UX",
                     ProjectId = Projects[0].Id,
-                    BoardCollaborators = new List<UserAccess>
+                    Collaborators = new List<UserAccess>
                     (
                         new []
                         {
@@ -82,9 +82,9 @@ namespace ArtArea.Web.Data.Mock
                 new Board
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = "Project Page UX/UI",
+                    Title = "Project Page UX/UI",
                     ProjectId = Projects[0].Id,
-                    BoardCollaborators = new List<UserAccess>
+                    Collaborators = new List<UserAccess>
                     (
                         new []
                         {

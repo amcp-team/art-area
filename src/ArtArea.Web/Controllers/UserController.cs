@@ -1,6 +1,9 @@
 using System.Threading.Tasks;
 using ArtArea.Web.Data.Interface;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using ArtArea.Models;
+using System.Collections.Generic;
 
 namespace ArtArea.Web.Controllers
 {
@@ -9,6 +12,7 @@ namespace ArtArea.Web.Controllers
     public class UserController : ControllerBase
     {
         private IUserRepository _userRepository;
+        private IProjectRepository _projects;
 
         public UserController(IUserRepository userRepository)
         {
@@ -28,6 +32,26 @@ namespace ArtArea.Web.Controllers
                 email = user.Email,
                 name = user.Name
             });
+        }
+        [HttpGet("projects/{username}")]
+        public async Task<IActionResult> GetUserProjects(string username)
+        {
+            var user = await _userRepository.ReadUser(username);
+            if (user == null) return NotFound();
+            var projects = await _projects.ReadProjects();
+
+            List<string> listOfProjects = new List<string>();
+          
+            foreach(Project project in projects)
+            {
+                if (project.Collaborators.Any(u => u.Username == username))
+                    listOfProjects.Add(project.Title);
+
+            }
+            return new ObjectResult(listOfProjects);
+           
+            
+
         }
     }
 }
