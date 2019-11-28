@@ -5,7 +5,6 @@ using MongoDB.Driver.GridFS;
 
 namespace ArtArea.Web.Data
 {
-    // TODO [Andrey] add collections of basic entities
     public class ApplicationDb
     {
         private IMongoDatabase _database;
