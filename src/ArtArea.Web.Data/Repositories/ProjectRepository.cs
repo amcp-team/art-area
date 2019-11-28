@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ArtArea.Models;
-using ArtArea.Web.Data;
 using ArtArea.Web.Data.Interface;
 using MongoDB.Bson;
 using MongoDB.Driver;
