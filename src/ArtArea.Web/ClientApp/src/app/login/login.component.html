@@ -1,16 +1,33 @@
-<form class="form-signin" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
-    <div class="container-fluid">
-        <h2 class="form-signin-heading">Login</h2>
-        <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username or password.</div>
-        <br />
-        <label for="username" class="sr-only">Email address</label>
-        <input type="email" id="username" name="username" ngModel class="form-control" placeholder="User Name" required
-            autofocus>
-        <br />
-        <label for="password" class="sr-only">Password</label>
-        <input type="password" id="password" name="password" ngModel class="form-control" placeholder="Password"
-            required>
-        <br />
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+<div class="container pt-5" >
+    <div class="row pt-5">
+        <div class="col-4"></div>
+        <div class="col-4 pt-5" >
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="text-center border rounded shadow">
+                <div class="form-group mt-2">
+                    <p class="text-primary">Sign In</p>
+                </div>
+                <div class="form-group">
+                    <div class="col-12">
+                        <input type="text" formControlName="username" placeholder="Username" class="form-control">
+                    </div>                    
+                </div>           
+                <div class="form-group">
+                    <div class="col-12">
+                            <input type="password" formControlName="password" placeholder="Password" class="form-control">
+                    </div>                   
+                </div>                          
+                <div class="form-group">                    
+                    <div class="row">
+                        <div class="col-4"></div>
+                        <div class="col-4">
+                            <button type="submit button" class="btn btn-primary rounded-pill text-white  w-100" >Login</button>
+                        </div>
+                        <div class="col-4 pr-5">
+                            <a [routerLink]="['/register']" class="pr-5 text-left mt-5  align-bottom ">Register</a>
+                        </div>
+                    </div>                        
+                </div>               
+            </form>
+        </div>
     </div>
-</form>
+</div>

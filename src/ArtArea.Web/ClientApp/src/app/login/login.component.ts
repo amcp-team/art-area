@@ -1,37 +1,54 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
-
-// TODO this component should work a bit better:
-//     - we should get the route we are going to after successfull login to navigate to
-//     - we should get a bit more sophisticated error result to show more acccurate output on login 
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthenticationService } from '../app-auth/authentication.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
-  invalidLogin: boolean
+export class LoginComponent implements OnInit {
 
-  constructor(private http: HttpClient, private router: Router) { }
+  loginForm: FormGroup;
+  returnUrl: string;
+  error = '';
 
-  public login = (form: NgForm) => {
-    let credentials = JSON.stringify(form.value);
-    this.http.post("http://localhost:5000/api/auth/login", credentials, {
-      headers: new HttpHeaders({
-        "Content-Type": "application/json"
-      })
-    }).subscribe(
-      response => {
-        let token = (<any>response).token;
-        localStorage.setItem("jwt", token);
-        this.invalidLogin = false;
-        this.router.navigate(["/"]);
-      },
-      error => {
-        this.invalidLogin = true;
-      });
+  constructor(
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private authService: AuthenticationService
+  ) { }
+
+  ngOnInit() {
+    this.loginForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+
+    this.authService.logout();
+
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
+
+  get form() { return this.loginForm.controls; }
+
+  onSubmit() {
+    if (this.loginForm.invalid) {
+      return;
+    }
+
+    this.authService.login(this.form.username.value, this.form.password.value)
+      .pipe(first())
+      .subscribe(
+        data => {
+          this.router.navigate([this.returnUrl]);
+        },
+        error => {
+          this.error = error;
+        });
+  }
+
 }

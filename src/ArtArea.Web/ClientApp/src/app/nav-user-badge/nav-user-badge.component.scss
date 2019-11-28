@@ -1,0 +1,16 @@
+@import "../../styles.scss";
+ul {
+    list-style-type: none;
+    margin: 0;
+    display: flex;
+    li {
+        padding: 0em 1em 0em 1em;
+        // &:hover {
+        //     background: darken($primary, 10%);
+        // }
+    }
+}
+
+a {
+    text-decoration: none;
+}

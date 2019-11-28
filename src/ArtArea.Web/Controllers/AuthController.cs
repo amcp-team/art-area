@@ -4,80 +4,102 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
+using ArtArea.Models;
+using ArtArea.Web.Data.Interface;
 using ArtArea.Web.Services.Auth;
-using ArtArea.Web.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 namespace ArtArea.Web.Controllers
 {
+    public class UserLogin
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+    }
+
     [ApiController]
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        // TODO replace mock list of users with repository accessor
-        private List<(string username, string password)> _users = new List<(string username, string password)>((new[]
-        {
-            (username: "hypnospinner", password: "qwerty123"),
-            (username: "AndyS1mpson", password: "somePassword"),
-            (username: "admin", password: "adminPassword")
-        }).AsEnumerable());
         private JwtBearerSettings _jwtBearerSettings;
+        private IUserRepository _userRepository;
 
-        public AuthController(JwtBearerSettings jwtBearerSettings)
-            => _jwtBearerSettings = jwtBearerSettings;
+        public AuthController(
+            JwtBearerSettings jwtBearerSettings,
+            IUserRepository userRepository)
+        {
+            _jwtBearerSettings = jwtBearerSettings;
+            _userRepository = userRepository;
+        }
 
         [HttpPost, Route("login")]
-        public IActionResult Login([FromBody] UserLoginViewModel userLoginViewModel)
+        public async Task<IActionResult> Login([FromBody] UserLogin userLogin)
         {
-            if (userLoginViewModel == null)
+            if (userLogin == null)
                 return BadRequest("Invalid client request");
 
-            if (_users.Where(x => x.username == userLoginViewModel.Username && x.password == userLoginViewModel.Password).Any())
-                return Ok(new { Token = GetToken(userLoginViewModel.Username) });
-            else
-                return Unauthorized();
+            var user = await _userRepository.ReadUser(userLogin.Username);
+
+            if (user != null && user.Password == userLogin.Password)
+            {
+                var token = GetToken(user.Username);
+
+                return Ok(new
+                {
+                    token = new JwtSecurityTokenHandler().WriteToken(token),
+                    expiresIn = token.ValidTo,
+                    username = user.Username
+                });
+            }
+            else return Unauthorized();
         }
 
-        [HttpPost, Route("join")]
-        public IActionResult Join([FromBody] UserLoginViewModel userLoginViewModel)
+        [HttpPost, Route("register")]
+        public async Task<IActionResult> Register([FromBody] User userRegister)
         {
-            if (_users.Where(user => user.username == userLoginViewModel.Username).Any())
+            var user = await _userRepository.ReadUser(userRegister.Username);
+            if (user != null)
                 return BadRequest();
 
-            _users.Add((username: userLoginViewModel.Username, password: userLoginViewModel.Password));
-
-            return Ok(new { Token = GetToken(userLoginViewModel.Username) });
-        }
-
-        [HttpGet, Authorize, Route("username")]
-        public IActionResult GetUsername()
-        {
-            return Ok(new
+            await _userRepository.CreateUser(new User
             {
-                username = User.Claims
-                .Where(claim => claim.Type == ClaimTypes.Name)
-                .FirstOrDefault()
-                .Value
+                Username = userRegister.Username,
+                Password = userRegister.Password,
+                Email = userRegister.Email,
+                Name = userRegister.Name
+            });
+
+            var token = GetToken(userRegister.Username);
+
+            return Ok(new {
+                token = new JwtSecurityTokenHandler().WriteToken(token),
+                expiresIn = token.ValidTo,
+                username = userRegister.Username
             });
         }
 
-        private string GetToken(string username)
+        private JwtSecurityToken GetToken(string username)
         {
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtBearerSettings.SecretKey));
             var signInCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+            var claims = new List<Claim>(
+                new[]
+                {
+                    new Claim(ClaimTypes.Name, username)
+                }.AsEnumerable()
+            );
 
-            var tokenOptions = new JwtSecurityToken(
+            var token = new JwtSecurityToken(
                 issuer: _jwtBearerSettings.Issuer,
                 audience: _jwtBearerSettings.Audience,
-                // TODO fix this crutch
-                claims: new List<Claim>(new[] { new Claim(ClaimTypes.Name, username) }.AsEnumerable()),
+                claims: claims,
                 expires: DateTime.Now.AddSeconds(30),
                 signingCredentials: signInCredentials
             );
 
-            return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+            return token;
         }
     }
 }

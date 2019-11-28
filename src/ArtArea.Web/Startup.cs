@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using ArtArea.Web.Services.Auth;
+using ArtArea.Web.Data.Interface;
+using ArtArea.Web.Data.Mock;
 
 namespace ArtArea.Web
 {
@@ -25,6 +27,13 @@ namespace ArtArea.Web
         {
             // Configure DI there for repositories & other required components
 
+            // TODO change services implementation like
+            // service.AddTransient<IUserRepository, UserRepository>();
+
+            services.AddTransient<IUserRepository, UserRepositoryMock>();
+            services.AddTransient<IBoardRepository, BoardRepositoryMock>();
+            services.AddTransient<IProjectRepository, ProjectRepositoryMock>();
+
             var serverConfig = new ServerConfig();
             Configuration.Bind(serverConfig);
 
@@ -38,6 +47,7 @@ namespace ArtArea.Web
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(options =>
             {
@@ -52,6 +62,9 @@ namespace ArtArea.Web
                     ValidAudience = jwtBearerSettings.Audience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtBearerSettings.SecretKey))
                 };
+
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = true;
             });
 
             services.AddCors(options =>

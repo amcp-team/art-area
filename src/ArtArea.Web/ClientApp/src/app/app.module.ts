@@ -1,47 +1,54 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
-import { JwtModule } from '@auth0/angular-jwt'
+import { HttpClientModule } from '@angular/common/http'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { WelcomeComponent } from './welcome/welcome.component';
 import { LoginComponent } from './login/login.component';
-import { AuthGuard } from './guards/auth-guard.service';
-import { JoinComponent } from './join/join.component';
-import { UsernameBadgeComponent } from './username-badge/username-badge.component';
-
-export function tokenGetter() {
-  return localStorage.getItem("jwt");
-}
+import { RegisterComponent } from './register/register.component';
+import { jwtInterceptorProvider } from './app-auth/jwt.interceptor';
+import { errorInterceptorProvider } from './app-auth/error.interceptor';
+import { HomeComponent } from './home/home.component';
+import { UserComponent } from './user/user.component';
+import { NavComponent } from './nav/nav.component';
+import { NavUserBadgeComponent } from './nav-user-badge/nav-user-badge.component';
+import { UserDataComponent } from './user-data/user-data.component';
+import { UserProjectsComponent } from './user-projects/user-projects.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    WelcomeComponent,
     LoginComponent,
-    JoinComponent,
-    UsernameBadgeComponent,
+    RegisterComponent,
+    HomeComponent,
+    UserComponent,
+    NavComponent,
+    NavUserBadgeComponent,
+    UserDataComponent,
+    UserProjectsComponent
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
+    BrowserModule,
+    AppRoutingModule,
     FormsModule,
-    RouterModule.forRoot([
-      { path: '', component: WelcomeComponent, pathMatch: 'full' },
-      { path: 'login', component: LoginComponent },
-      { path: 'join', component: JoinComponent }
-    ]),
-    JwtModule.forRoot({
-      config: {
-        tokenGetter: tokenGetter,
-        whitelistedDomains: ["localhost:5000", "localhost:5001"],
-        blacklistedRoutes: []
-      }
-    })
+    ReactiveFormsModule,
+    CommonModule
   ],
-  providers: [],
+  exports: [
+    HttpClientModule,
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule
+  ],
+  providers: [
+    jwtInterceptorProvider,
+    errorInterceptorProvider
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
