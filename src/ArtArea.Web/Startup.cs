@@ -31,7 +31,7 @@ namespace ArtArea.Web
             // service.AddTransient<IUserRepository, UserRepository>();
 
             services.AddTransient<IUserRepository, UserRepositoryMock>();
-            services.AddTransient<IUserRepository, BoardRepositoryMock>();
+            services.AddTransient<IBoardRepository, BoardRepositoryMock>();
             services.AddTransient<IProjectRepository, ProjectRepositoryMock>();
 
             var serverConfig = new ServerConfig();
