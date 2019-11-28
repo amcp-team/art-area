@@ -1,5 +1,7 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
+using ArtArea.Models;
 using ArtArea.Web.Data.Interface;
 using ArtArea.Web.Data.Mock;
 using Xunit;
@@ -8,12 +10,14 @@ namespace ArtArea.Tests.Web.Data.Mock
 {
     public class UserRepositoryMockTests
     {
-        private IUserRepository repository = new UserRepositoryMock();
+        private IUserRepository _repository = new UserRepositoryMock();
+
+        #region Read Tests
 
         [Fact]
         public async Task Test_ReadUsers()
         {
-            var users = await repository.ReadUsers();
+            var users = await _repository.ReadUsers();
 
             Assert.Equal(users, ApplicationDbMock.Users);
         }
@@ -23,7 +27,7 @@ namespace ArtArea.Tests.Web.Data.Mock
         {
             var username = ApplicationDbMock.Users.FirstOrDefault().Username;
 
-            var user = await repository.ReadUser(username);
+            var user = await _repository.ReadUser(username);
 
             Assert.Equal(username, user.Username);
         }
@@ -31,9 +35,96 @@ namespace ArtArea.Tests.Web.Data.Mock
         [Fact]
         public async Task Test_ReadUser_Fail()
         {
-            var user = await repository.ReadUser("invalidusername");
+            var user = await _repository.ReadUser("");
 
             Assert.Null(user);
         }
+
+        #endregion
+
+        #region Create Tests
+
+        [Fact]
+        public async Task Test_CreateUser_Success()
+        {
+            var newUser = new User
+            {
+                Username = "mark",
+                Name = "Mark Masloedov",
+                Password = "mmpassword123",
+                Email = "maslo@edov.com"
+            };
+
+            await _repository.CreateUser(newUser);
+
+            Assert.Contains(ApplicationDbMock.Users, u => u.Username == newUser.Username);
+
+            ApplicationDbMock.Initialize();
+        }
+
+        [Fact]
+        public async Task Test_CreateUser_Fail()
+        {
+            var failUser = ApplicationDbMock.Users.FirstOrDefault();
+
+            var createAsyncFunc = new Func<Task>(() => _repository.CreateUser(failUser));
+
+            await Assert.ThrowsAnyAsync<Exception>(createAsyncFunc);
+        }
+
+        #endregion
+
+        #region Delete Tests
+
+        [Fact]
+        public void Test_DeleteUser_Success()
+        {
+            var usernameToDelete = ApplicationDbMock.Users.FirstOrDefault().Username;
+
+            _repository.DeleteUser(usernameToDelete);
+
+            Assert.DoesNotContain(ApplicationDbMock.Users, u => u.Username == usernameToDelete);
+            Assert.DoesNotContain(ApplicationDbMock.Projects, p => p.HostUsername == usernameToDelete);
+            Assert.DoesNotContain(ApplicationDbMock.Boards, b => b.Id.Contains(usernameToDelete));
+
+            ApplicationDbMock.Initialize();
+        }
+
+        [Fact]
+        public async Task Test_DeleteUser_Fail()
+        {
+            await Assert.ThrowsAnyAsync<Exception>(new Func<Task>(() => _repository.DeleteUser("")));
+        }
+
+        #endregion
+
+        #region Update Tests
+
+        [Fact]
+        public async Task Test_UpdateUser_Success()
+        {
+            var userToUpdate = ApplicationDbMock.Users.FirstOrDefault();
+
+            userToUpdate.Password = "testpassword";
+
+            await _repository.UpdateUser(userToUpdate);
+
+            Assert.True(ApplicationDbMock.Users.Single(u => u.Username == userToUpdate.Username).Password == "testpassword");
+
+            ApplicationDbMock.Initialize();
+        }
+        
+        [Fact]
+        public async Task Test_UpdateUser_Fail()
+        {
+            var userUpdateFail = new User
+            {
+                Username = ""
+            };
+
+            await Assert.ThrowsAnyAsync<Exception>(new Func<Task>(() => _repository.UpdateUser(userUpdateFail)));
+        }
+
+        #endregion
     }
 }
