@@ -1,9 +1,6 @@
 ### Change Log
 Provide a list of changes and describe used solutions
 
-### Change Description
-Some technical explanations for changes
-
 ### To-Do Changes
 What changes should be done (optional, remember to mark PR with `work-in-progress` label)
 
