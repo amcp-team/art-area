@@ -33,13 +33,12 @@ namespace ArtArea.Web.Controllers
                 name = user.Name
             });
         }
-        [HttpGet("{projects}")]
+        [HttpGet("projects/{username}")]
         public async Task<IActionResult> GetUserProjects(string username)
         {
             var user = await _userRepository.ReadUser(username);
-            var projects = await _projects.ReadProjects();
-
             if (user == null) return NotFound();
+            var projects = await _projects.ReadProjects();
 
             List<string> listOfProjects = new List<string>();
           
