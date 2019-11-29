@@ -12,17 +12,20 @@ namespace ArtArea.Web.Controllers
     [ApiController]
     public class ProjectController : ControllerBase
     {
-       
-        private IProjectRepository _projectRepository;
 
-        public ProjectController(IProjectRepository projectRepository)
+        private IProjectRepository _projectRepository;
+        private IBoardRepository _boardRepository;
+        public ProjectController(
+            IProjectRepository projectRepository,
+            IBoardRepository boardRepository)
         {
             _projectRepository = projectRepository;
+            _boardRepository = boardRepository;
         }
 
         [Produces("application/json")]
         [HttpGet("data/{id}")]
-        public async Task<IActionResult> GetProject(string id) 
+        public async Task<IActionResult> GetProject(string id)
         {
             var project = await _projectRepository.ReadProject(id);
 
@@ -32,12 +35,28 @@ namespace ArtArea.Web.Controllers
             {
                 title = project.Title,
                 id = project.Id,
-                author =project.HostUsername,
+                author = project.HostUsername,
                 description = project.Description
 
             }); ;
+        }
 
-        
+        [Produces("application/json")]
+        [HttpGet("boards/{id}")]
+        public async Task<IActionResult> GetProjectBoards(string id)
+        {
+            var project = await _projectRepository.ReadProject(id);
+
+            if (project == null) return NotFound("No project with such id");
+
+            return new ObjectResult((await _boardRepository.ReadBoards())
+                .Where(x => x.ProjectId == id)
+                .Select(x => new
+                {
+                    title = x.Title,
+                    id = x.Id,
+                    description = x.Description
+                }));
         }
     }
 }
