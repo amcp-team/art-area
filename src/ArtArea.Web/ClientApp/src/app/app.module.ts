@@ -18,6 +18,8 @@ import { UserDataComponent } from './user-data/user-data.component';
 import { UserProjectsComponent } from './user-projects/user-projects.component';
 import { ProjectComponent } from './project/project.component';
 import { ProjectDataComponent } from './project-data/project-data.component';
+import { UserCreateProjectComponent } from './user-create-project/user-create-project.component';
+import { ProjectBoardsComponent } from './project-boards/project-boards.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { ProjectDataComponent } from './project-data/project-data.component';
     UserDataComponent,
     UserProjectsComponent,
     ProjectComponent,
-    ProjectDataComponent
+    ProjectDataComponent,
+    UserCreateProjectComponent,
+    ProjectBoardsComponent
   ],
   imports: [
     HttpClientModule,
