@@ -16,6 +16,8 @@ import { NavComponent } from './nav/nav.component';
 import { NavUserBadgeComponent } from './nav-user-badge/nav-user-badge.component';
 import { UserDataComponent } from './user-data/user-data.component';
 import { UserProjectsComponent } from './user-projects/user-projects.component';
+import { ProjectComponent } from './project/project.component';
+import { ProjectDataComponent } from './project-data/project-data.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { UserProjectsComponent } from './user-projects/user-projects.component';
     NavComponent,
     NavUserBadgeComponent,
     UserDataComponent,
-    UserProjectsComponent
+    UserProjectsComponent,
+    ProjectComponent,
+    ProjectDataComponent
   ],
   imports: [
     HttpClientModule,
