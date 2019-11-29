@@ -1,7 +1,5 @@
-export class Project{
+export class Board{
     title: string;
-    
-    author: string;
     id: string;
     description: string;
 }

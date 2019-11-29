@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
 import { Project } from '../model/project';
+import { Board } from '../model/board';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,14 @@ export class ProjectService {
       catchError(this.errorHandler)
     );    
   }
+
+  getBoards(board: string): Observable<Board[]> {
+    return this.http.get<Board[]>('api/user/title/boards' + board, this.httpOptions)
+      .pipe(
+        retry(1),
+        catchError(this.errorHandler)
+      );
+  } 
 
   errorHandler(error) {
     let errorMessage = 'You are dumbhead and have error';
