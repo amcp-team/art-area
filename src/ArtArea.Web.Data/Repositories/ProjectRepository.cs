@@ -10,7 +10,7 @@ namespace ArtArea.Web.Data.Repositories
     public class ProjectRepository : IProjectRepository
     {
         private ApplicationDb _database;
-        ProjectRepository(ApplicationDb database) => _database = database;
+        public ProjectRepository(ApplicationDb database) => _database = database;
         public async Task CreateProject(Project project)
             => await _database.Projects.InsertOneAsync(project);
 
