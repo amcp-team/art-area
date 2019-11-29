@@ -19,8 +19,8 @@ export class ProjectService {
 
   constructor(private http: HttpClient) { }
 
-  getProjectData(title: string): Observable<Project>{
-    return this.http.get<Project>('api/user/:username/title' + title, this.httpOptions)
+  getProjectData(id: string): Observable<Project>{
+    return this.http.get<Project>('api/project/data/' + id, this.httpOptions)
     .pipe(
       retry(1),
       catchError(this.errorHandler)

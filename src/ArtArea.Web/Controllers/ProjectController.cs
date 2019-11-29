@@ -21,10 +21,10 @@ namespace ArtArea.Web.Controllers
         }
 
         [Produces("application/json")]
-        [HttpGet("project/{projectId}")]
-        public async Task<IActionResult> GetProject(string _id) 
+        [HttpGet("data/{id}")]
+        public async Task<IActionResult> GetProject(string id) 
         {
-            var project = await _projectRepository.ReadProject(_id);
+            var project = await _projectRepository.ReadProject(id);
 
             if (project == null) return NotFound();
 

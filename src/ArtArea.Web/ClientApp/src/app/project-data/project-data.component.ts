@@ -12,16 +12,16 @@ import { ProjectService } from '../service/project.service'
 export class ProjectDataComponent implements OnInit {
 
   projectData$: Observable<Project>;
-  title: string;
+  projectId:string;
 
   constructor(private projectService:ProjectService, private route: ActivatedRoute) {
     this.route.params.subscribe(params => {
-      this.title = params['title'];
+      this.projectId = params['username'] + '.' + (<string>params['project']).toLowerCase().replace(' ', '-');
     })
   }
 
   ngOnInit() {
-    this.projectData$ = this.projectService.getProjectData(this.title)
+    this.projectData$ = this.projectService.getProjectData(this.projectId)
   }
 
 }
