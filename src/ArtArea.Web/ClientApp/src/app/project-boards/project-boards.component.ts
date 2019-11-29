@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Project } from '../model/project';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ProjectService } from '../service/project.service';
@@ -29,5 +28,4 @@ export class ProjectBoardsComponent implements OnInit {
   loadBoards(){
     this.Boards$ = this.projectService.getBoards(this.projectId);
   }
-
 }
