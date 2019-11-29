@@ -12,13 +12,11 @@ import { Board } from '../model/board'
 })
 export class ProjectBoardsComponent implements OnInit {
   Boards$: Observable<Board[]>
-  title: string;
-
-
+  projectId: string;
 
   constructor(private projectService:ProjectService, private route: ActivatedRoute) {
     this.route.params.subscribe(params => {
-      this.title = params['title'];
+      this.projectId = params['username'] + '.' + (<string>params['project']).toLowerCase().replace(' ', '-');
     })
   }
 
@@ -29,7 +27,7 @@ export class ProjectBoardsComponent implements OnInit {
   }
 
   loadBoards(){
-    this.Boards$ = this.projectService.getBoards(this.title);
+    this.Boards$ = this.projectService.getBoards(this.projectId);
   }
 
 }

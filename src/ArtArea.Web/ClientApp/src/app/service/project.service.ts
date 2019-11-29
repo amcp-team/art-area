@@ -27,8 +27,8 @@ export class ProjectService {
     );    
   }
 
-  getBoards(board: string): Observable<Board[]> {
-    return this.http.get<Board[]>('api/user/title/boards' + board, this.httpOptions)
+  getBoards(id: string): Observable<Board[]> {
+    return this.http.get<Board[]>('api/project/boards/' + id, this.httpOptions)
       .pipe(
         retry(1),
         catchError(this.errorHandler)
