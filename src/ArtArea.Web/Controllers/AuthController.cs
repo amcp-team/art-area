@@ -25,35 +25,51 @@ namespace ArtArea.Web.Controllers
     {
         private JwtBearerSettings _jwtBearerSettings;
         private IUserRepository _userRepository;
+        private AuthService _authService;
 
         public AuthController(
             JwtBearerSettings jwtBearerSettings,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            AuthService authService)
         {
             _jwtBearerSettings = jwtBearerSettings;
             _userRepository = userRepository;
+            _authService = authService;
         }
 
         [HttpPost, Route("login")]
         public async Task<IActionResult> Login([FromBody] UserLogin userLogin)
         {
-            if (userLogin == null)
-                return BadRequest("Invalid client request");
-
-            var user = await _userRepository.ReadUser(userLogin.Username);
-
-            if (user != null && user.Password == userLogin.Password)
-            {
-                var token = GetToken(user.Username);
-
-                return Ok(new
+            if(await _authService.CheckUserLogin(userLogin.Username,userLogin.Password))
                 {
+                   var token = GetToken(userLogin.Username);
+             
+                   return Ok(new
+                 {
                     token = new JwtSecurityTokenHandler().WriteToken(token),
                     expiresIn = token.ValidTo,
-                    username = user.Username
-                });
-            }
-            else return Unauthorized();
+                    username = userLogin.Username
+                 });
+                }
+               else return Unauthorized();
+
+                    // if (userLogin == null)
+                    //     return BadRequest("Invalid client request");
+                    // 
+                    // var user = await _userRepository.ReadUser(userLogin.Username);
+                    // 
+                    // if (user != null && user.Password == userLogin.Password)
+                    // {
+                    //     var token = GetToken(user.Username);
+                    // 
+                    //     return Ok(new
+                    //     {
+                    //         token = new JwtSecurityTokenHandler().WriteToken(token),
+                    //         expiresIn = token.ValidTo,
+                    //         username = user.Username
+                    //     });
+                    // }
+                    // else return Unauthorized();
         }
 
         [HttpPost, Route("register")]
