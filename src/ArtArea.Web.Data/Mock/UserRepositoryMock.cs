@@ -7,6 +7,9 @@ using ArtArea.Web.Data.Interface;
 
 namespace ArtArea.Web.Data.Mock
 {
+    // TODO [A] fix async/await declaration 
+    //      rename asyncronous methods (thhat return task) with Async postfix
+    //      create syncronous methods that correspond existsing async
     public class UserRepositoryMock : IUserRepository
     {
         private IProjectRepository _projectRepository = new ProjectRepositoryMock();

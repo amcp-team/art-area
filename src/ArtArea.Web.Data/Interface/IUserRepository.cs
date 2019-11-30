@@ -4,6 +4,7 @@ using ArtArea.Models;
 
 namespace ArtArea.Web.Data.Interface
 {
+    // TODO [A] add syncronous method declarations
     public interface IUserRepository
     {
         Task<IEnumerable<User>> ReadUsers();

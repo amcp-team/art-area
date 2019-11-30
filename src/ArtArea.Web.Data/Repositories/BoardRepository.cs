@@ -10,7 +10,7 @@ namespace ArtArea.Web.Data.Repositories
     {
         private ApplicationDb _database;
         BoardRepository(ApplicationDb database) => _database = database;
-        public async Task CreateBoard(Board board)
+        public async Task CreateBoardAsync(Board board)
             => await _database.Boards.InsertOneAsync(board);
         public async Task DeleteBoard(string id)
             => await _database.Boards.DeleteOneAsync(x => x.Id == id);

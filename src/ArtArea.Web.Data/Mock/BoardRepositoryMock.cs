@@ -7,9 +7,11 @@ using ArtArea.Web.Data.Interface;
 
 namespace ArtArea.Web.Data.Mock
 {
+    // TODO [A] rename asyncronous methods (thhat return task) with Async postfix
+    //      create syncronous methods that correspond existsing async
     public class BoardRepositoryMock : IBoardRepository
     {
-        public Task CreateBoard(Board board)
+        public Task CreateBoardAsync(Board board)
         {
             return Task.Run(() =>
             {
@@ -18,6 +20,11 @@ namespace ArtArea.Web.Data.Mock
 
                 ApplicationDbMock.Boards.Add(board);
             });
+        }
+
+        public void CreateBoard(Board board)
+        {
+            // same as CreateBoardAsync without task run
         }
 
         public Task DeleteBoard(string id)
