@@ -6,9 +6,11 @@ using ArtArea.Models;
 using System.Collections.Generic;
 using System.Security.Claims;
 using ArtArea.Web.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ArtArea.Web.Controllers
 {
+
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
@@ -17,7 +19,7 @@ namespace ArtArea.Web.Controllers
         private IProjectRepository _projectRepository;
         private UserService _userService;
 
-        public UserController(IUserRepository userRepository, IProjectRepository projectRepository,UserService userService)
+        public UserController(IUserRepository userRepository, IProjectRepository projectRepository, UserService userService)
         {
             _userRepository = userRepository;
             _projectRepository = projectRepository;
@@ -25,6 +27,7 @@ namespace ArtArea.Web.Controllers
         }
 
         [HttpGet("{username}")]
+        [Authorize]
         public async Task<IActionResult> GetUserData(string username)
         {
             //var user = await _userRepository.ReadUser(username);
@@ -32,23 +35,23 @@ namespace ArtArea.Web.Controllers
             // if (user == null)
             //return NotFound();
             try
+            {
+                var user = await _userService.GetUser(username);
+                return new ObjectResult(new
                 {
-                    var user = await _userService.GetUser(username);
-                    return new ObjectResult(new
-                    {
-                        username = user.Username,
-                        email = user.Email,
-                        name = user.Name
-                    });
-                }
-                catch
-                {
-                    return NotFound();
-                }
+                    username = user.Username,
+                    email = user.Email,
+                    name = user.Name
+                });
+            }
+            catch
+            {
+                return NotFound();
+            }
 
-            
-            
-            
+
+
+
         }
 
         [Produces("application/json")]
@@ -60,12 +63,7 @@ namespace ArtArea.Web.Controllers
             if (user == null)
                 return NotFound();
 
-            var claim = User.Claims
-                .SingleOrDefault(x => x.ValueType == ClaimTypes.Name);
-            string requesterUsername = null;
-
-            if (claim != null)
-                requesterUsername = claim.Value;
+            var requesterUsername = User.Identity.Name;
 
             var projects = await _projectRepository.ReadProjects();
 

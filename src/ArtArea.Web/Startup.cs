@@ -34,6 +34,8 @@ namespace ArtArea.Web
             services.AddTransient<IBoardRepository, BoardRepositoryMock>();
             services.AddTransient<IProjectRepository, ProjectRepositoryMock>();
 
+            services.AddTransient<AuthService>();
+
             var serverConfig = new ServerConfig();
             Configuration.Bind(serverConfig);
 
@@ -55,16 +57,15 @@ namespace ArtArea.Web
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidateLifetime = true,
+                    ValidateLifetime = false,
                     ValidateIssuerSigningKey = true,
-
                     ValidIssuer = jwtBearerSettings.Issuer,
                     ValidAudience = jwtBearerSettings.Audience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtBearerSettings.SecretKey))
                 };
 
-                options.SaveToken = true;
-                options.RequireHttpsMetadata = true;
+                // options.SaveToken = true;
+                // options.RequireHttpsMetadata = true;
             });
 
             services.AddCors(options =>

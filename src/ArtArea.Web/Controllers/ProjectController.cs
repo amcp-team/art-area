@@ -12,7 +12,6 @@ namespace ArtArea.Web.Controllers
     [ApiController]
     public class ProjectController : ControllerBase
     {
-
         private IProjectRepository _projectRepository;
         private IBoardRepository _boardRepository;
         public ProjectController(
