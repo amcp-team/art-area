@@ -23,34 +23,25 @@ namespace ArtArea.Web.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private JwtBearerSettings _jwtBearerSettings;
-        private IUserRepository _userRepository;
+        private AuthService _authService;
 
-        public AuthController(
-            JwtBearerSettings jwtBearerSettings,
-            IUserRepository userRepository)
+        public AuthController(AuthService authService)
         {
-            _jwtBearerSettings = jwtBearerSettings;
-            _userRepository = userRepository;
+            _authService = authService;
         }
 
         [HttpPost, Route("login")]
         public async Task<IActionResult> Login([FromBody] UserLogin userLogin)
         {
-            if (userLogin == null)
-                return BadRequest("Invalid client request");
-
-            var user = await _userRepository.ReadUser(userLogin.Username);
-
-            if (user != null && user.Password == userLogin.Password)
+            if (await _authService.CheckUserLogin(userLogin.Username, userLogin.Password))
             {
-                var token = GetToken(user.Username);
+                var token = _authService.GetToken(userLogin.Username);
 
                 return Ok(new
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(token),
                     expiresIn = token.ValidTo,
-                    username = user.Username
+                    username = userLogin.Username
                 });
             }
             else return Unauthorized();
@@ -59,47 +50,25 @@ namespace ArtArea.Web.Controllers
         [HttpPost, Route("register")]
         public async Task<IActionResult> Register([FromBody] User userRegister)
         {
-            var user = await _userRepository.ReadUser(userRegister.Username);
-            if (user != null)
-                return BadRequest();
-
-            await _userRepository.CreateUser(new User
+            try
             {
-                Username = userRegister.Username,
-                Password = userRegister.Password,
-                Email = userRegister.Email,
-                Name = userRegister.Name
-            });
+                await _authService.AddNewUser(userRegister);
+            }
+            catch
+            {
+                return BadRequest();
+            }
 
-            var token = GetToken(userRegister.Username);
+            var token = _authService.GetToken(userRegister.Username);
 
-            return Ok(new {
+            return Ok(new
+            {
                 token = new JwtSecurityTokenHandler().WriteToken(token),
                 expiresIn = token.ValidTo,
                 username = userRegister.Username
             });
         }
 
-        private JwtSecurityToken GetToken(string username)
-        {
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtBearerSettings.SecretKey));
-            var signInCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-            var claims = new List<Claim>(
-                new[]
-                {
-                    new Claim(ClaimTypes.Name, username)
-                }.AsEnumerable()
-            );
 
-            var token = new JwtSecurityToken(
-                issuer: _jwtBearerSettings.Issuer,
-                audience: _jwtBearerSettings.Audience,
-                claims: claims,
-                expires: DateTime.Now.AddSeconds(30),
-                signingCredentials: signInCredentials
-            );
-
-            return token;
-        }
     }
 }
