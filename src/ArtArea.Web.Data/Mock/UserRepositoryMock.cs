@@ -7,12 +7,11 @@ using ArtArea.Web.Data.Interface;
 
 namespace ArtArea.Web.Data.Mock
 {
-    // TODO [A] fix async/await declaration 
-    //      rename asyncronous methods (thhat return task) with Async postfix
-    //      create syncronous methods that correspond existsing async
     public class UserRepositoryMock : IUserRepository
     {
         private IProjectRepository _projectRepository = new ProjectRepositoryMock();
+
+        #region Syncronous
 
         public void CreateUser(User user)
         {
@@ -23,20 +22,6 @@ namespace ArtArea.Web.Data.Mock
             else throw new Exception("User already exists");
 
         }
-
-        public async Task CreateUserAsync(User user)
-        {
-            await Task.Run(() =>
-            {
-                var existingUser = ApplicationDbMock.Users
-                    .SingleOrDefault(u => u.Username == user.Username);
-
-                if(existingUser == null)
-                    ApplicationDbMock.Users.Add(user);
-                else throw new Exception("User already exists");
-            });
-        }
-
         public void DeleteUser(string name)
         {
             var userToDelete = ApplicationDbMock.Users
@@ -52,48 +37,14 @@ namespace ArtArea.Web.Data.Mock
             }
             else throw new Exception("Can't delete user - one doesn't exist");
         }
-
-        public async Task DeleteUserAsync(string username)
-        {
-            await Task.Run(() => 
-            {
-                var user = ApplicationDbMock.Users
-                    .SingleOrDefault(u => u.Username == username);
-
-                if(user != null)
-                {
-                    var projectsToDelete = ApplicationDbMock.Projects
-                        .Where(project => project.HostUsername == username);
-
-                    foreach(var project in projectsToDelete)
-                        _projectRepository.DeleteProjectAsync(project.Id);
-
-                    ApplicationDbMock.Users.Remove(user);
-                }
-                else throw new Exception("Can't delete user - one doesn't exist");
-            });
-        }
-
         public User ReadUser(string name)
         {
             return ApplicationDbMock.Users.SingleOrDefault(x => x.Username == name);
         }
-
-        public async Task<User> ReadUserAsync(string username)
-        {
-            return await Task.Run(() => ApplicationDbMock.Users.SingleOrDefault(u => u.Username == username));
-        }
-
         public IEnumerable<User> ReadUsers()
         {
             return ApplicationDbMock.Users;
         }
-
-        public async Task<IEnumerable<User>> ReadUsersAsync()
-        {
-            return await Task.Run(() => ApplicationDbMock.Users);
-        }
-
         public void UpdateUser(User user)
         {
             var userToUpdate = ApplicationDbMock.Users
@@ -102,18 +53,57 @@ namespace ArtArea.Web.Data.Mock
                 userToUpdate = user;
             else throw new Exception("No such user");
         }
+        #endregion
 
-        public async Task UpdateUserAsync(User user)
+        #region Asyncronous
+
+        public Task CreateUserAsync(User user)
         {
-            await Task.Run(() => 
+            var existingUser = ApplicationDbMock.Users
+                .SingleOrDefault(u => u.Username == user.Username);
+
+            if (existingUser == null)
+                return Task.Run(() => ApplicationDbMock.Users.Add(user));
+            else throw new Exception("User already exists");
+        }
+        public Task DeleteUserAsync(string username)
+        {
+            var user = ApplicationDbMock.Users
+                .SingleOrDefault(u => u.Username == username);
+            if (user != null)
+            {
+                var projectsToDelete = ApplicationDbMock.Projects
+                    .Where(project => project.HostUsername == username)
+                    .ToList();
+
+                foreach (var project in projectsToDelete)
+                    _projectRepository.DeleteProject(project.Id);
+
+                return Task.Run(() => ApplicationDbMock.Users.Remove(user));
+            }
+            else throw new Exception("Can't delete user - one doesn't exist");
+        }
+        public Task<User> ReadUserAsync(string username)
+        {
+            return Task.Run(() => ApplicationDbMock.Users.SingleOrDefault(u => u.Username == username));
+        }
+        public Task<IEnumerable<User>> ReadUsersAsync()
+        {
+            return Task.Run(() => ApplicationDbMock.Users.AsEnumerable());
+        }
+        public Task UpdateUserAsync(User user)
+        {
+            return Task.Run(() =>
             {
                 var _user = ApplicationDbMock.Users
                     .SingleOrDefault(u => u.Username == user.Username);
 
-                if(_user != null)
+                if (_user != null)
                     _user = user;
-                else throw new Exception("No such user"); 
+                else throw new Exception("No such user");
             });
         }
+
+        #endregion
     }
 }

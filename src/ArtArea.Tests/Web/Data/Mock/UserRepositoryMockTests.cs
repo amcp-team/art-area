@@ -8,6 +8,7 @@ using Xunit;
 
 namespace ArtArea.Tests.Web.Data.Mock
 {
+    [Collection("Sequential")]
     public class UserRepositoryMockTests
     {
         private IUserRepository _repository = new UserRepositoryMock();
@@ -47,6 +48,8 @@ namespace ArtArea.Tests.Web.Data.Mock
         [Fact]
         public async Task Test_CreateUser_Success()
         {
+            ApplicationDbMock.Initialize();
+
             var newUser = new User
             {
                 Username = "mark",
@@ -77,11 +80,13 @@ namespace ArtArea.Tests.Web.Data.Mock
         #region Delete Tests
 
         [Fact]
-        public void Test_DeleteUser_Success()
+        public async Task Test_DeleteUser_Success()
         {
+            ApplicationDbMock.Initialize();
+
             var usernameToDelete = ApplicationDbMock.Users.FirstOrDefault().Username;
 
-            _repository.DeleteUserAsync(usernameToDelete);
+            await _repository.DeleteUserAsync(usernameToDelete);
 
             Assert.DoesNotContain(ApplicationDbMock.Users, u => u.Username == usernameToDelete);
             Assert.DoesNotContain(ApplicationDbMock.Projects, p => p.HostUsername == usernameToDelete);
@@ -103,6 +108,8 @@ namespace ArtArea.Tests.Web.Data.Mock
         [Fact]
         public async Task Test_UpdateUser_Success()
         {
+            ApplicationDbMock.Initialize();
+
             var userToUpdate = ApplicationDbMock.Users.FirstOrDefault();
 
             userToUpdate.Password = "testpassword";
@@ -113,7 +120,7 @@ namespace ArtArea.Tests.Web.Data.Mock
 
             ApplicationDbMock.Initialize();
         }
-        
+
         [Fact]
         public async Task Test_UpdateUser_Fail()
         {
