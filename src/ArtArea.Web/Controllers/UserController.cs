@@ -24,7 +24,7 @@ namespace ArtArea.Web.Controllers
         [HttpGet("{username}")]
         public async Task<IActionResult> GetUserData(string username)
         {
-            var user = await _userRepository.ReadUser(username);
+            var user = await _userRepository.ReadUserAsync(username);
 
             if (user == null)
                 return NotFound();
@@ -41,7 +41,7 @@ namespace ArtArea.Web.Controllers
         [HttpGet("projects/{username}")]
         public async Task<IActionResult> GetUserProjects(string username)
         {
-            var user = await _userRepository.ReadUser(username);
+            var user = await _userRepository.ReadUserAsync(username);
 
             if (user == null)
                 return NotFound();
@@ -53,7 +53,7 @@ namespace ArtArea.Web.Controllers
             if (claim != null)
                 requesterUsername = claim.Value;
 
-            var projects = await _projectRepository.ReadProjects();
+            var projects = await _projectRepository.ReadProjectsAsync();
 
             var result = projects
                 .Where(x => x.Collaborators.Any(y =>

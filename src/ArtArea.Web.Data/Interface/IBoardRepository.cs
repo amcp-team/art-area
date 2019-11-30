@@ -5,11 +5,19 @@ namespace ArtArea.Web.Data.Interface
 {
     public interface IBoardRepository
     {
-        Task<IEnumerable<Board>> ReadBoards();
-        Task<Board> ReadBoard(string id);
+        //Asyncronous methods
+        Task<IEnumerable<Board>> ReadBoardsAsync();
+        Task<Board> ReadBoardAsync(string id);
         Task CreateBoardAsync(Board board);
-        Task UpdateBoard(Board board);
-        Task DeleteBoard(string id);
+        Task UpdateBoardAsync(Board board);
+        Task DeleteBoardAsync(string id);
+
+        //Syncronous methods
+        IEnumerable<Board> ReadBoards();
+        Board ReadBoard(string id);
+        void CreateBoard(Board board);
+        void UpdateBoard(Board board);
+        void DeleteBoard(string id);
     }
 
 }

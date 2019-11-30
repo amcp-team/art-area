@@ -11,6 +11,14 @@ namespace ArtArea.Web.Data.Mock
     //      create syncronous methods that correspond existsing async
     public class BoardRepositoryMock : IBoardRepository
     {
+        public void CreateBoard(Board board)
+        {
+            if (ApplicationDbMock.Boards.Any(x => x.Id == board.Id))
+                throw new Exception("Can't create this board - it already exists");
+
+            ApplicationDbMock.Boards.Add(board);
+        }
+
         public Task CreateBoardAsync(Board board)
         {
             return Task.Run(() =>
@@ -22,12 +30,16 @@ namespace ArtArea.Web.Data.Mock
             });
         }
 
-        public void CreateBoard(Board board)
+        public void DeleteBoard(string id)
         {
-            // same as CreateBoardAsync without task run
+            var boardToDelete = ApplicationDbMock.Boards
+                .SingleOrDefault(x => x.Id == id);
+            if (boardToDelete != null)
+                ApplicationDbMock.Boards.Remove(boardToDelete);
+            else throw new Exception("Can't delete board - one doesn't exist");
         }
 
-        public Task DeleteBoard(string id)
+        public Task DeleteBoardAsync(string id)
         {
             return Task.Run(() =>
             {
@@ -40,7 +52,12 @@ namespace ArtArea.Web.Data.Mock
             });
         }
 
-        public Task<Board> ReadBoard(string id)
+        public Board ReadBoard(string id)
+        {
+            return ApplicationDbMock.Boards.SingleOrDefault(x => x.Id == id);
+        }
+
+        public Task<Board> ReadBoardAsync(string id)
         {
             return Task.Run(() =>
             {
@@ -50,12 +67,25 @@ namespace ArtArea.Web.Data.Mock
             });
         }
 
-        public Task<IEnumerable<Board>> ReadBoards()
+        public IEnumerable<Board> ReadBoards()
+        {
+            return ApplicationDbMock.Boards;
+        }
+
+        public Task<IEnumerable<Board>> ReadBoardsAsync()
         {
             return Task.Run(() => ApplicationDbMock.Boards.AsEnumerable());
         }
 
-        public Task UpdateBoard(Board board)
+        public void UpdateBoard(Board board)
+        {
+            var boardToUpdate = ApplicationDbMock.Boards.SingleOrDefault(x => x.Id == board.Id);
+            if (boardToUpdate != null)
+                boardToUpdate = board;
+            else throw new Exception("Can't update board - no such board exist");
+        }
+
+        public Task UpdateBoardAsync(Board board)
         {
             return Task.Run(() =>
             {
@@ -67,5 +97,7 @@ namespace ArtArea.Web.Data.Mock
             });
 
         }
+
+      
     }
 }

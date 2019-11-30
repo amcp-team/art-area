@@ -27,7 +27,7 @@ namespace ArtArea.Web.Controllers
         [HttpGet("data/{id}")]
         public async Task<IActionResult> GetProject(string id)
         {
-            var project = await _projectRepository.ReadProject(id);
+            var project = await _projectRepository.ReadProjectAsync(id);
 
             if (project == null) return NotFound();
 
@@ -45,11 +45,11 @@ namespace ArtArea.Web.Controllers
         [HttpGet("boards/{id}")]
         public async Task<IActionResult> GetProjectBoards(string id)
         {
-            var project = await _projectRepository.ReadProject(id);
+            var project = await _projectRepository.ReadProjectAsync(id);
 
             if (project == null) return NotFound("No project with such id");
 
-            return new ObjectResult((await _boardRepository.ReadBoards())
+            return new ObjectResult((await _boardRepository.ReadBoardsAsync())
                 .Where(x => x.ProjectId == id)
                 .Select(x => new
                 {

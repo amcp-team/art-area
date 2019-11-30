@@ -40,7 +40,7 @@ namespace ArtArea.Web.Controllers
             if (userLogin == null)
                 return BadRequest("Invalid client request");
 
-            var user = await _userRepository.ReadUser(userLogin.Username);
+            var user = await _userRepository.ReadUserAsync(userLogin.Username);
 
             if (user != null && user.Password == userLogin.Password)
             {
@@ -59,11 +59,11 @@ namespace ArtArea.Web.Controllers
         [HttpPost, Route("register")]
         public async Task<IActionResult> Register([FromBody] User userRegister)
         {
-            var user = await _userRepository.ReadUser(userRegister.Username);
+            var user = await _userRepository.ReadUserAsync(userRegister.Username);
             if (user != null)
                 return BadRequest();
 
-            await _userRepository.CreateUser(new User
+            await _userRepository.CreateUserAsync(new User
             {
                 Username = userRegister.Username,
                 Password = userRegister.Password,
