@@ -5,6 +5,10 @@ using ArtArea.Models;
 using ArtArea.Web.Data.Interface;
 using ArtArea.Web.Data.Mock;
 using Xunit;
+[assembly: CollectionBehavior(
+    CollectionBehavior.CollectionPerAssembly,
+    MaxParallelThreads = 1,
+    DisableTestParallelization = true)]
 
 namespace ArtArea.Tests.Web.Data.Mock
 {
@@ -51,7 +55,7 @@ namespace ArtArea.Tests.Web.Data.Mock
                 Id = "1234"
             };
 
-            await _repository.CreateBoard(newBoard);
+            await _repository.CreateBoardAsync(newBoard);
 
             Assert.Contains(ApplicationDbMock.Boards, x => x.Id == newBoard.Id);
 
@@ -62,7 +66,7 @@ namespace ArtArea.Tests.Web.Data.Mock
         public async Task Test_CreateBoard_Fail()
         {
             await Assert.ThrowsAnyAsync<Exception>(
-                new Func<Task>(() => _repository.CreateBoard(ApplicationDbMock.Boards.FirstOrDefault())));
+                new Func<Task>(() => _repository.CreateBoardAsync(ApplicationDbMock.Boards.FirstOrDefault())));
         }
 
         #endregion

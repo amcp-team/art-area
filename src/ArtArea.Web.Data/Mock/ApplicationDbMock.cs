@@ -218,6 +218,7 @@ namespace ArtArea.Web.Data.Mock
                         Title = "Art Area Design",
                         Description = "UI/UX design for Art Area service for artists & designer",
                         IsPrivate = false,
+                        HostUsername = "hypnospinner",
                         Collaborators = new List<UserAccess>(new []
                         {
                             new UserAccess
@@ -253,6 +254,7 @@ namespace ArtArea.Web.Data.Mock
                         Title = "Game",
                         Description = "Concept art & models for our brand-new computer game",
                         IsPrivate = true,
+                        HostUsername = "AndyS1mspon",
                         Collaborators = new List<UserAccess>(new []
                         {
                             new UserAccess
