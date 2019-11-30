@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ArtArea.Web.Controllers;
 using ArtArea.Web.Data.Interface;
 using Microsoft.AspNetCore.Mvc;
+using ArtArea.Models;
 
 namespace ArtArea.Web.Services.Auth
 {
@@ -26,7 +27,18 @@ namespace ArtArea.Web.Services.Auth
                 return user != null && user.Result.Password == password;
             });
         }
+        public Task AddNewUser(User registerUser)
+        {
+            var user = _userRepository.ReadUser(registerUser.Username);
+            return Task.Run(() =>
+            {
+                if (user != null) throw new Exception("User already exists");
+                else _userRepository.CreateUser(registerUser);
 
+            });
+           
+
+        }
 
 
 

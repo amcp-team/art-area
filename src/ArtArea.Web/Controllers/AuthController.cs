@@ -75,7 +75,7 @@ namespace ArtArea.Web.Controllers
         [HttpPost, Route("register")]
         public async Task<IActionResult> Register([FromBody] User userRegister)
         {
-            var user = await _userRepository.ReadUser(userRegister.Username);
+            /*var user = await _userRepository.ReadUser(userRegister.Username);
             if (user != null)
                 return BadRequest();
 
@@ -85,7 +85,15 @@ namespace ArtArea.Web.Controllers
                 Password = userRegister.Password,
                 Email = userRegister.Email,
                 Name = userRegister.Name
-            });
+            });*/
+            try
+            {
+                await _authService.AddNewUser(userRegister);
+            }
+            catch
+            {
+                return BadRequest();
+            }
 
             var token = GetToken(userRegister.Username);
 
