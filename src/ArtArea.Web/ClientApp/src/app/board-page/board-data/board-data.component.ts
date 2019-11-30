@@ -16,7 +16,7 @@ export class BoardDataComponent implements OnInit {
 
   constructor(private boardService:BoardService, private route: ActivatedRoute) {
     this.route.params.subscribe(params => {
-      this.boardId = params['username'] + '.' + params['project'] + '.' + (<string>params['pin']).toLowerCase().replace(' ', '-');
+      this.boardId = params['username'] + '.' + params['project'] + '.' + params['board'];
     })
   }
 
