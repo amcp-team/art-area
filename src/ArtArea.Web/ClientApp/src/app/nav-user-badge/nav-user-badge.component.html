@@ -1,5 +1,5 @@
 <ng-template [ngIf]="isLoggedIn" [ngIfElse]="logreg">
-    <a [routerLink]="['/user/' , username]" class="text-white">{{username}}</a>
+    <a [routerLink]="['/' + username]" class="text-white">{{username}}</a>
 </ng-template>
 <ng-template #logreg>
     <ul>
