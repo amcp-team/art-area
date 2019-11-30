@@ -22,14 +22,15 @@ namespace ArtArea.Web.Services.Auth
             {
                 if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password)) return false;
                 
-                var user = _userRepository.ReadUser(login);
+                var user = _userRepository.ReadUser(login).Result;
 
-                return user != null && user.Result.Password == password;
+                return user != null && user.Password == password;
             });
         }
         public Task AddNewUser(User registerUser)
         {
-            var user = _userRepository.ReadUser(registerUser.Username);
+            var user = _userRepository.ReadUser(registerUser.Username).Result;
+
             return Task.Run(() =>
             {
                 if (user != null) throw new Exception("User already exists");
