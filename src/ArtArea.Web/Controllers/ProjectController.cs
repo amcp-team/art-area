@@ -55,7 +55,8 @@ namespace ArtArea.Web.Controllers
                 {
                     title = x.Title,
                     id = x.Id,
-                    description = x.Description
+                    description = x.Description,
+                    boardNumber = x.Number.ToString()
                 }));
         }
     }

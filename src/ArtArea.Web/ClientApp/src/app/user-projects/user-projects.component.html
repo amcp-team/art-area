@@ -9,11 +9,8 @@
                             <app-user-create-project></app-user-create-project>
                         </div>
                     </li>
-                    <li class="list-group-item" *ngFor="let project of projects" [routerLink]="['/' + project.id.replace('.', '/')]">
-                        
-                            <h2>{{project.title}}</h2>
-                        
-                        
+                    <li class="list-group-item" *ngFor="let project of projects" [routerLink]="['/' + project.id.replace('.', '/')]">                        
+                        <h2>{{project.title}}</h2>                       
                         <hr class="my-4">
                         <p>{{project.description}}</p>
                     </li>
