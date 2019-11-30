@@ -9,9 +9,9 @@ namespace ArtArea.Web.Data.Mock
 {
     public class BoardRepositoryMock : IBoardRepository
     {
-        public async Task CreateBoard(Board board)
+        public Task CreateBoard(Board board)
         {
-            await Task.Run(() =>
+            return Task.Run(() =>
             {
                 if(ApplicationDbMock.Boards.Any(x => x.Id == board.Id))
                     throw new Exception("Can't create this board - it already exists");
@@ -20,9 +20,9 @@ namespace ArtArea.Web.Data.Mock
             });
         }
 
-        public async Task DeleteBoard(string id)
+        public Task DeleteBoard(string id)
         {
-            await Task.Run(() =>
+            return Task.Run(() =>
             {
                 var board = ApplicationDbMock.Boards
                     .SingleOrDefault(b => b.Id == id);
@@ -33,9 +33,9 @@ namespace ArtArea.Web.Data.Mock
             });
         }
 
-        public async Task<Board> ReadBoard(string id)
+        public Task<Board> ReadBoard(string id)
         {
-            return await Task.Run(() =>
+            return Task.Run(() =>
             {
                 return ApplicationDbMock.Boards
                     .SingleOrDefault(b => b.Id == id);
@@ -43,14 +43,14 @@ namespace ArtArea.Web.Data.Mock
             });
         }
 
-        public async Task<IEnumerable<Board>> ReadBoards()
+        public Task<IEnumerable<Board>> ReadBoards()
         {
-            return await Task.Run(() => ApplicationDbMock.Boards);
+            return Task.Run(() => ApplicationDbMock.Boards.AsEnumerable());
         }
 
-        public async Task UpdateBoard(Board board)
+        public Task UpdateBoard(Board board)
         {
-            await Task.Run(() =>
+            return Task.Run(() =>
             {
                 var _board = ApplicationDbMock.Boards.SingleOrDefault(p => p.Id == board.Id);
 
