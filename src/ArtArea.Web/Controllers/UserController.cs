@@ -5,9 +5,11 @@ using System.Linq;
 using ArtArea.Models;
 using System.Collections.Generic;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ArtArea.Web.Controllers
 {
+
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
@@ -22,6 +24,7 @@ namespace ArtArea.Web.Controllers
         }
 
         [HttpGet("{username}")]
+        [Authorize]
         public async Task<IActionResult> GetUserData(string username)
         {
             var user = await _userRepository.ReadUser(username);
@@ -46,12 +49,7 @@ namespace ArtArea.Web.Controllers
             if (user == null)
                 return NotFound();
 
-            var claim = User.Claims
-                .SingleOrDefault(x => x.ValueType == ClaimTypes.Name);
-            string requesterUsername = null;
-
-            if (claim != null)
-                requesterUsername = claim.Value;
+            var requesterUsername = User.Identity.Name;
 
             var projects = await _projectRepository.ReadProjects();
 
