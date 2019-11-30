@@ -5,6 +5,7 @@ using System.Linq;
 using ArtArea.Models;
 using System.Collections.Generic;
 using System.Security.Claims;
+using ArtArea.Web.Services;
 
 namespace ArtArea.Web.Controllers
 {
@@ -14,27 +15,40 @@ namespace ArtArea.Web.Controllers
     {
         private IUserRepository _userRepository;
         private IProjectRepository _projectRepository;
+        private UserService _userService;
 
-        public UserController(IUserRepository userRepository, IProjectRepository projectRepository)
+        public UserController(IUserRepository userRepository, IProjectRepository projectRepository,UserService userService)
         {
             _userRepository = userRepository;
             _projectRepository = projectRepository;
+            _userService = userService;
         }
 
         [HttpGet("{username}")]
         public async Task<IActionResult> GetUserData(string username)
         {
-            var user = await _userRepository.ReadUser(username);
+            //var user = await _userRepository.ReadUser(username);
 
-            if (user == null)
-                return NotFound();
+            // if (user == null)
+            //return NotFound();
+            try
+                {
+                    var user = await _userService.GetUser(username);
+                    return new ObjectResult(new
+                    {
+                        username = user.Username,
+                        email = user.Email,
+                        name = user.Name
+                    });
+                }
+                catch
+                {
+                    return NotFound();
+                }
 
-            return new ObjectResult(new
-            {
-                username = user.Username,
-                email = user.Email,
-                name = user.Name
-            });
+            
+            
+            
         }
 
         [Produces("application/json")]
