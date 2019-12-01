@@ -30,10 +30,6 @@ namespace ArtArea.Web.Controllers
         [Authorize]
         public async Task<IActionResult> GetUserData(string username)
         {
-            //var user = await _userRepository.ReadUser(username);
-
-            // if (user == null)
-            //return NotFound();
             try
             {
                 var user = await _userService.GetUser(username);
@@ -48,24 +44,20 @@ namespace ArtArea.Web.Controllers
             {
                 return NotFound();
             }
-
-
-
-
         }
 
         [Produces("application/json")]
         [HttpGet("projects/{username}")]
         public async Task<IActionResult> GetUserProjects(string username)
         {
-            var user = await _userRepository.ReadUser(username);
+            var user = await _userRepository.ReadUserAsync(username);
 
             if (user == null)
                 return NotFound();
 
             var requesterUsername = User.Identity.Name;
 
-            var projects = await _projectRepository.ReadProjects();
+            var projects = await _projectRepository.ReadProjectsAsync();
 
             var result = projects
                 .Where(x => x.Collaborators.Any(y =>

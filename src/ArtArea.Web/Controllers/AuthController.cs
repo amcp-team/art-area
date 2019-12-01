@@ -34,6 +34,7 @@ namespace ArtArea.Web.Controllers
         public async Task<IActionResult> Login([FromBody] UserLogin userLogin)
         {
             if (await _authService.CheckUserLogin(userLogin.Username, userLogin.Password))
+
             {
                 var token = _authService.GetToken(userLogin.Username);
 

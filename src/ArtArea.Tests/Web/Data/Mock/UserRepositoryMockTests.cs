@@ -8,6 +8,7 @@ using Xunit;
 
 namespace ArtArea.Tests.Web.Data.Mock
 {
+    [Collection("Sequential")]
     public class UserRepositoryMockTests
     {
         private IUserRepository _repository = new UserRepositoryMock();
@@ -17,7 +18,7 @@ namespace ArtArea.Tests.Web.Data.Mock
         [Fact]
         public async Task Test_ReadUsers()
         {
-            var users = await _repository.ReadUsers();
+            var users = await _repository.ReadUsersAsync();
 
             Assert.Equal(users, ApplicationDbMock.Users);
         }
@@ -27,7 +28,7 @@ namespace ArtArea.Tests.Web.Data.Mock
         {
             var username = ApplicationDbMock.Users.FirstOrDefault().Username;
 
-            var user = await _repository.ReadUser(username);
+            var user = await _repository.ReadUserAsync(username);
 
             Assert.Equal(username, user.Username);
         }
@@ -35,7 +36,7 @@ namespace ArtArea.Tests.Web.Data.Mock
         [Fact]
         public async Task Test_ReadUser_Fail()
         {
-            var user = await _repository.ReadUser("");
+            var user = await _repository.ReadUserAsync("");
 
             Assert.Null(user);
         }
@@ -47,6 +48,8 @@ namespace ArtArea.Tests.Web.Data.Mock
         [Fact]
         public async Task Test_CreateUser_Success()
         {
+            ApplicationDbMock.Initialize();
+
             var newUser = new User
             {
                 Username = "mark",
@@ -55,7 +58,7 @@ namespace ArtArea.Tests.Web.Data.Mock
                 Email = "maslo@edov.com"
             };
 
-            await _repository.CreateUser(newUser);
+            await _repository.CreateUserAsync(newUser);
 
             Assert.Contains(ApplicationDbMock.Users, u => u.Username == newUser.Username);
 
@@ -67,7 +70,7 @@ namespace ArtArea.Tests.Web.Data.Mock
         {
             var failUser = ApplicationDbMock.Users.FirstOrDefault();
 
-            var createAsyncFunc = new Func<Task>(() => _repository.CreateUser(failUser));
+            var createAsyncFunc = new Func<Task>(() => _repository.CreateUserAsync(failUser));
 
             await Assert.ThrowsAnyAsync<Exception>(createAsyncFunc);
         }
@@ -77,11 +80,13 @@ namespace ArtArea.Tests.Web.Data.Mock
         #region Delete Tests
 
         [Fact]
-        public void Test_DeleteUser_Success()
+        public async Task Test_DeleteUser_Success()
         {
+            ApplicationDbMock.Initialize();
+
             var usernameToDelete = ApplicationDbMock.Users.FirstOrDefault().Username;
 
-            _repository.DeleteUser(usernameToDelete);
+            await _repository.DeleteUserAsync(usernameToDelete);
 
             Assert.DoesNotContain(ApplicationDbMock.Users, u => u.Username == usernameToDelete);
             Assert.DoesNotContain(ApplicationDbMock.Projects, p => p.HostUsername == usernameToDelete);
@@ -93,7 +98,7 @@ namespace ArtArea.Tests.Web.Data.Mock
         [Fact]
         public async Task Test_DeleteUser_Fail()
         {
-            await Assert.ThrowsAnyAsync<Exception>(new Func<Task>(() => _repository.DeleteUser("")));
+            await Assert.ThrowsAnyAsync<Exception>(new Func<Task>(() => _repository.DeleteUserAsync("")));
         }
 
         #endregion
@@ -103,17 +108,19 @@ namespace ArtArea.Tests.Web.Data.Mock
         [Fact]
         public async Task Test_UpdateUser_Success()
         {
+            ApplicationDbMock.Initialize();
+
             var userToUpdate = ApplicationDbMock.Users.FirstOrDefault();
 
             userToUpdate.Password = "testpassword";
 
-            await _repository.UpdateUser(userToUpdate);
+            await _repository.UpdateUserAsync(userToUpdate);
 
             Assert.True(ApplicationDbMock.Users.Single(u => u.Username == userToUpdate.Username).Password == "testpassword");
 
             ApplicationDbMock.Initialize();
         }
-        
+
         [Fact]
         public async Task Test_UpdateUser_Fail()
         {
@@ -122,7 +129,7 @@ namespace ArtArea.Tests.Web.Data.Mock
                 Username = ""
             };
 
-            await Assert.ThrowsAnyAsync<Exception>(new Func<Task>(() => _repository.UpdateUser(userUpdateFail)));
+            await Assert.ThrowsAnyAsync<Exception>(new Func<Task>(() => _repository.UpdateUserAsync(userUpdateFail)));
         }
 
         #endregion

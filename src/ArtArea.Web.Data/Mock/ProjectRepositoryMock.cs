@@ -11,49 +11,86 @@ namespace ArtArea.Web.Data.Mock
     {
         private IBoardRepository _boardRepository = new BoardRepositoryMock();
 
-        public async Task CreateProject(Project project)
-        {
-            await Task.Run(() =>
-             {
-                 if (ApplicationDbMock.Projects.Any(x => x.Id == project.Id))
-                     throw new Exception("Can't create project it already exists");
+        #region Syncronous
 
-                 ApplicationDbMock.Projects.Add(project);
-             });
+        public void CreateProject(Project project)
+        {
+            if (ApplicationDbMock.Projects.Any(x => x.Id == project.Id))
+                throw new Exception("Can't create project it already exists");
+
+            ApplicationDbMock.Projects.Add(project);
         }
-
-        public async Task DeleteProject(string id)
+        public void DeleteProject(string id)
         {
-            await Task.Run(() =>
+            var projectToDelete = ApplicationDbMock.Projects
+                .SingleOrDefault(x => x.Id == id);
+            if (projectToDelete != null)
             {
-                var project = ApplicationDbMock.Projects
-                    .SingleOrDefault(p => p.Id == id);
+                var boardsToDelete = ApplicationDbMock.Boards
+                    .Where(x => x.ProjectId == id)
+                    .ToList();
 
-                if (project != null)
-                {
-                    var boardsToDelete = ApplicationDbMock.Boards
-                        .Where(board => board.ProjectId == id);
+                foreach (var boards in boardsToDelete)
+                    _boardRepository.DeleteBoard(boards.Id);
 
-                    foreach(var board in boardsToDelete)
-                        _boardRepository.DeleteBoard(board.Id);
-
-                    ApplicationDbMock.Projects.Remove(project);
-                }
-                else throw new Exception("Can't delete project - it doesn't exist");
-            });
+                ApplicationDbMock.Projects.Remove(projectToDelete);
+            }
+            else throw new Exception("Can't delete project - it doesn't exist");
         }
-
-        public async Task<Project> ReadProject(string id)
+        public Project ReadProject(string id)
         {
-            return await Task.Run(() => ApplicationDbMock.Projects.SingleOrDefault(p => p.Id == id));
+            return ApplicationDbMock.Projects.SingleOrDefault(x => x.Id == id);
+        }
+        public IEnumerable<Project> ReadProjects()
+        {
+            return ApplicationDbMock.Projects;
+        }
+        public void UpdateProject(Project project)
+        {
+            var projectToUpdate = ApplicationDbMock.Projects.SingleOrDefault(x => x.Id == project.Id);
+            if (projectToUpdate != null)
+                projectToUpdate = project;
+            else throw new Exception("Can't update project - it doesn't exist");
         }
 
-        public async Task<IEnumerable<Project>> ReadProjects()
+        #endregion
+
+        #region Asyncronous
+
+        public Task CreateProjectAsync(Project project)
+        {
+            if (ApplicationDbMock.Projects.Any(x => x.Id == project.Id))
+                throw new Exception("Can't create project it already exists");
+
+            return Task.Run(() => ApplicationDbMock.Projects.Add(project));
+        }
+        public Task DeleteProjectAsync(string id)
+        {
+            var project = ApplicationDbMock.Projects
+                .SingleOrDefault(p => p.Id == id);
+
+            if (project != null)
+            {
+                var boardsToDelete = ApplicationDbMock.Boards
+                    .Where(board => board.ProjectId == id)
+                    .ToList();
+
+                foreach (var board in boardsToDelete)
+                    _boardRepository.DeleteBoard(board.Id);
+
+                return Task.Run(() => ApplicationDbMock.Projects.Remove(project));
+            }
+            else throw new Exception("Can't delete project - it doesn't exist");
+        }
+        public Task<Project> ReadProjectAsync(string id)
+        {
+            return Task.Run(() => ApplicationDbMock.Projects.SingleOrDefault(p => p.Id == id));
+        }
+        public async Task<IEnumerable<Project>> ReadProjectsAsync()
         {
             return await Task.Run(() => ApplicationDbMock.Projects);
         }
-
-        public async Task UpdateProject(Project project)
+        public async Task UpdateProjectAsync(Project project)
         {
             await Task.Run(() =>
             {
@@ -64,5 +101,7 @@ namespace ArtArea.Web.Data.Mock
                 else throw new Exception("Can't update project - it doesn't exist");
             });
         }
+
+        #endregion
     }
 }
