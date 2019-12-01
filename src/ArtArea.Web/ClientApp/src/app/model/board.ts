@@ -1,5 +1,6 @@
-export class Board{
-    title: string;
-    id: string;
-    description: string;
+export class Board {
+  title: string;
+  id: string;
+  description: string;
+  boardNumber: string;
 }

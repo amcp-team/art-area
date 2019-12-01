@@ -1,9 +1,11 @@
 <ng-template [ngIf]="isLoggedIn" [ngIfElse]="logreg">
-    <a [routerLink]="['/' + username]" class="text-white">{{username}}</a>
+  <a [routerLink]="['/', username]" class="text-white">{{ username }}</a>
 </ng-template>
 <ng-template #logreg>
-    <ul>
-        <li><a [routerLink]="['/login']" class="text-white bg-dark">Login</a></li>
-        <li><a [routerLink]="['/register']" class="text-white bg-dark">Register</a></li>
-    </ul>
+  <ul>
+    <li><a [routerLink]="['/login']" class="text-white bg-dark">Login</a></li>
+    <li>
+      <a [routerLink]="['/register']" class="text-white bg-dark">Register</a>
+    </li>
+  </ul>
 </ng-template>

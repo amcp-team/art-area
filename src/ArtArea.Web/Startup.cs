@@ -12,6 +12,7 @@ using System.Text;
 using ArtArea.Web.Services.Auth;
 using ArtArea.Web.Data.Interface;
 using ArtArea.Web.Data.Mock;
+using ArtArea.Web.Services;
 
 namespace ArtArea.Web
 {
@@ -25,16 +26,16 @@ namespace ArtArea.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // Configure DI there for repositories & other required components
-
-            // TODO change services implementation like
-            // service.AddTransient<IUserRepository, UserRepository>();
+            // TODO implement some extension methods that encapsulate injecting 
+            //      repositories (by parameter) & services
 
             services.AddTransient<IUserRepository, UserRepositoryMock>();
             services.AddTransient<IBoardRepository, BoardRepositoryMock>();
             services.AddTransient<IProjectRepository, ProjectRepositoryMock>();
 
             services.AddTransient<AuthService>();
+            services.AddTransient<UserService>();
+            services.AddTransient<ProjectService>();
 
             var serverConfig = new ServerConfig();
             Configuration.Bind(serverConfig);
@@ -79,7 +80,7 @@ namespace ArtArea.Web
             });
 
             services.AddControllers();
-            
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -97,7 +98,7 @@ namespace ArtArea.Web
             {
                 app.UseHsts();
             }
-            
+
             app.UseRouting();
             app.UseCors("EnableCORS");
             app.UseHttpsRedirection();
