@@ -26,27 +26,28 @@ namespace ArtArea.Web.Services.Auth
         }
         public Task<bool> CheckUserLogin(string login, string password)
         {
-            return Task.Run(() =>
+            return Task.Run(async () =>
             {
-                if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password)) return false;
+                if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
+                    return false;
 
-                var user = _userRepository.ReadUser(login).Result;
+                var user = await _userRepository.ReadUserAsync(login);
 
                 return user != null && user.Password == password;
             });
         }
         public Task AddNewUser(User registerUser)
         {
-            var user = _userRepository.ReadUser(registerUser.Username).Result;
-
-            return Task.Run(() =>
+            return Task.Run(async () =>
             {
-                if (user != null) throw new Exception("User already exists");
-                else _userRepository.CreateUser(registerUser);
+                var user = await _userRepository.ReadUserAsync(registerUser.Username);
 
+                if (user != null)
+                    throw new Exception("User already exists");
+                else
+                    _userRepository.CreateUser(registerUser);
             });
         }
-
         public JwtSecurityToken GetToken(string username)
         {
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtBearerSettings.SecretKey));

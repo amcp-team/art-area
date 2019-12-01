@@ -8,8 +8,7 @@ using ArtArea.Web.Data.Interface;
 
 namespace ArtArea.Web.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    [ApiController, Route("api/[controller]")]
     public class ProjectController : ControllerBase
     {
         private IProjectRepository _projectRepository;
@@ -22,8 +21,7 @@ namespace ArtArea.Web.Controllers
             _boardRepository = boardRepository;
         }
 
-        [Produces("application/json")]
-        [HttpGet("data/{id}")]
+        [HttpGet("data/{id}"), Produces("application/json")]
         public async Task<IActionResult> GetProject(string id)
         {
             var project = await _projectRepository.ReadProjectAsync(id);
@@ -40,8 +38,7 @@ namespace ArtArea.Web.Controllers
             }); ;
         }
 
-        [Produces("application/json")]
-        [HttpGet("boards/{id}")]
+        [HttpGet("boards/{id}"), Produces("application/json")]
         public async Task<IActionResult> GetProjectBoards(string id)
         {
             var project = await _projectRepository.ReadProjectAsync(id);

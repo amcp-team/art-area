@@ -15,27 +15,23 @@ namespace ArtArea.Web.Services
             _userRepository = userRepository;
         }
 
+        public bool UserExist(string username)
+            => _userRepository.ReadUser(username) != null;
 
-        public Task<bool> UserExist(string username)
+        public Task<User> GetUserAsync(string username)
         {
-            var user = _userRepository.ReadUser(username).Result;
-            return Task.Run(() =>
-            {
-                return (user == null) ;
-               
-            });
+            if (UserExist(username))
+                return _userRepository.ReadUserAsync(username);
+            else
+                throw new Exception("No user in DB");
         }
 
-        public Task<User> GetUser(string username)
+        public User GetUser(string username)
         {
-            return Task.Run(() =>
-            {
-                if (UserExist(username).Result)
-                    return _userRepository.ReadUser(username).Result;
-                else throw new Exception("No user in DB");
-
-            });
-           
+            if (UserExist(username))
+                return _userRepository.ReadUser(username);
+            else
+                throw new Exception("No user in DB");
         }
     }
 }

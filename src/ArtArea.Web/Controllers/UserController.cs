@@ -26,13 +26,13 @@ namespace ArtArea.Web.Controllers
             _userService = userService;
         }
 
-        [HttpGet("{username}")]
+        [HttpGet("data/{username}")]
         [Authorize]
         public async Task<IActionResult> GetUserData(string username)
         {
             try
             {
-                var user = await _userService.GetUser(username);
+                var user = await _userService.GetUserAsync(username);
                 return new ObjectResult(new
                 {
                     username = user.Username,
