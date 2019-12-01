@@ -1,4 +1,5 @@
-﻿using ArtArea.Models;
+﻿using System.Net;
+using ArtArea.Models;
 using ArtArea.Web.Data.Interface;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,13 @@ namespace ArtArea.Web.Services
     public class UserService
     {
         private IUserRepository _userRepository;
-        public UserService(IUserRepository userRepository)
+        private IProjectRepository _projectRepository;
+        public UserService(
+            IUserRepository userRepository,
+            IProjectRepository projectRepository)
         {
             _userRepository = userRepository;
+            _projectRepository = projectRepository;
         }
 
         public bool UserExist(string username)
@@ -32,6 +37,23 @@ namespace ArtArea.Web.Services
                 return _userRepository.ReadUser(username);
             else
                 throw new Exception("No user in DB");
+        }
+
+        public Task<IEnumerable<Project>> GetUserProjects(string username, string loggedInUsername = null)
+        {
+            if (!UserExist(username))
+                throw new Exception("No user in DB");
+
+            return Task.Run(async () =>
+            {
+                var projects = await _projectRepository.ReadProjectsAsync();
+
+                return projects
+                    .Where(x => x.Collaborators.Any(y =>
+                        y.Username == username && y.Username == (loggedInUsername ?? y.Username) ||
+                        y.Username == username && !x.IsPrivate))
+                    .AsEnumerable();
+            });
         }
     }
 }

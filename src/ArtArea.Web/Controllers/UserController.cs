@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using ArtArea.Web.Data.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -15,19 +16,12 @@ namespace ArtArea.Web.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private IUserRepository _userRepository;
-        private IProjectRepository _projectRepository;
         private UserService _userService;
 
-        public UserController(IUserRepository userRepository, IProjectRepository projectRepository, UserService userService)
-        {
-            _userRepository = userRepository;
-            _projectRepository = projectRepository;
-            _userService = userService;
-        }
+        public UserController(UserService userService)
+            => _userService = userService;
 
         [HttpGet("data/{username}")]
-        [Authorize]
         public async Task<IActionResult> GetUserData(string username)
         {
             try
@@ -46,33 +40,27 @@ namespace ArtArea.Web.Controllers
             }
         }
 
-        [Produces("application/json")]
         [HttpGet("projects/{username}")]
         public async Task<IActionResult> GetUserProjects(string username)
         {
-            var user = await _userRepository.ReadUserAsync(username);
+            try
+            {
+                var result = (await _userService.GetUserProjects(username, User.Identity.Name))
+                    .Select(x => new
+                    {
+                        title = x.Title,
+                        id = x.Id,
+                        author = x.HostUsername,
+                        description = x.Description
+                    })
+                    .ToList();
 
-            if (user == null)
-                return NotFound();
-
-            var requesterUsername = User.Identity.Name;
-
-            var projects = await _projectRepository.ReadProjectsAsync();
-
-            var result = projects
-                .Where(x => x.Collaborators.Any(y =>
-                    y.Username == username && y.Username == (requesterUsername ?? y.Username) ||
-                    y.Username == username && !x.IsPrivate))
-                .Select(x => new
-                {
-                    title = x.Title,
-                    id = x.Id,
-                    author = x.HostUsername,
-                    description = x.Description
-                })
-                .ToList();
-
-            return new ObjectResult(result);
+                return new ObjectResult(result);
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
         }
     }
 }
