@@ -20,6 +20,9 @@ import { ProjectComponent } from './project/project.component';
 import { ProjectDataComponent } from './project-data/project-data.component';
 import { UserCreateProjectComponent } from './user-create-project/user-create-project.component';
 import { ProjectBoardsComponent } from './project-boards/project-boards.component';
+import { BoardComponent } from './board-page/board/board.component';
+import { BoardDataComponent } from './board-page/board-data/board-data.component';
+import { BoardPinsComponent } from './board-page/board-pins/board-pins.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,10 @@ import { ProjectBoardsComponent } from './project-boards/project-boards.componen
     ProjectComponent,
     ProjectDataComponent,
     UserCreateProjectComponent,
-    ProjectBoardsComponent
+    ProjectBoardsComponent,
+    BoardComponent,
+    BoardDataComponent,
+    BoardPinsComponent
   ],
   imports: [
     HttpClientModule,
