@@ -26,10 +26,8 @@ namespace ArtArea.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // Configure DI there for repositories & other required components
-
-            // TODO change services implementation like
-            // service.AddTransient<IUserRepository, UserRepository>();
+            // TODO implement some extension methods that encapsulate injecting 
+            //      repositories (by parameter) & services
 
             services.AddTransient<IUserRepository, UserRepositoryMock>();
             services.AddTransient<IBoardRepository, BoardRepositoryMock>();
@@ -37,6 +35,7 @@ namespace ArtArea.Web
 
             services.AddTransient<AuthService>();
             services.AddTransient<UserService>();
+            services.AddTransient<ProjectService>();
 
             var serverConfig = new ServerConfig();
             Configuration.Bind(serverConfig);
