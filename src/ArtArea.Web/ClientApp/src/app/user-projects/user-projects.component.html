@@ -1,24 +1,26 @@
-<div *ngIf="(projects$ | async) as projects">
-    <div class="container pt-4">
-        <div class="row">
-            <div class="col-12">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">                        
-                        <h2 class="align-middle">Your projects</h2>                                             
-                        <div class="text-right">
-                            <app-user-create-project></app-user-create-project>
-                        </div>
-                    </li>
-                    <li class="list-group-item" *ngFor="let project of projects" [routerLink]="['/' + project.id.replace('.', '/')]">
-                        
-                            <h2>{{project.title}}</h2>
-                        
-                        
-                        <hr class="my-4">
-                        <p>{{project.description}}</p>
-                    </li>
-                </ul>
+<div *ngIf="projects$ | async as projects">
+  <div class="container pt-4">
+    <div class="row">
+      <div class="col-12">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <h2 class="align-middle">Your projects</h2>
+            <div class="text-right">
+              <app-user-create-project></app-user-create-project>
             </div>
-        </div>
+          </li>
+          <li
+            class="list-group-item"
+            *ngFor="let project of projects"
+            [routerLink]="['/' + project.id.replace('.', '/')]"
+          >
+            <h2>{{ project.title }}</h2>
+
+            <hr class="my-4" />
+            <p>{{ project.description }}</p>
+          </li>
+        </ul>
+      </div>
     </div>
+  </div>
 </div>

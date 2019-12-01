@@ -1,5 +1,5 @@
-export class Pin{
-    title: string;
-    id: string;
-    description: string;
+export class Pin {
+  title: string;
+  id: string;
+  description: string;
 }
