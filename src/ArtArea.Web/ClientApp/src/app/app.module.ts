@@ -23,6 +23,7 @@ import { ProjectBoardsComponent } from "./project-boards/project-boards.componen
 import { BoardComponent } from "./board-page/board/board.component";
 import { BoardDataComponent } from "./board-page/board-data/board-data.component";
 import { BoardPinsComponent } from "./board-page/board-pins/board-pins.component";
+import { ProjectCreateBoardComponent } from "./project-create-board/project-create-board.component";
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { BoardPinsComponent } from "./board-page/board-pins/board-pins.component
     ProjectBoardsComponent,
     BoardComponent,
     BoardDataComponent,
-    BoardPinsComponent
+    BoardPinsComponent,
+    ProjectCreateBoardComponent
   ],
   imports: [
     HttpClientModule,

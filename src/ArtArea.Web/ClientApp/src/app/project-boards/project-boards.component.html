@@ -6,13 +6,18 @@
           <li class="list-group-item">
             <h2 class="align-middle">Your boards</h2>
             <div class="text-right">
-              <app-user-create-project></app-user-create-project>
+              <app-project-create-board></app-project-create-board>
             </div>
           </li>
-          <li class="list-group-item" *ngFor="let board of boards">
+          <li
+            class="list-group-item"
+            *ngFor="let board of boards"
+            [routerLink]="['/' + board.id.replace('.', '/').replace('.', '/')]"
+          >
             <h2>{{ board.title }}</h2>
             <hr class="my-4" />
             <p>{{ board.description }}</p>
+            <p>{{ board.id.replace(".", "/") }}</p>
           </li>
         </ul>
       </div>
