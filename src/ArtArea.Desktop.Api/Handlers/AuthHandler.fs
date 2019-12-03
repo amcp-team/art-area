@@ -17,13 +17,16 @@ module AuthConfiguration =
     let authenticationOptions (options: AuthenticationOptions) =
         options.DefaultAuthenticateScheme <- JwtBearerDefaults.AuthenticationScheme
         options.DefaultChallengeScheme <- JwtBearerDefaults.AuthenticationScheme
+        options.DefaultScheme <- JwtBearerDefaults.AuthenticationScheme
 
     let jwtBearerOptions (options: JwtBearerOptions) =
         options.SaveToken <- true
+        options.IncludeErrorDetails <- true
         options.TokenValidationParameters <-
             TokenValidationParameters
-                (ValidateIssuer = true, ValidateAudience = true, ValidateLifetime = false,
-                 ValidateIssuerSigningKey = true, ValidIssuer = "ArtArea.Desktop.Api", ValidAudience = "ArtArea.Desktop",
+                (ValidateIssuer = false, ValidateAudience = false, ValidateLifetime = false,
+                 ValidateIssuerSigningKey = false, ValidIssuer = "ArtArea.Desktop.Api",
+                 ValidAudience = "ArtArea.Desktop",
                  IssuerSigningKey = SymmetricSecurityKey(Encoding.UTF8.GetBytes("ArtAreaApplicationSecreteKey")))
 
 module AuthModels =
@@ -48,6 +51,25 @@ module AuthHandler =
 
     let authorize: HttpFunc -> HttpContext -> HttpFuncResult =
         requiresAuthentication (challenge JwtBearerDefaults.AuthenticationScheme)
+
+    let authorize2 =
+        fun (next: HttpFunc) (context: HttpContext) ->
+            try
+                let authHeader = context.Request.Headers.["Authorization"]
+                if not <| obj.ReferenceEquals(authHeader, null) && authHeader.Count > 0 then
+                    let bearerAuth = authHeader.[0]
+                    if not <| obj.ReferenceEquals(bearerAuth, null) then
+                        let token = JwtSecurityTokenHandler().ReadJwtToken(bearerAuth.[7..])
+                        let nameClaim = token.Claims |> Seq.find (fun x -> x.Type = ClaimTypes.Name)
+                        let username = nameClaim.Value
+                        let users = context.GetService<IUserRepository>().ReadUsers()
+                        if users |> Seq.exists (fun u -> u.Username = username) then next context
+                        else setStatusCode 401 next context
+                    else
+                        setStatusCode 401 next context
+                else
+                    setStatusCode 401 next context
+            with _ -> setStatusCode 401 next context
 
     let unauthorized: HttpFunc -> HttpContext -> HttpFuncResult = setStatusCode 401 >=> text "Access Denied"
 
@@ -79,4 +101,12 @@ module AuthHandler =
                 else
                     return! setStatusCode 401 next context
             }
+
+    let processToken =
+        fun (next: HttpFunc) (context: HttpContext) ->
+            let tokenString = context.Request.Headers.["Authorization"].[0].[7..]
+
+            let token = JwtSecurityTokenHandler().ReadJwtToken(tokenString)
+
+            json (tokenString, token) next context
  
