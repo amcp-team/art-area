@@ -24,7 +24,7 @@ namespace ArtArea.Web.Controllers.Test
         public async Task<User> GetUser(string username)
         {
             throw new NotImplementedException();
-        } 
+        }
 
         [HttpGet]
         public async Task<IEnumerable<User>> GetUsers()

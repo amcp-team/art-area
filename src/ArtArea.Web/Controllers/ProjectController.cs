@@ -1,62 +1,61 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ArtArea.Web.Data.Interface;
+using ArtArea.Web.Services;
 
 namespace ArtArea.Web.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    [ApiController, Route("api/[controller]")]
     public class ProjectController : ControllerBase
     {
+        private ProjectService _projectService;
+        public ProjectController(ProjectService projectService)
+            => _projectService = projectService;
 
-        private IProjectRepository _projectRepository;
-        private IBoardRepository _boardRepository;
-        public ProjectController(
-            IProjectRepository projectRepository,
-            IBoardRepository boardRepository)
-        {
-            _projectRepository = projectRepository;
-            _boardRepository = boardRepository;
-        }
-
-        [Produces("application/json")]
         [HttpGet("data/{id}")]
-        public async Task<IActionResult> GetProject(string id)
+        public async Task<IActionResult> GetProjectData(string id)
         {
-            var project = await _projectRepository.ReadProjectAsync(id);
-
-            if (project == null) return NotFound();
-
-            return new ObjectResult(new
+            try
             {
-                title = project.Title,
-                id = project.Id,
-                author = project.HostUsername,
-                description = project.Description
+                var project = await _projectService.GetProjectAsync(id);
 
-            }); ;
+                return new ObjectResult(new
+                {
+                    title = project.Title,
+                    id = project.Id,
+                    author = project.HostUsername,
+                    description = project.Description
+
+                }); ;
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
         }
 
-        [Produces("application/json")]
-        [HttpGet("boards/{id}")]
+        [HttpGet("boards/{id}"), Produces("application/json")]
         public async Task<IActionResult> GetProjectBoards(string id)
         {
-            var project = await _projectRepository.ReadProjectAsync(id);
-
-            if (project == null) return NotFound("No project with such id");
-
-            return new ObjectResult((await _boardRepository.ReadBoardsAsync())
-                .Where(x => x.ProjectId == id)
-                .Select(x => new
-                {
-                    title = x.Title,
-                    id = x.Id,
-                    description = x.Description
-                }));
+            // TODO we should validate logged in user & output only boards that user has access to
+            try
+            {
+                return new ObjectResult(
+                    (await _projectService.GetProjectBoardsAsync(id))
+                    .Select(x => new
+                    {
+                        title = x.Title,
+                        id = x.Id,
+                        description = x.Description,
+                        boardNumber = x.Number
+                    }
+                ));
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
         }
     }
 }
