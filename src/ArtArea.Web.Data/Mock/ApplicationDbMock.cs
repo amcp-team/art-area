@@ -7,6 +7,8 @@ namespace ArtArea.Web.Data.Mock
 {
     public static class ApplicationDbMock
     {
+        public static List<Message> Messages { get; set; }
+        public static List<Pin> Pins { get; set; }
         public static List<User> Users { get; set; } = new List<User>(
             new[]
             {
