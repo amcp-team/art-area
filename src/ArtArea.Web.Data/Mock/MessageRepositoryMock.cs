@@ -14,10 +14,12 @@ namespace ArtArea.Web.Data.Mock
 
         public void CreateMessage(Message message)
         {
-            if(ApplicationDbMock.Messages.Any(x=>x.Id==message.Id))
-            throw new Exception("Can't create this message - it already exists");
+            var messageToCreate = ApplicationDbMock.Messages
+                .SingleOrDefault(x => x.Id == message.Id);
+            if (messageToCreate == null)
+                ApplicationDbMock.Messages.Add(messageToCreate);
+            else throw new Exception("Message already exists");
 
-            ApplicationDbMock.Messages.Add(message);
         }
         public void DeleteMessage(string id)
         {
@@ -39,7 +41,8 @@ namespace ArtArea.Web.Data.Mock
 
         public void UpdateMessage(Message message)
         {
-            var messageToUpdate = ApplicationDbMock.Messages.SingleOrDefault(x => x.Id == message.Id);
+            var messageToUpdate = ApplicationDbMock.Messages
+                .SingleOrDefault(x => x.Id == message.Id);
             if (messageToUpdate != null)
                 messageToUpdate = message;
             else throw new Exception("Can't update message - no such board exist");
@@ -51,11 +54,11 @@ namespace ArtArea.Web.Data.Mock
         public Task CreateMessageAsync(Message message)
         {
             //do you need this exception?
-            if(ApplicationDbMock.Messages
-                .Any(x=>x.Id==message.Id))
-            throw new Exception("Can't create this message - it already exists");
-
-            return Task.Run(() => ApplicationDbMock.Messages.Add(message));
+            var messageToCreate = ApplicationDbMock.Messages
+                .SingleOrDefault(x => x.Id == message.Id);
+            if (messageToCreate == null)
+                return Task.Run(() => ApplicationDbMock.Messages.Add(message));
+            else throw new Exception("Message already exists");
         }
 
         public Task DeleteMessageAsync(string id)
@@ -64,7 +67,7 @@ namespace ArtArea.Web.Data.Mock
                 .SingleOrDefault(x => x.Id == id);
             if (messageToDelete != null)
                 return Task.Run(() => ApplicationDbMock.Messages.Remove(messageToDelete));
-            else throw new Exception("Can't delete board - one doesn't exist");
+            else throw new Exception("Can't delete message - one doesn't exist");
 
         }
 
@@ -82,10 +85,12 @@ namespace ArtArea.Web.Data.Mock
         {
             return Task.Run(() =>
             {
-                var messageToUpdate = ApplicationDbMock.Messages.SingleOrDefault(x => x.Id == message.Id);
+                var messageToUpdate = ApplicationDbMock.Messages
+                .SingleOrDefault(x => x.Id == message.Id);
+
                 if (messageToUpdate != null)
                     messageToUpdate = message;
-                else throw new Exception("Can't update board - no such board exist");
+                else throw new Exception("Can't update message - no such board exist");
             });
         }
         #endregion

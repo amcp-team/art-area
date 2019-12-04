@@ -14,12 +14,11 @@ namespace ArtArea.Web.Data.Mock
 
         public void CreatePin(Pin pin)
         {
-            if (ApplicationDbMock.Pins
-                .Any(x => x.Id == pin.Id))
-            
-                throw new Exception("Can't create this board - it already exists");
-
-            ApplicationDbMock.Pins.Add(pin);
+            var pinToCreate = ApplicationDbMock.Pins
+                .SingleOrDefault(x => x.Id == pin.Id);
+            if (pinToCreate == null)
+                ApplicationDbMock.Pins.Add(pin);
+            else throw new Exception("Pin already exists");
         }
 
         public void DeletePin(string id)
@@ -28,7 +27,7 @@ namespace ArtArea.Web.Data.Mock
                 .SingleOrDefault(x => x.Id == id);
             if (pinToDelete != null)
                 ApplicationDbMock.Pins.Remove(pinToDelete);
-            else throw new Exception("Can't delete board - one doesn't exist");
+            else throw new Exception("Can't delete pin - one doesn't exist");
         }
 
         public IEnumerable<Pin> ReadPins()
@@ -48,7 +47,7 @@ namespace ArtArea.Web.Data.Mock
                 .SingleOrDefault(x => x.Id == pin.Id);
             if (pinToUpdate != null)
                 pinToUpdate = pin;
-            else throw new Exception("Can't update board - no such board exist");
+            else throw new Exception("Can't update pin - no such board exist");
         }
         #endregion
 
@@ -56,11 +55,11 @@ namespace ArtArea.Web.Data.Mock
 
         public Task CreatePinAsync(Pin pin)
         {
-            if (ApplicationDbMock.Pins
-                .Any(x => x.Id == pin.Id))
-                throw new Exception("Can't create this pin - it already exists");
-            return Task.Run(() 
-                => ApplicationDbMock.Pins.Add(pin));
+            var pinToCreate = ApplicationDbMock.Pins
+                .SingleOrDefault(x => x.Id == pin.Id);
+            if (pinToCreate == null)
+                return Task.Run(() => ApplicationDbMock.Pins.Add(pin));
+            else throw new Exception("Pin already exists");
         }
 
         public Task DeletePinAsync(string id)
@@ -91,6 +90,7 @@ namespace ArtArea.Web.Data.Mock
             {
                 var pinToUpdate = ApplicationDbMock.Pins
                     .SingleOrDefault(x => x.Id == pin.Id);
+
                 if (pinToUpdate != null)
                     pinToUpdate = pin;
                 else throw new Exception("Can't update pin - no such board exist");
