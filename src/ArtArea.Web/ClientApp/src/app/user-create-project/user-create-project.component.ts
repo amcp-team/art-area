@@ -20,7 +20,8 @@ export class UserCreateProjectComponent implements OnInit {
   ngOnInit() {
     this.createProjectForm = this.formBuilder.group({
       title: ["", Validators.required],
-      description: ["", Validators.required]
+      description: ["", Validators.required],
+      privacy: [false , Validators.required],
     });
   }
 
@@ -30,7 +31,7 @@ export class UserCreateProjectComponent implements OnInit {
 
   onSubmit() {
     this.userService
-      .add(this.form.title.value, this.form.description.value)
+      .add(this.form.title.value, this.form.description.value, this.form.privacy.value)
       .pipe(first());
   }
 }

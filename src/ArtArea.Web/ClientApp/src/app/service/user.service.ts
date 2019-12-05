@@ -29,11 +29,12 @@ export class UserService {
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
-  add(title: string, description: string){
+  add(title: string, description: string, privacy: boolean){
     return this.http
     .post<string>("api/user/create", {
       title,
       description,
+      privacy
     })
     .pipe(retry(1), catchError(this.errorHandler)); 
   }

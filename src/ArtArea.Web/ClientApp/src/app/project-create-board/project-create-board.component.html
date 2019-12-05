@@ -54,11 +54,11 @@
             />
           </div>
           <hr width="100%" />
-          <button
-            type="button"
-            class="btn btn-secondary mr-2"
-            data-dismiss="modal"
-          >
+          <div class="form-group form-check text-left">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1" formControlName="privacy">
+            <label class="form-check-label" for="exampleCheck1">private board</label>
+          </div>
+          <button type="button" class="btn btn-secondary mr-2" data-dismiss="modal">
             Close
           </button>
           <button type="submit" class="btn btn-primary">Create board</button>

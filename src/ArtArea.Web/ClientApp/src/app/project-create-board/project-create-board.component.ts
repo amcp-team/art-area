@@ -21,7 +21,8 @@ export class ProjectCreateBoardComponent implements OnInit {
   ngOnInit() {
     this.createBoardForm = this.formBuilder.group({
       title: ["", Validators.required],
-      description: ["", Validators.required]
+      description: ["", Validators.required],
+      privacy: [false, Validators.required],
     })
   }
 
@@ -30,8 +31,9 @@ export class ProjectCreateBoardComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.form.title.value, this.form.description.value, this.form.privacy.value)
     this.projectService
-      .postBoard(this.form.title.value, this.form.description.value)
+      .postBoard(this.form.title.value, this.form.description.value, this.form.privacy.value )
       .pipe(first())
       
   }
