@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ArtArea.Web.Data.Mock
 {
-    class MessageRepositoryMock : IMessageRepository
+    public class MessageRepositoryMock : IMessageRepository
     {
         #region Synchronous
 

@@ -39,7 +39,6 @@ namespace ArtArea.Web.Controllers
           
         }
 
-        [HttpGet("pins/{id}")]
-        public async Task <IActionResult> GetPinData
+        
     }
 }

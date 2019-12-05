@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ArtArea.Web.Data.Interface
 {
-    interface IPinRepository
+     public interface IPinRepository
     {
         //Asynchronous methods
         Task<IEnumerable<Pin>> ReadPinsAsync();
