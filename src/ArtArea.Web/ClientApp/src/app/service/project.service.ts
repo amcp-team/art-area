@@ -32,7 +32,7 @@ export class ProjectService {
 
   postBoard(title: string, description: string){
     return this.http
-    .post<string>("api/user/create", {
+    .post<string>("api/project/create", {
       title,
       description,
     })
