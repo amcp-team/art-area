@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { first } from "rxjs/operators";
 import { ProjectService } from "../service/project.service";
+import { NewBoard } from "../model/newBoard"
 
 
 @Component({
@@ -11,29 +12,22 @@ import { ProjectService } from "../service/project.service";
   styleUrls: ['./project-create-board.component.scss']
 })
 export class ProjectCreateBoardComponent implements OnInit {
-  createBoardForm: FormGroup;
+  model = new NewBoard('', '', false);
 
   constructor(
-    private formBuilder: FormBuilder,
     private projectService: ProjectService,
   ) { }
 
   ngOnInit() {
-    this.createBoardForm = this.formBuilder.group({
-      title: ["", Validators.required],
-      description: ["", Validators.required],
-      privacy: [false, Validators.required],
-    })
+    
   }
 
-  get form() {
-    return this.createBoardForm.controls;
-  }
+  
 
   onSubmit() {
-    console.log(this.form.title.value, this.form.description.value, this.form.privacy.value)
+    console.log(this.model.title, this.model.description, this.model.privacy)
     this.projectService
-      .postBoard(this.form.title.value, this.form.description.value, this.form.privacy.value )
+      .postBoard(this.model.title, this.model.description, this.model.privacy)
       .pipe(first())
       
   }

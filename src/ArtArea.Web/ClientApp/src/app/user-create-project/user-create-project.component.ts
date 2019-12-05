@@ -16,7 +16,6 @@ export class UserCreateProjectComponent implements OnInit {
  
 
   constructor(
-    private formBuilder: FormBuilder,
     private userService: UserService
   ) {}
 
@@ -30,7 +29,7 @@ export class UserCreateProjectComponent implements OnInit {
     console.log(this.model.title, this.model.description, this.model.privacy)
     this.userService
       .add(this.model.title, this.model.description, this.model.privacy)
-    
+      .pipe(first())
     
   }
 
