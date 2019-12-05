@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { first } from "rxjs/operators";
 import { UserService } from "../service/user.service";
+import { NewProject } from "../model/newProject"
 
 @Component({
   selector: "app-user-create-project",
@@ -10,7 +11,9 @@ import { UserService } from "../service/user.service";
   styleUrls: ["./user-create-project.component.scss"]
 })
 export class UserCreateProjectComponent implements OnInit {
-  createProjectForm: FormGroup;
+  
+  model = new NewProject('', '', false);
+ 
 
   constructor(
     private formBuilder: FormBuilder,
@@ -18,20 +21,19 @@ export class UserCreateProjectComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.createProjectForm = this.formBuilder.group({
-      title: ["", Validators.required],
-      description: ["", Validators.required],
-      privacy: [false , Validators.required],
-    });
+    
   }
 
-  get form() {
-    return this.createProjectForm.controls;
-  }
+  
 
   onSubmit() {
+    console.log(this.model.title, this.model.description, this.model.privacy)
     this.userService
-      .add(this.form.title.value, this.form.description.value, this.form.privacy.value)
-      .pipe(first());
+      .add(this.model.title, this.model.description, this.model.privacy)
+    
+    
   }
+
+  get diagnostic() { return JSON.stringify(this.model); }
+  
 }
