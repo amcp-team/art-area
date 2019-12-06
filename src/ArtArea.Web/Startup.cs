@@ -12,6 +12,7 @@ using System.Text;
 using ArtArea.Web.Services.Auth;
 using ArtArea.Web.Data.Interface;
 using ArtArea.Web.Data.Mock;
+using ArtArea.Web.Services;
 using ArtArea.Web.Data.Repositories;
 using ArtArea.Web.Data;
 
@@ -27,16 +28,18 @@ namespace ArtArea.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // Configure DI there for repositories & other required components
-
-            // TODO change services implementation like
-            // service.AddTransient<IUserRepository, UserRepository>();
+            // TODO implement some extension methods that encapsulate injecting 
+            //      repositories (by parameter) & services
 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IBoardRepository, BoardRepository>();
             services.AddTransient<IProjectRepository, ProjectRepository>();
 
             services.AddSingleton<ApplicationDb>();
+
+            services.AddTransient<AuthService>();
+            services.AddTransient<UserService>();
+            services.AddTransient<ProjectService>();
 
             var serverConfig = new ServerConfig();
             Configuration.Bind(serverConfig);
@@ -59,16 +62,15 @@ namespace ArtArea.Web
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidateLifetime = true,
+                    ValidateLifetime = false,
                     ValidateIssuerSigningKey = true,
-
                     ValidIssuer = jwtBearerSettings.Issuer,
                     ValidAudience = jwtBearerSettings.Audience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtBearerSettings.SecretKey))
                 };
 
-                options.SaveToken = true;
-                options.RequireHttpsMetadata = true;
+                // options.SaveToken = true;
+                // options.RequireHttpsMetadata = true;
             });
 
             services.AddCors(options =>
@@ -82,7 +84,7 @@ namespace ArtArea.Web
             });
 
             services.AddControllers();
-            
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -100,7 +102,7 @@ namespace ArtArea.Web
             {
                 app.UseHsts();
             }
-            
+
             app.UseRouting();
             app.UseCors("EnableCORS");
             app.UseHttpsRedirection();

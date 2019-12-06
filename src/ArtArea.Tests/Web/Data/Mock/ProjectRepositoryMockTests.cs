@@ -17,7 +17,7 @@ namespace ArtArea.Tests.Web.Data.Mock
         [Fact]
         public async Task Test_ReadProjects()
         {
-            var projects = await _repository.ReadProjects();
+            var projects = await _repository.ReadProjectsAsync();
 
             Assert.Equal(projects, ApplicationDbMock.Projects);
         }
@@ -28,7 +28,7 @@ namespace ArtArea.Tests.Web.Data.Mock
         {
             string projectId = ApplicationDbMock.Projects.FirstOrDefault().Id;
 
-            var project = await _repository.ReadProject(projectId);
+            var project = await _repository.ReadProjectAsync(projectId);
 
             Assert.Equal(projectId, project.Id);
         }
@@ -36,7 +36,7 @@ namespace ArtArea.Tests.Web.Data.Mock
         [Fact]
         public async Task Test_ReadProject_Fail()
         {
-            var project = await _repository.ReadProject("");
+            var project = await _repository.ReadProjectAsync("");
 
             Assert.Null(project);
         }
@@ -53,7 +53,7 @@ namespace ArtArea.Tests.Web.Data.Mock
                 Id = "testProjectId"
             };
 
-            await _repository.CreateProject(newProject);
+            await _repository.CreateProjectAsync(newProject);
 
             Assert.Contains(ApplicationDbMock.Projects, p => p.Id == newProject.Id);
 
@@ -65,7 +65,7 @@ namespace ArtArea.Tests.Web.Data.Mock
         {
             var projectFail = ApplicationDbMock.Projects.FirstOrDefault();
 
-            await Assert.ThrowsAnyAsync<Exception>(new Func<Task>(() => _repository.CreateProject(projectFail)));
+            await Assert.ThrowsAnyAsync<Exception>(new Func<Task>(() => _repository.CreateProjectAsync(projectFail)));
         }
 
         #endregion
@@ -77,7 +77,7 @@ namespace ArtArea.Tests.Web.Data.Mock
         {
             var projectToDeleteId = ApplicationDbMock.Projects.FirstOrDefault().Id;
 
-            await _repository.DeleteProject(projectToDeleteId);
+            await _repository.DeleteProjectAsync(projectToDeleteId);
 
             Assert.DoesNotContain(ApplicationDbMock.Projects, x => x.Id == projectToDeleteId);
             Assert.DoesNotContain(ApplicationDbMock.Boards, x => x.ProjectId == projectToDeleteId);
@@ -88,7 +88,7 @@ namespace ArtArea.Tests.Web.Data.Mock
         [Fact]
         public async Task Test_DeleteProject_Fail()
         {
-            await Assert.ThrowsAnyAsync<Exception>(new Func<Task>(() => _repository.DeleteProject("")));
+            await Assert.ThrowsAnyAsync<Exception>(new Func<Task>(() => _repository.DeleteProjectAsync("")));
         }
 
         #endregion
@@ -102,7 +102,7 @@ namespace ArtArea.Tests.Web.Data.Mock
 
             projectToUpdate.Description = "1234";
 
-            await _repository.UpdateProject(projectToUpdate);
+            await _repository.UpdateProjectAsync(projectToUpdate);
 
             Assert.Equal(
                 projectToUpdate.Description,
@@ -115,7 +115,7 @@ namespace ArtArea.Tests.Web.Data.Mock
         public async Task Test_UpdateProject_Fail()
         {
             await Assert.ThrowsAnyAsync<Exception>(
-                new Func<Task>(() => _repository.UpdateProject(new Project { Id = "" })));
+                new Func<Task>(() => _repository.UpdateProjectAsync(new Project { Id = "" })));
         }
 
         #endregion

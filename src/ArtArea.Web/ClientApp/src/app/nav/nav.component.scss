@@ -1,17 +1,18 @@
 @import "../../styles.scss";
 .nav-container {
-    background: $primary;
-    padding: 1em 0;
-    display: flexbox;
-    a {
-        color: darkslategrey;
-        text-decoration: none;
-    }
-    a.logo {
-        margin: 1em 0;
-        font-weight: bold;
-    }
-    app-nav-user-badge {
-        float: right;
-    }
+  background: $primary;
+  padding: 1em 0;
+  display: flexbox;
+  a {
+    color: white;
+    text-decoration: none;
+    size: 18px;
+  }
+  a.logo {
+    margin: 1em 0;
+    font-weight: bold;
+  }
+  app-nav-user-badge {
+    float: right;
+  }
 }
