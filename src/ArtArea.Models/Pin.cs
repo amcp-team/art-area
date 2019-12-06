@@ -12,11 +12,11 @@ namespace ArtArea.Models
             - Message : 
                 Message object that stores publication dat, author,... data for pin
 
-            - File : 
+            - FileId : 
                 attached source file id (stringed ObjectId) stored in GridFS
 
-            - Thumbnails : 
-                list of ids associated with thumbnail files attached to pin stored in GridFS
+            - Thumbnail : 
+                id of the attached to pin thumbnail
     */
     public class Pin
     {
@@ -24,10 +24,11 @@ namespace ArtArea.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         public Message Message { get; set; }
+        public IEnumerable<string> Messages { get; set; }
 
         [BsonRepresentation(BsonType.ObjectId)]
-        public string File { get; set; }
-        public IEnumerable<string> Thumbnails { get; set; }
+        public string FileId { get; set; }
+        public string Thumbnail { get; set; }
 
     }
 }

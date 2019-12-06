@@ -13,7 +13,7 @@ namespace ArtArea.Models
                 username of one who published this message
 
             - MarkdownText : 
-                stringed markdown representation of the text of the message for GitHub like look
+                stringed markdown representation of the text of the message for GitHub like view
 
             - PublicationDate :
                 when this message was published 
