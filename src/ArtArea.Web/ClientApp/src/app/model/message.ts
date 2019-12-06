@@ -1,4 +1,4 @@
-export class Pin {
+export class Message {
 	id:string;
 	message:{
 		id:string,

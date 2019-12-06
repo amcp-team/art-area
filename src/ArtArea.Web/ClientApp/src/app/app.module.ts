@@ -24,6 +24,11 @@ import { BoardComponent } from "./board-page/board/board.component";
 import { BoardDataComponent } from "./board-page/board-data/board-data.component";
 import { BoardPinsComponent } from "./board-page/board-pins/board-pins.component";
 import { ProjectCreateBoardComponent } from "./project-create-board/project-create-board.component";
+import { PinImgComponent } from './pin-page/pin-img/pin-img.component';
+import { PinCommentsListComponent } from './pin-page/pin-comments-list/pin-comments-list.component';
+import { PinCreatingCommentComponent } from './pin-page/pin-creating-comment/pin-creating-comment.component';
+import { PinHeadComponent } from './pin-page/pin-head/pin-head.component';
+import { PinComponent } from './pin-page/pin/pin.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +48,12 @@ import { ProjectCreateBoardComponent } from "./project-create-board/project-crea
     BoardComponent,
     BoardDataComponent,
     BoardPinsComponent,
-    ProjectCreateBoardComponent
+    ProjectCreateBoardComponent,
+    PinImgComponent,
+    PinCommentsListComponent,
+    PinCreatingCommentComponent,
+    PinHeadComponent,
+    PinComponent
   ],
   imports: [
     HttpClientModule,
