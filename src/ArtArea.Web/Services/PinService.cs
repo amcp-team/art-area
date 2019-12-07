@@ -23,8 +23,6 @@ namespace ArtArea.Web.Services
                 return _pinRepository.ReadPinAsync(pinId);
             }
             else throw new Exception("No pin with this id");
-
-
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using ArtArea.Models;
@@ -10,6 +11,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ArtArea.Web.Controllers
 {
+    public class NewPinModel
+    {
+        [Required]
+        public string Message { get; set; }
+        [Required]
+        public IFormFile Thumbnail { get; set; }
+        [Required]
+        public IFormFile SourceFile { get; set; }
+
+    }
+
     [Route("api/[controller]")]
     [ApiController]
     public class PinController : ControllerBase
@@ -18,7 +30,7 @@ namespace ArtArea.Web.Controllers
         public PinController(PinService pinService)
             => _pinService = pinService;
 
-        [HttpGet("pins/{id}")]
+        [HttpGet("data/{id}")]
         public async Task<IActionResult> GetPinData(string id)
         {
             try
@@ -27,15 +39,15 @@ namespace ArtArea.Web.Controllers
                 return new ObjectResult(new
                 {
                     id = pin.Id,
-                    message= new 
+                    message = new
                     {
-                        id=pin.Message.Id,
-                        text=pin.Message.MarkdownText,
-                        date=pin.Message.PublicationDate,
-                        author=pin.Message.Author
+                        id = pin.Message.Id,
+                        text = pin.Message.MarkdownText,
+                        date = pin.Message.PublicationDate,
+                        author = pin.Message.Author
 
-                    } 
-                    
+                    }
+
 
                 });
             }
@@ -44,6 +56,11 @@ namespace ArtArea.Web.Controllers
                 return NotFound(e.Message);
             }
         }
-                    
+
+        [HttpPost("create")]
+        public IActionResult PostNewPin([FromForm] NewPinModel newPin)
+        {
+            return Ok();
+        }
     }
 }
