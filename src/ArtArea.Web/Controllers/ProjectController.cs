@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ArtArea.Web.Services;
+using ArtArea.Web.Services.Models;
 
 namespace ArtArea.Web.Controllers
 {
@@ -57,5 +58,22 @@ namespace ArtArea.Web.Controllers
                 return NotFound(e.Message);
             }
         }
+
+        [HttpPost,Route("create")]
+        public async Task<IActionResult> CreateProject([FromBody] CreateProjectModel project)
+        {
+            try
+            {
+               await _projectService.CreateProject(project);
+                return Ok();
+
+
+            }
+            catch (Exception e)
+            {
+               return NotFound(e.Message);
+            }
+        }
+        
     }
 }

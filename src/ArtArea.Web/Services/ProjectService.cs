@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ArtArea.Models;
 using ArtArea.Web.Data.Interface;
 using System.Linq;
+using ArtArea.Web.Services.Models;
 
 namespace ArtArea.Web.Services
 {
@@ -41,5 +42,22 @@ namespace ArtArea.Web.Services
                     .Where(x => x.ProjectId == projectId)
                     .AsEnumerable());
         }
+
+       
+       public Task CreateProject (CreateProjectModel project)
+        {
+            if (project != null)
+            {
+                return _projectRepository.CreateProjectAsync(new Project
+                {
+                    Title = project.Title,
+                    Description = project.Description,
+                    IsPrivate = project.IsPrivate
+
+                });
+            }
+            else throw new Exception("New project is empty");
+            
+        }
     }
-}
+}    
