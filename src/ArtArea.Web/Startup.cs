@@ -13,6 +13,8 @@ using ArtArea.Web.Services.Auth;
 using ArtArea.Web.Data.Interface;
 using ArtArea.Web.Data.Mock;
 using ArtArea.Web.Services;
+using ArtArea.Web.Data.Repositories;
+using ArtArea.Web.Data;
 
 namespace ArtArea.Web
 {
@@ -29,9 +31,11 @@ namespace ArtArea.Web
             // TODO implement some extension methods that encapsulate injecting 
             //      repositories (by parameter) & services
 
-            services.AddTransient<IUserRepository, UserRepositoryMock>();
-            services.AddTransient<IBoardRepository, BoardRepositoryMock>();
-            services.AddTransient<IProjectRepository, ProjectRepositoryMock>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IBoardRepository, BoardRepository>();
+            services.AddTransient<IProjectRepository, ProjectRepository>();
+
+            services.AddSingleton<ApplicationDb>();
 
             services.AddTransient<AuthService>();
             services.AddTransient<UserService>();

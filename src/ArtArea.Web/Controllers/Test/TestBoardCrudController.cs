@@ -14,40 +14,30 @@ namespace ArtArea.Web.Controllers.Test
 
     [ApiController]
     [Route("api/board/test")]
-    public class TestBoardCrudControler : ControllerBase
+    public class TestBoardCrudController : ControllerBase
     {
-        private IUserRepository _boardRepository;
-        public TestBoardCrudControler(IUserRepository boardRepository)
+        private IBoardRepository _boardRepository;
+        public TestBoardCrudController(IBoardRepository boardRepository)
             => _boardRepository = boardRepository;
 
         [HttpGet("{id}")]
-        public async Task<User> GetBoard(string id)
-        {
-            throw new NotImplementedException();
-        } 
+        public async Task<Board> GetBoard(string id)
+            => await _boardRepository.ReadBoard(id);
 
         [HttpGet]
         public async Task<IEnumerable<Board>> GetBoards()
-        {
-            throw new NotImplementedException();
-        }
+            => await _boardRepository.ReadBoards();
 
         [HttpPost]
         public async Task PostBoard([FromBody]Board board)
-        {
-            throw new NotImplementedException();
-        }
+            => await _boardRepository.CreateBoard(board);
 
         [HttpPut]
         public async Task PutBoard([FromBody]Board board)
-        {
-            throw new NotImplementedException();
-        }
+            => await _boardRepository.UpdateBoard(board);
 
         [HttpDelete("{id}")]
         public async Task DeleteBoard(string id)
-        {
-            throw new NotImplementedException();
-        }
+            => await _boardRepository.DeleteBoard(id);
     }
 }
