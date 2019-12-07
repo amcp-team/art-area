@@ -47,8 +47,6 @@ namespace ArtArea.Web.Controllers
                         author = pin.Message.Author
 
                     }
-
-
                 });
             }
             catch (Exception e)
@@ -58,9 +56,33 @@ namespace ArtArea.Web.Controllers
         }
 
         [HttpPost("create")]
-        public IActionResult PostNewPin([FromForm] NewPinModel newPin)
+        public async Task<IActionResult> PostNewPin([FromForm] NewPinModel pin)
         {
-            return Ok();
+            try
+            {
+                var thumbnailId = await _pinService.UploadFile(pin.Thumbnail);
+                var sourceFileId = await _pinService.UploadFile(pin.SourceFile);
+
+                var newPin = new Pin
+                {
+                    Message = new Message
+                    {
+                        Author = HttpContext.User.Identity.Name,
+                        MarkdownText = pin.Message,
+                        PublicationDate = DateTime.Now
+                    },
+                    ThumbnailId = thumbnailId,
+                    FileId = sourceFileId
+                };
+
+                await _pinService.CreatePinAsync(newPin);
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
     }
 }
