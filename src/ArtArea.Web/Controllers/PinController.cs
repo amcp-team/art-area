@@ -60,8 +60,8 @@ namespace ArtArea.Web.Controllers
         {
             try
             {
-                var thumbnailId = await _pinService.UploadFileAsync(pin.Thumbnail);
-                var sourceFileId = await _pinService.UploadFileAsync(pin.SourceFile);
+                var thumbnailId = _pinService.UploadFile(pin.Thumbnail);
+                var sourceFileId = _pinService.UploadFile(pin.SourceFile);
 
                 var newPin = new Pin
                 {

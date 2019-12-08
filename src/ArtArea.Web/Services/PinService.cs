@@ -34,13 +34,14 @@ namespace ArtArea.Web.Services
         public Task CreatePinAsync(Pin pin)
             => _pinRepository.CreatePinAsync(pin);
 
-        public Task<string> UploadFileAsync(IFormFile file)
+        public string UploadFile(IFormFile file)
         {
             using (var fileStream = new MemoryStream())
             {
                 file.CopyTo(fileStream);
+                fileStream.Position = 0;
 
-                return _fileRepository.UploadFileFromStreamAsync(file.FileName, fileStream);
+                return _fileRepository.UploadFileFromStream(file.FileName, fileStream);
             }
         }
     }
