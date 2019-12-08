@@ -30,14 +30,15 @@ export class ProjectService {
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
-  postBoard(title: string, description: string, privacy: boolean){
+  postBoard(title: string, description: string, privacy: string) {
+    var intPrivacy = +privacy;
     return this.http
-    .post<string>("api/project/create", {
-      title,
-      description,
-      privacy,
-    })
-    .pipe(retry(1), catchError(this.errorHandler)); 
+      .post<string>("api/project/create", {
+        title,
+        description,
+        intPrivacy
+      })
+      .pipe(catchError(this.errorHandler));
   }
 
   errorHandler(error) {

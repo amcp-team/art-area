@@ -31,23 +31,18 @@
         </button>
       </div>
       <div class="modal-body">
-        <form
-        #creatingForm="ngForm"
-        (ngSubmit)="onSubmit()">
+        <form [formGroup]="createBoardForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <input
               type="email"
               class="form-control"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp"
               placeholder="Enter title"
-              [(ngModel)]="model.title"
-              required
-              name="title"
-              #title = "ngModel"
+              formControlName="title"
             />
-            <div [hidden]="title.invalid || title.pristine"
-              class="alert alert-danger">
+            <div
+              [hidden]="form.title.invalid || !form.title.pristine"
+              class="alert alert-danger"
+            >
               Title is required
             </div>
           </div>
@@ -55,24 +50,29 @@
             <input
               type="text"
               class="form-control"
-              id="exampleInputPassword1"
               placeholder="Description"
-              [(ngModel)]="model.description"
-              required
-              name="description"
-              #description = "ngModel"
+              formControlName="description"
             />
-            <div [hidden]="description.invalid || description.pristine"
-              class="alert alert-danger">
+            <div
+              [hidden]="form.description.invalid || !form.description.pristine"
+              class="alert alert-danger"
+            >
               Description is required
             </div>
           </div>
           <hr width="100%" />
           <div class="form-group form-check text-left">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1" [(ngModel)]="model.privacy" name="privacy">
-            <label class="form-check-label" for="exampleCheck1">private board</label>
+            <select formControlName="privacy">
+              <option value="0">Public for all</option>
+              <option value="1">Public for project Collaborators</option>
+              <option value="2">Private for all</option>
+            </select>
           </div>
-          <button type="button" class="btn btn-secondary mr-2" data-dismiss="modal">
+          <button
+            type="button"
+            class="btn btn-secondary mr-2"
+            data-dismiss="modal"
+          >
             Close
           </button>
           <button type="submit" class="btn btn-primary">Create board</button>
