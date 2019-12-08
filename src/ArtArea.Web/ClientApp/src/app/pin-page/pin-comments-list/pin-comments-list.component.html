@@ -1,0 +1,13 @@
+<div *ngIf="Messages$ | async as messages">
+    <div class="row">
+        <div class="col-12">
+            <div *ngFor="let message of messages" class="media">
+                <img src="https://via.placeholder.com/64" class="align-self-start mr-3" alt="...">
+                <div class="media-body">
+                <h5 class="mt-0">{{message.message.author}}</h5>
+                <p>{{message.message.text}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

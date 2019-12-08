@@ -6,6 +6,7 @@ import { HomeComponent } from "./home/home.component";
 import { UserComponent } from "./user/user.component";
 import { ProjectComponent } from "./project/project.component";
 import { BoardComponent } from "./board-page/board/board.component";
+import { PinComponent } from "./pin-page/pin/pin.component";
 
 const routes: Routes = [
   { path: "", component: HomeComponent, pathMatch: "full" },
@@ -13,7 +14,8 @@ const routes: Routes = [
   { path: "register", component: RegisterComponent },
   { path: ":username/:project", component: ProjectComponent },
   { path: ":username", component: UserComponent },
-  { path: ":username/:project/:board", component: BoardComponent }
+  { path: ":username/:project/:board", component: BoardComponent },
+  { path: ":username/:project/:board/pin/:pin", component: PinComponent},
 ];
 
 @NgModule({
