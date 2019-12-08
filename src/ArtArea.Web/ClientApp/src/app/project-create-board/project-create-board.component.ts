@@ -12,11 +12,16 @@ import { NewBoard } from "../model/newBoard";
 })
 export class ProjectCreateBoardComponent implements OnInit {
   createBoardForm: FormGroup;
-
+  projectId: string;
   constructor(
     private projectService: ProjectService,
-    private formBuilder: FormBuilder
-  ) {}
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute
+  ) {
+    this.route.params.subscribe(params => {
+      this.projectId = params["username"] + "." + params["project"];
+    });
+  }
 
   ngOnInit() {
     this.createBoardForm = this.formBuilder.group({
@@ -36,7 +41,8 @@ export class ProjectCreateBoardComponent implements OnInit {
       .postBoard(
         this.form.title.value,
         this.form.description.value,
-        this.form.privacy.value
+        this.form.privacy.value,
+        this.projectId
       )
       .pipe(first())
       .subscribe(x => console.log(x));

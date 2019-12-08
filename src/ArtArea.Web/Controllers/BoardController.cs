@@ -18,7 +18,7 @@ namespace ArtArea.Web.Controllers
             => _boardService = boardService;
 
         [HttpGet("data/{id}")]
-        public  async Task<IActionResult> GetBoardData (string id) 
+        public async Task<IActionResult> GetBoardData(string id)
         {
             try
             {
@@ -37,24 +37,29 @@ namespace ArtArea.Web.Controllers
                 return NotFound(e.Message);
             }
 
-          
+
         }
 
-        [HttpGet,Route("create")]
+        [HttpPost("create")]
         public async Task<IActionResult> CreateBoard([FromBody]CreateBoardModel board)
         {
             try
             {
-                await _boardService.CreateBoard(board);
-                return Ok();
+                var username = HttpContext.User.Identity.Name;
 
+                if (username == null)
+                    return Unauthorized();
+
+                var id = await _boardService.CreateBoardAsync(board, username);
+
+                return Ok(id);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return NotFound(e.Message);
             }
 
         }
-        
+
     }
 }
