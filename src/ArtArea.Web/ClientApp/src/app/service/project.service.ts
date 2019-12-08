@@ -33,7 +33,7 @@ export class ProjectService {
   postBoard(title: string, description: string, privacy: string) {
     var intPrivacy = +privacy;
     return this.http
-      .post<string>("api/project/create", {
+      .post<string>("api/board/create", {
         title,
         description,
         intPrivacy
