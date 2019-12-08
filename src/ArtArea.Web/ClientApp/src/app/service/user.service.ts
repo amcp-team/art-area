@@ -29,14 +29,14 @@ export class UserService {
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
-  add(title: string, description: string, privacy: boolean){
+  postProject(title: string, description: string, privacy: boolean) {
     return this.http
-    .post<string>("api/user/create", {
-      title,
-      description,
-      privacy
-    })
-    .pipe(retry(1), catchError(this.errorHandler)); 
+      .post<string>("api/project/create", {
+        title,
+        description,
+        privacy
+      })
+      .pipe(catchError(this.errorHandler));
   }
 
   errorHandler(error) {

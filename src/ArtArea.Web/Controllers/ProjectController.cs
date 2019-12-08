@@ -59,21 +59,25 @@ namespace ArtArea.Web.Controllers
             }
         }
 
-        [HttpPost,Route("create")]
+        [HttpPost("create")]
         public async Task<IActionResult> CreateProject([FromBody] CreateProjectModel project)
         {
             try
             {
-               await _projectService.CreateProject(project);
-                return Ok();
+                var username = HttpContext.User.Identity.Name;
 
+                if (username == null)
+                    return Unauthorized();
 
+                var id = await _projectService.CreateProject(project, username);
+
+                return Ok(id);
             }
             catch (Exception e)
             {
-               return NotFound(e.Message);
+                return StatusCode(409, e.Message);
             }
         }
-        
+
     }
 }

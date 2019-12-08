@@ -5,6 +5,7 @@ using ArtArea.Models;
 using ArtArea.Web.Data.Interface;
 using System.Linq;
 using ArtArea.Web.Services.Models;
+using ArtArea.Models.Privacy;
 
 namespace ArtArea.Web.Services
 {
@@ -43,21 +44,35 @@ namespace ArtArea.Web.Services
                     .AsEnumerable());
         }
 
-       
-       public Task CreateProject (CreateProjectModel project)
+
+        public Task<string> CreateProject(CreateProjectModel project, string username)
         {
             if (project != null)
             {
-                return _projectRepository.CreateProjectAsync(new Project
+                var projectEntity = new Project
                 {
+                    Id = username + "." + project.Title.ToLowerInvariant().Replace(' ', '-'),
                     Title = project.Title,
                     Description = project.Description,
-                    IsPrivate = project.IsPrivate
+                    IsPrivate = project.IsPrivate,
+                    HostUsername = username,
+                    Collaborators = new List<UserAccess>(new[] {
+                        new UserAccess {
+                            Username = username,
+                            Role = AccessRole.Admin
+                        }
+                    }),
+                    Tags = new List<Tag>()
+                };
 
+                return Task.Run(async () =>
+                {
+                    await _projectRepository.CreateProjectAsync(projectEntity);
+                    return projectEntity.Id;
                 });
             }
             else throw new Exception("New project is empty");
-            
+
         }
     }
-}    
+}

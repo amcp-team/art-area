@@ -31,25 +31,18 @@
         </button>
       </div>
       <div class="modal-body">
-        <form
-        #creatingForm="ngForm"
-        (ngSubmit)="onSubmit()"
-        >
-          {{diagnostic}}
-          <div class="form-group" >
+        <form [formGroup]="createProjectForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
             <input
               type="text"
               class="form-control"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp"
-              placeholder="Enter title"
-              [(ngModel)]="model.title"
-              required
-              name="title"
-              #title = "ngModel"
+              placeholder="Title"
+              formControlName="title"
             />
-            <div [hidden]="title.invalid || title.pristine"
-              class="alert alert-danger">
+            <div
+              [hidden]="form.title.invalid || !form.title.pristine"
+              class="alert alert-danger"
+            >
               Title is required
             </div>
           </div>
@@ -57,22 +50,27 @@
             <input
               type="text"
               class="form-control"
-              id="exampleInputPassword1"
               placeholder="Description"
-              [(ngModel)]="model.description"
-              required
-              name="description"
-              #description = "ngModel"
+              formControlName="description"
             />
-            <div [hidden]="description.invalid || description.pristine"
-              class="alert alert-danger">
+            <div
+              [hidden]="form.description.invalid || !form.description.pristine"
+              class="alert alert-danger"
+            >
               Description is required
             </div>
           </div>
           <hr width="100%" />
           <div class="form-group form-check text-left">
-              <input type="checkbox" class="form-check-input" id="exampleCheck1" [(ngModel)]="model.privacy" name="privacy"  >
-              <label class="form-check-label" for="exampleCheck1">private repository</label>
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="exampleCheck1"
+              formControlName="privacy"
+            />
+            <label class="form-check-label" for="exampleCheck1"
+              >private repository</label
+            >
           </div>
           <button
             type="button"
@@ -81,7 +79,7 @@
           >
             Close
           </button>
-          <button type="submit" class="btn btn-primary" >Create project</button>
+          <button type="submit" class="btn btn-primary">Create project</button>
         </form>
       </div>
     </div>
