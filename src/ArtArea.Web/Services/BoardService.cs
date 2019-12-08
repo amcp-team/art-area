@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ArtArea.Models;
 using ArtArea.Web.Data.Interface;
+using ArtArea.Web.Services.Models;
 
 namespace ArtArea.Web.Services
 {
@@ -26,6 +27,20 @@ namespace ArtArea.Web.Services
             }
             else throw new Exception("No board with this id");
 
+        }
+
+        public Task CreateBoard(CreateBoardModel board)
+        {
+            if (board != null)
+            {
+                return _boardRepository.CreateBoardAsync(new Board
+                {
+                    Title=board.Title,
+                    Description=board.Description
+                });
+
+            }
+            else throw new Exception("Some board's parameters are empty");
         }
         
 

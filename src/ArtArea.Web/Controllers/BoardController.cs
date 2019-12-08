@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ArtArea.Web.Services;
+using ArtArea.Web.Services.Models;
 
 namespace ArtArea.Web.Controllers
 {
@@ -39,6 +40,21 @@ namespace ArtArea.Web.Controllers
           
         }
 
+        [HttpGet,Route("create")]
+        public async Task<IActionResult> CreateBoard([FromBody]CreateBoardModel board)
+        {
+            try
+            {
+                await _boardService.CreateBoard(board);
+                return Ok();
+
+            }
+            catch(Exception e)
+            {
+                return NotFound(e.Message);
+            }
+
+        }
         
     }
 }
