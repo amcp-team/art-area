@@ -1,0 +1,17 @@
+.leftUp{
+    height: 75vh;
+}
+
+.ticky{
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+}
+
+#arrowTop::before {
+    content: '▲';
+  }
+
+.text{
+    size: 5vh;
+}
