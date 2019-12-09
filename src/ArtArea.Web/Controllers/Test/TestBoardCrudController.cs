@@ -22,22 +22,22 @@ namespace ArtArea.Web.Controllers.Test
 
         [HttpGet("{id}")]
         public async Task<Board> GetBoard(string id)
-            => await _boardRepository.ReadBoard(id);
+            => await _boardRepository.ReadBoardAsync(id);
 
         [HttpGet]
         public async Task<IEnumerable<Board>> GetBoards()
-            => await _boardRepository.ReadBoards();
+            => await _boardRepository.ReadBoardsAsync();
 
         [HttpPost]
         public async Task PostBoard([FromBody]Board board)
-            => await _boardRepository.CreateBoard(board);
+            => await _boardRepository.CreateBoardAsync(board);
 
         [HttpPut]
         public async Task PutBoard([FromBody]Board board)
-            => await _boardRepository.UpdateBoard(board);
+            => await _boardRepository.UpdateBoardAsync(board);
 
         [HttpDelete("{id}")]
         public async Task DeleteBoard(string id)
-            => await _boardRepository.DeleteBoard(id);
+            => await _boardRepository.DeleteBoardAsync(id);
     }
 }

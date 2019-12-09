@@ -12,45 +12,49 @@ namespace ArtArea.Web.Data.Repositories
         private ApplicationDb _database;
         ProjectRepository(ApplicationDb database) => _database = database;
 
+        #region Synchronous
         public void CreateProject(Project project)
         {
             throw new System.NotImplementedException();
         }
-
-        public async Task CreateProjectAsync(Project project)
-            => await _database.Projects.InsertOneAsync(project);
 
         public void DeleteProject(string id)
         {
             throw new System.NotImplementedException();
         }
 
-        public async Task DeleteProjectAsync(string id)
-            => await _database.Projects.DeleteOneAsync(x => x.Id == id);
-
         public Project ReadProject(string id)
         {
             throw new System.NotImplementedException();
         }
-
-        public async Task<Project> ReadProjectAsync(string id)
-            => await _database.Projects.Find(x => x.Id == id).FirstOrDefaultAsync();
 
         public IEnumerable<Project> ReadProjects()
         {
             throw new System.NotImplementedException();
         }
 
-        public async Task<IEnumerable<Project>> ReadProjectsAsync()
-            => await _database.Projects.Find(x => true).ToListAsync();
-
         public void UpdateProject(Project project)
         {
             throw new System.NotImplementedException();
         }
+        #endregion
 
-        public async Task UpdateProjectAsync(Project project)
-            => await _database.Projects.ReplaceOneAsync(new BsonDocument("_id", project.Id), project);
+        #region Asynchronous
+        public Task CreateProjectAsync(Project project)
+            => _database.Projects.InsertOneAsync(project);
+
+        public Task DeleteProjectAsync(string id)
+            => _database.Projects.DeleteOneAsync(x => x.Id == id);
+
+        public Task<Project> ReadProjectAsync(string id)
+            => _database.Projects.Find(x => x.Id == id).FirstOrDefaultAsync();
+
+        public Task<IEnumerable<Project>> ReadProjectsAsync()
+            => Task.Run(()=>_database.Projects.Find(x => true).ToEnumerable());
+
+        public Task UpdateProjectAsync(Project project)
+            => _database.Projects.ReplaceOneAsync(new BsonDocument("_id", project.Id), project);
+        #endregion
     }
 
 }

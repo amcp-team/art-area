@@ -34,7 +34,8 @@ namespace ArtArea.Web
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IBoardRepository, BoardRepository>();
             services.AddTransient<IProjectRepository, ProjectRepository>();
-
+            services.AddTransient<IMessageRepository,MessageRepository>();
+            services.AddTransient<IPinRepository,PinRepository>();
             services.AddSingleton<ApplicationDb>();
 
             services.AddTransient<AuthService>();

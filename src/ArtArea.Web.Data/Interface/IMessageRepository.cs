@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ArtArea.Web.Data.Interface
 {
-    interface IMessageRepository
+    public interface IMessageRepository
     {
         Task<IEnumerable<Message>> ReadMessagesAsync();
         Task<Message> ReadMessageAsync(string id);

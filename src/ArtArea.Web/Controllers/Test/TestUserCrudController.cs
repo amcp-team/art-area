@@ -22,9 +22,7 @@ namespace ArtArea.Web.Controllers.Test
 
         [HttpGet("{username}")]
         public async Task<User> GetUser(string username)
-        {
-            throw new NotImplementedException();
-        }
+            => await  _userRepository.ReadUserAsync(username);
 
         [HttpGet]
         public async Task<IEnumerable<User>> GetUsers()
