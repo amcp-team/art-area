@@ -30,6 +30,23 @@ export class ProjectService {
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
+  postBoard(
+    title: string,
+    description: string,
+    privacy: string,
+    projectId: string
+  ) {
+    var intPrivacy = +privacy;
+    return this.http
+      .post<string>("api/board/create", {
+        title,
+        description,
+        intPrivacy,
+        projectId
+      })
+      .pipe(catchError(this.errorHandler));
+  }
+
   errorHandler(error) {
     let errorMessage = "You are dumbhead and have error";
     if (error.error instanceof ErrorEvent) {

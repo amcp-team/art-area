@@ -3,4 +3,5 @@ export class Board {
   id: string;
   description: string;
   boardNumber: string;
+  privacy: boolean;
 }

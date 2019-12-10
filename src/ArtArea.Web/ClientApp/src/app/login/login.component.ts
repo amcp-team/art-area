@@ -12,7 +12,8 @@ import { first } from "rxjs/operators";
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   returnUrl: string;
-  error = "";
+  actionType: string;
+  error = ""; 
 
   constructor(
     private formBuilder: FormBuilder,
@@ -40,6 +41,8 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
+
+    console.log(this.form.username, this.form.password);
 
     this.authService
       .login(this.form.username.value, this.form.password.value)
