@@ -85,6 +85,11 @@ namespace ArtArea.Web.Data.Mock
 
         }
 
+        public IQueryable<T> Filter<T>(Func<T, bool> predicate)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

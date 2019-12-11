@@ -10,6 +10,16 @@ namespace ArtArea.Web.Data.Mock
 {
     public class FileRepositoryMock : IFileRepository
     {
+        public void DeleteFile(string fileId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteFileAsync(string fileId)
+        {
+            throw new NotImplementedException();
+        }
+
         public byte[] DownloadFileAsBytes(string fileId)
         {
             throw new System.NotImplementedException();
@@ -30,6 +40,26 @@ namespace ArtArea.Web.Data.Mock
             throw new System.NotImplementedException();
         }
 
+        public byte[] DownloadFileFromBytes(string fileId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<byte[]> DownloadFileFromBytesAsync(string fileId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Stream DownloadFileFromStream(string fileId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Stream> DownloadFileFromStreamAsync(string fileId)
+        {
+            throw new NotImplementedException();
+        }
+
         public string UploadFileFromBytes(string fileName, byte[] file)
         {
             throw new System.NotImplementedException();
@@ -38,6 +68,11 @@ namespace ArtArea.Web.Data.Mock
         public Task<string> UploadFileFromBytesAscyn(string fileName, byte[] file)
         {
             throw new System.NotImplementedException();
+        }
+
+        public Task<string> UploadFileFromBytesAsync(string fileName, byte[] file)
+        {
+            throw new NotImplementedException();
         }
 
         public string UploadFileFromStream(string fileName, Stream file)

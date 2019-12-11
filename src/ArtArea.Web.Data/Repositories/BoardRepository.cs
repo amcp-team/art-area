@@ -1,9 +1,15 @@
+using System;
 using System.Collections.Generic;
+using Linq = System.Linq;
 using System.Threading.Tasks;
 using ArtArea.Models;
 using ArtArea.Web.Data.Interface;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
+using System.Linq.Expressions;
+using System.Linq;
+
 namespace ArtArea.Web.Data.Repositories
 {
     public class BoardRepository : IBoardRepository
@@ -22,7 +28,7 @@ namespace ArtArea.Web.Data.Repositories
             throw new System.NotImplementedException();
         }
 
-        public Board ReadBoard(string id)
+        public Board ReadBoard(string id)   
         {
             throw new System.NotImplementedException();
         }
@@ -35,6 +41,13 @@ namespace ArtArea.Web.Data.Repositories
         public void UpdateBoard(Board board)
         {
             throw new System.NotImplementedException();
+        }
+
+        public IQueryable<Board> Filter<Board>(Func<Board,bool> predicate)
+        {
+            throw new System.NotImplementedException();
+            //var query = _database.Boards.AsQueryable().Where(predicate);
+            //return query;
         }
         #endregion
 
@@ -57,6 +70,7 @@ namespace ArtArea.Web.Data.Repositories
 
         public Task UpdateBoardAsync(Board board)
             => _database.Boards.ReplaceOneAsync(new BsonDocument("_id", board.Id), board);
+
         #endregion
     }
 }

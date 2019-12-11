@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using ArtArea.Models;
 namespace ArtArea.Web.Data.Interface
 {
-    public interface IBoardRepository
+    public interface IBoardRepository:IFiltrableRepository
     {
         //Asynchronous methods
         Task<IEnumerable<Board>> ReadBoardsAsync();
