@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace ArtArea.Web.Data.Repositories
 {
-    class FileRepository : IFileRepository
+    public class FileRepository : IFileRepository
     {
         private IGridFSBucket _bucket;
         FileRepository(IGridFSBucket bucket)

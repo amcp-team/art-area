@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace ArtArea.Web.Data.Interface
 {
 
-    interface IFileRepository
+    public interface IFileRepository
     {
         #region Synchronous
         string UploadFileFromBytes(string fileName, byte[] file);
