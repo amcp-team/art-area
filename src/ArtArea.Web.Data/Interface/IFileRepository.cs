@@ -4,10 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+
 using System.Threading.Tasks;
 
 namespace ArtArea.Web.Data.Interface
 {
+
     interface IFileRepository
     {
         #region Synchronous
@@ -28,3 +30,4 @@ namespace ArtArea.Web.Data.Interface
         #endregion
     }
 }
+

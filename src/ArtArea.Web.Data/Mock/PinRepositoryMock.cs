@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace ArtArea.Web.Data.Mock
 {
     public class PinRepositoryMock : IPinRepository
+
     {
         #region Synchronous
 

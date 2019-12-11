@@ -1,5 +1,9 @@
 export class Pin {
-  title: string;
-  id: string;
-  description: string;
+	id:string;
+	message:{
+		id:string,
+		text:string,
+		date:Date,
+		author:string
+  }
 }

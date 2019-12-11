@@ -36,11 +36,15 @@ namespace ArtArea.Web
             services.AddTransient<IProjectRepository, ProjectRepository>();
             services.AddTransient<IMessageRepository,MessageRepository>();
             services.AddTransient<IPinRepository,PinRepository>();
+            services.AddTransient<IFileRepository,FileRepository>();
             services.AddSingleton<ApplicationDb>();
+
 
             services.AddTransient<AuthService>();
             services.AddTransient<UserService>();
             services.AddTransient<ProjectService>();
+            services.AddTransient<PinService>();
+            services.AddTransient<BoardService>();
 
             var serverConfig = new ServerConfig();
             Configuration.Bind(serverConfig);
@@ -69,9 +73,6 @@ namespace ArtArea.Web
                     ValidAudience = jwtBearerSettings.Audience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtBearerSettings.SecretKey))
                 };
-
-                // options.SaveToken = true;
-                // options.RequireHttpsMetadata = true;
             });
 
             services.AddCors(options =>

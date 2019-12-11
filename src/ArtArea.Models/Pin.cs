@@ -28,7 +28,7 @@ namespace ArtArea.Models
 
         [BsonRepresentation(BsonType.ObjectId)]
         public string FileId { get; set; }
-        public string Thumbnail { get; set; }
+        public string ThumbnailId { get; set; }
 
     }
 }

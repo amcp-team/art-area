@@ -29,6 +29,16 @@ export class UserService {
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
+  postProject(title: string, description: string, privacy: boolean) {
+    return this.http
+      .post<string>("api/project/create", {
+        title,
+        description,
+        privacy
+      })
+      .pipe(catchError(this.errorHandler));
+  }
+
   errorHandler(error) {
     let errorMessage = "You are dumbhead and have error";
     if (error.error instanceof ErrorEvent) {

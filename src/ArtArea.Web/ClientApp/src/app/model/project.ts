@@ -4,4 +4,5 @@ export class Project {
   author: string;
   id: string;
   description: string;
+  privacy: boolean;
 }

@@ -30,6 +30,13 @@ export class BoardService {
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
+  postPin(formData: FormData) {
+    console.log("post pin");
+    return this.http
+      .post("api/pin/create", formData)
+      .pipe(catchError(this.errorHandler));
+  }
+
   errorHandler(error) {
     let errorMessage = "You are dumbhead and have error";
     if (error.error instanceof ErrorEvent) {
