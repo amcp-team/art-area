@@ -1,7 +1,7 @@
 <p>pin-creating-comment works!</p>
-<form  class="rounded border border-primary text-center" >
+<form [formGroup]="createMessageForm" (ngSubmit)="onSubmit()" class="rounded border border-primary text-center" >
         <label>Your comment</label>
-        <div class="form-group" >
+        <div class="form-group" formControlName="message">
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>

@@ -27,6 +27,8 @@ export class PinCreatingCommentComponent implements OnInit {
       "." +
       params["board"] +
       "." +
+      "pin" +
+      "." +
       (<string>params["pin"]).toLowerCase().replace(" ", "-");
     })
    }
