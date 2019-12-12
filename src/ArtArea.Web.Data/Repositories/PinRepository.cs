@@ -17,29 +17,19 @@ namespace ArtArea.Web.Data.Repositories
 
         #region Synchronous
         public void CreatePin(Pin pin)
-        {
-            throw new NotImplementedException();
-        }
+            => _database.Pins.InsertOne(pin);
 
         public void DeletePin(string id)
-        {
-            throw new NotImplementedException();
-        }
+            => _database.Pins.DeleteOne(x => x.Id == id);
 
         public Pin ReadPin(string id)
-        {
-            throw new NotImplementedException();
-        }
+            => _database.Pins.Find(x => x.Id == id).FirstOrDefault();
 
         public IEnumerable<Pin> ReadPins()
-        {
-            throw new NotImplementedException();
-        }
+            => _database.Pins.Find(x => true).ToList();
 
         public void UpdatePin(Pin pin)
-        {
-            throw new NotImplementedException();
-        }
+            => _database.Pins.ReplaceOne(new BsonDocument("_id", pin.Id), pin);
         #endregion
 
         #region Asynchronous
