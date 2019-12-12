@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -44,5 +45,27 @@ namespace ArtArea.Web.Services
                 return _fileRepository.UploadFileFromStream(file.FileName, fileStream);
             }
         }
+
+        public bool PinMessageExists(string id)
+            => _pinRepository.ReadPin(id).Message != null;
+
+        public bool PinMessagesExist(string id)
+            => _pinRepository.ReadPin(id).Messages != null;
+
+      /*  public Task<IEnumerable> GetPinMessages(string id)
+        {
+            if (PinExist(id))
+            {
+                if (PinMessagesExist(id) && PinMessageExists(id))
+                {
+                    
+
+
+                }
+                else throw new Exception("Pin has no messages");
+
+            }
+            else throw new Exception("No pin with this id");
+        }*/
     }
 }
