@@ -78,7 +78,7 @@ namespace ArtArea.Web.Controllers
 
                 await _pinService.CreatePinAsync(newPin);
 
-                return Ok();
+                return Ok(new { pinId = newPin.Id });
             }
             catch (Exception e)
             {
@@ -90,7 +90,7 @@ namespace ArtArea.Web.Controllers
         //[HttpGet("messages/{id}")]
         //public async Task<IActionResult> GetPinMessages(string id)
         //{
-            
+
         //}
     }
 }
