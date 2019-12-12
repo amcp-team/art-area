@@ -18,7 +18,7 @@ namespace ArtArea.Web.Data
             _bucket = new GridFSBucket(_database);
         }
 
-        IGridFSBucket GetBucket()
+        public IGridFSBucket GetBucket()
             => _bucket;
 
         public IMongoCollection<User> Users => _database.GetCollection<User>("user");
