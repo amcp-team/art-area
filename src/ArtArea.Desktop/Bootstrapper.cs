@@ -1,4 +1,5 @@
-﻿using ArtArea.Desktop.Helpers;
+﻿using ArtArea.Desktop.Client;
+using ArtArea.Desktop.Helpers;
 using ArtArea.Desktop.ViewModels;
 using Caliburn.Micro;
 using System;
@@ -37,6 +38,9 @@ namespace ArtArea.Desktop
                 .ToList()
                 .ForEach(viewModelType =>
                     _container.RegisterPerRequest(viewModelType, viewModelType.ToString(), viewModelType));
+
+            _container
+                .Singleton<ClientHandler>();
         }
 
         #region DI Simple Container Utils

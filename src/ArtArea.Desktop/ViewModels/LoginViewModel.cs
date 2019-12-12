@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using ArtArea.Desktop.Client;
 
 namespace ArtArea.Desktop.ViewModels
 {
@@ -12,6 +13,12 @@ namespace ArtArea.Desktop.ViewModels
     {
         private string _username;
         private string _password;
+        private ClientHandler _client;
+
+        public LoginViewModel(ClientHandler client)
+        {
+            _client = client;
+        }
 
         public string Username
         {
@@ -37,16 +44,13 @@ namespace ArtArea.Desktop.ViewModels
 
         public bool CanLogin => !string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password);
 
-        public async Task Login(string username, string password)
+        public async Task Login()
         {
-            using (var client = new HttpClient())
+            var success = await _client.Login(_username, _password);
+
+            if(success)
             {
-                client.BaseAddress = new Uri("http://localhost:5001/api/");
-
-                var response = await client.PostAsync("login",
-                    new StringContent(JsonConvert.SerializeObject(new { username = _username, password = _password }), Encoding.UTF8, "application/json"));
-
-                var token = await response.Content.ReadAsStringAsync();
+                // navigate to another view model
             }
         }
     }
