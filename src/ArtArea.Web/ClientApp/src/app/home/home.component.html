@@ -10,12 +10,12 @@
                 <p @fade>Enjoy Art Area</p>
             </div>                 
         </div>
-        <div class="col-6 leftUp text-center pt-5">
-            <div class="pt-5">
-                <h1 @fade1500 class="pt-5">Create your project<br/> right now.</h1>
+        <div class="col-6 leftUp text-center bg-primary pt-5 pl-5">
+            <div class="pt-5 bg-white height-100 rounded leftIntro">
+                <h1 @fade1500 class="">Create your project<br/> right now.</h1>
                 <p @fade class="pt-4">Join Art Area right now!</p>
                 <a @fade2500 href="" class="btn btn-button bg-primary text-white" style="width: 30vh">Login</a><br/>
-                <div class="pt-2">
+                <div class="pt-2 pb-5">
                     <a @fade3000 href="" class="btn btn-button border-primary bg-white text-primary" style="width: 30vh">Register</a>
                 </div>
             </div>            
@@ -27,8 +27,8 @@
         </div>
     </div>
     <div #target class="row text-center pb-4 bg-white ticky">
-        <div class="col-12 bg-white">
-            <p (click)="scroll(target)" class="btn btn-button bg-white" style="width: 100%;">How you can use it?</p>
+        <div class="col-12 bg-white" (click)="scroll(target)">
+            <h1 class="display-4">How can you use it?</h1>
         </div>
     </div>
     <div class="row bg-light"  style="height: 3vh;">
@@ -37,8 +37,8 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-5">
-            <img @flyInOutLeft src="https://via.placeholder.com/600"  class="text pt-5 slideRight pl-5" style="left: 100px;" alt="">
+        <div class="col-5 " data-aos="fade-in">
+            <img  src="https://via.placeholder.com/600"  class="text pt-5 slideRight pl-5" style="left: 100px;" alt="">
         </div>
         <div class="col-7">
             <div @flyInOutRight class="pt-5">
@@ -48,6 +48,6 @@
         </div>
     </div>
     <img @flyInOutLeft src="https://via.placeholder.com/1000"  class="pt-5 slideRight pl-5" style="left: 100px;" alt="">
-</div>
+    <div class="item bg-primary" data-aos="fade-up"></div>
 
 

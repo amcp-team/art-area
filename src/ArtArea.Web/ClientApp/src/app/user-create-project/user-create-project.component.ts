@@ -13,10 +13,13 @@ import { AuthenticationService } from "../app-auth/authentication.service";
 })
 export class UserCreateProjectComponent implements OnInit {
   createProjectForm: FormGroup;
+  username: string;
 
   constructor(
     private userService: UserService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private route : ActivatedRoute,
+    private router : Router
   ) {}
 
   ngOnInit() {
@@ -47,9 +50,10 @@ export class UserCreateProjectComponent implements OnInit {
       )
       .pipe(first())
       .subscribe(x => {
-        // route to created project page
-        console.log("Project Id is !!!");
+        // TODO route to created project page
         console.log(x);
+        this.router.navigate(['username' + '/' + this.form.title])
       });
+      
   }
 }

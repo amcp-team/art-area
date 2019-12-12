@@ -31,6 +31,8 @@ import { PinCreatingCommentComponent } from "./pin-page/pin-creating-comment/pin
 import { PinHeadComponent } from "./pin-page/pin-head/pin-head.component";
 import { PinComponent } from "./pin-page/pin/pin.component";
 import { BoardCreatePinComponent } from './board-page/board-create-pin/board-create-pin.component';
+// import { AnimationComponent } from './animation/animation.component';
+
 
 @NgModule({
   declarations: [
@@ -56,7 +58,8 @@ import { BoardCreatePinComponent } from './board-page/board-create-pin/board-cre
     PinCreatingCommentComponent,
     PinHeadComponent,
     PinComponent,
-    BoardCreatePinComponent
+    BoardCreatePinComponent,
+    // AnimationComponent,
   ],
   imports: [
     HttpClientModule,

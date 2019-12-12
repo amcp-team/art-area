@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { trigger, state, transition, style, animate } from '@angular/animations';
+import * as AOS from 'aos';
 
 @Component({
   selector: "app-home",
@@ -61,11 +62,14 @@ import { trigger, state, transition, style, animate } from '@angular/animations'
 export class HomeComponent implements OnInit {
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   scroll(el: HTMLElement){
     el.scrollIntoView({behavior: 'smooth'});
   }
+
+  
 
   
 }
