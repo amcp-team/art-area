@@ -1,10 +1,12 @@
-﻿using ArtArea.Desktop.ViewModels;
+﻿using ArtArea.Desktop.Helpers;
+using ArtArea.Desktop.ViewModels;
 using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace ArtArea.Desktop
 {
@@ -12,8 +14,15 @@ namespace ArtArea.Desktop
     {
         private SimpleContainer _container = new SimpleContainer();
         private bool _databaseConfigured = false;
-        public Bootstrapper() => Initialize();
+        public Bootstrapper()
+        {
+            Initialize();
 
+            ConventionManager.AddElementConvention<PasswordBox>(
+            PasswordBoxHelper.BoundPasswordProperty,
+            "Password",
+            "PasswordChanged");
+        }
         protected override void Configure()
         {
             _container = _container.Instance(_container);
