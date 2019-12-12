@@ -34,6 +34,13 @@ export class PinService {
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
+  postMessage(formData: FormData){
+    console.log("post message");
+    return this.http
+      .post("api/post/message", formData)
+      .pipe(catchError(this.errorHandler));
+  }
+
 
 
 
