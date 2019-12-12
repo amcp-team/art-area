@@ -15,7 +15,7 @@ namespace ArtArea.Web.Data.Repositories
     public class FileRepository : IFileRepository
     {
         private IGridFSBucket _bucket;
-        FileRepository(IGridFSBucket bucket)
+        public FileRepository(IGridFSBucket bucket)
             => _bucket = bucket;
 
         #region Synchronous

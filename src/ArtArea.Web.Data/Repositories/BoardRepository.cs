@@ -15,33 +15,22 @@ namespace ArtArea.Web.Data.Repositories
     public class BoardRepository : IBoardRepository
     {
         private ApplicationDb _database;
-        BoardRepository(ApplicationDb database) => _database = database;
+        public BoardRepository(ApplicationDb database) => _database = database;
 
         #region Synchronous
         public void CreateBoard(Board board)
-        {
-            throw new System.NotImplementedException();
-        }
-
+            => _database.Boards.InsertOne(board);
         public void DeleteBoard(string id)
-        {
-            throw new System.NotImplementedException();
-        }
+            => _database.Boards.DeleteOne(x => x.Id == id);
 
-        public Board ReadBoard(string id)   
-        {
-            throw new System.NotImplementedException();
-        }
+        public Board ReadBoard(string id)
+            => _database.Boards.Find(x => x.Id == id).FirstOrDefault();
 
         public IEnumerable<Board> ReadBoards()
-        {
-            throw new System.NotImplementedException();
-        }
+            => _database.Boards.Find(x => true).ToList();
 
         public void UpdateBoard(Board board)
-        {
-            throw new System.NotImplementedException();
-        }
+            => _database.Boards.ReplaceOne(new BsonDocument("_id", board.Id), board);
 
         public IQueryable<Board> Filter<Board>(Func<Board,bool> predicate)
         {

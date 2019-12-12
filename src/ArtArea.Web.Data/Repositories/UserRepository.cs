@@ -14,29 +14,19 @@ namespace ArtArea.Web.Data.Repositories
 
         #region Synchronous
         public void CreateUser(User user)
-        {
-            throw new System.NotImplementedException();
-        }
+            => _database.Users.InsertOne(user);
 
         public void DeleteUser(string name)
-        {
-            throw new System.NotImplementedException();
-        }
+            => _database.Users.DeleteOne(x => x.Username == name);
 
         public User ReadUser(string name)
-        {
-            throw new System.NotImplementedException();
-        }
+            => _database.Users.Find(x => x.Username == name).FirstOrDefault();
 
         public IEnumerable<User> ReadUsers()
-        {
-            throw new System.NotImplementedException();
-        }
+            => _database.Users.Find(x => true).ToList();
 
         public void UpdateUser(User user)
-        {
-            throw new System.NotImplementedException();
-        }
+            => _database.Users.ReplaceOne(new BsonDocument("_id", user.Username), user);
         #endregion
 
         #region Asynchronous

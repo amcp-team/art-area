@@ -10,33 +10,23 @@ namespace ArtArea.Web.Data.Repositories
     public class ProjectRepository : IProjectRepository
     {
         private ApplicationDb _database;
-        ProjectRepository(ApplicationDb database) => _database = database;
+        public ProjectRepository(ApplicationDb database) => _database = database;
 
         #region Synchronous
         public void CreateProject(Project project)
-        {
-            throw new System.NotImplementedException();
-        }
+            => _database.Projects.InsertOne(project);
 
         public void DeleteProject(string id)
-        {
-            throw new System.NotImplementedException();
-        }
+            => _database.Projects.DeleteOne(x => x.Id == id);
 
         public Project ReadProject(string id)
-        {
-            throw new System.NotImplementedException();
-        }
+            => _database.Projects.Find(x => x.Id == id).FirstOrDefault();
 
         public IEnumerable<Project> ReadProjects()
-        {
-            throw new System.NotImplementedException();
-        }
+            => _database.Projects.Find(x => true).ToList();
 
         public void UpdateProject(Project project)
-        {
-            throw new System.NotImplementedException();
-        }
+            => _database.Projects.ReplaceOne(new BsonDocument("_id", project.Id), project);
         #endregion
 
         #region Asynchronous
