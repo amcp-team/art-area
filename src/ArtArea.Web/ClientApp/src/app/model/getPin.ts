@@ -1,5 +1,5 @@
 export class getPin {
-    id: string;
-    message: string;
-    thumbnailId: string;  
-  }
+  id: string;
+  description: string;
+  thumbnailId: string;
+}
