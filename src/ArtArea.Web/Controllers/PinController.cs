@@ -21,14 +21,42 @@ namespace ArtArea.Web.Controllers
         public IFormFile SourceFile { get; set; }
 
     }
-
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class PinController : ControllerBase
     {
         private PinService _pinService;
         public PinController(PinService pinService)
             => _pinService = pinService;
+
+        [HttpGet("pin/{id}")]          //TODO:make true route
+        public async Task<IActionResult> GetImage(string id)
+        {
+            try
+            {
+                var imageToConvert = await _pinService.GetFileRepository().DownloadFileFromBytesAsync(id);
+                var image = Convert.ToBase64String(imageToConvert);
+                return new ObjectResult(image);
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
+
+        }
+        [HttpDelete("pin/{id}")]       //TODO: make true route
+        public async Task<IActionResult> DeleteImage(string id)
+        {
+            try
+            {
+                await _pinService.GetFileRepository().DeleteFileAsync(id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
+        }
 
         [HttpGet("data/{id}")]
         public async Task<IActionResult> GetPinData(string id)

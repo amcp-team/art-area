@@ -19,6 +19,8 @@ namespace ArtArea.Web.Services
             _pinRepository = pinRepository;
             _fileRepository = fileRepository;
         }
+        public IFileRepository GetFileRepository()
+            => _fileRepository;
 
         public bool PinExist(string pinId)
             => _pinRepository.ReadPin(pinId) != null;
