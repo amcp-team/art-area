@@ -117,13 +117,14 @@ namespace ArtArea.Web.Controllers
 
         }
 
-        [HttpGet("thumbnail/{id}")]
-        public IActionResult GetPinThumbnail(string id)
+        [HttpGet("thumbnail/{pinId}")]
+        public async Task<IActionResult> GetPinThumbnail(string pinId)
         {
-            // TODO return base 64 string with initial format data
-            var base64 = _pinService.GetBase64Thumbnail(id);
+            var pin = await _pinService.GetPinAsync(pinId);
 
-            return new ObjectResult(base64);
+            var base64 = "data:image/jpeg;base64," + _pinService.GetBase64Thumbnail(pin.ThumbnailId);
+
+            return new ObjectResult(new { base64 = base64 });
         }
     }
 }

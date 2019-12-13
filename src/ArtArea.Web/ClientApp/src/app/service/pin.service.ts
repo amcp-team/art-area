@@ -7,6 +7,7 @@ import { Pin } from "../model/pin";
 import { Message } from "../model/message";
 import { Data } from "@angular/router";
 import { identifierModuleUrl } from "@angular/compiler";
+import { Base64Image } from "../model/base64Imgae";
 
 @Injectable({
   providedIn: "root"
@@ -33,8 +34,10 @@ export class PinService {
   }
 
   getThumbnailBase64(id: string) {
+    console.log("base64 method");
+    console.log(id);
     return this.http
-      .get("api/pin/thumbnail/" + id, this.httpOptions)
+      .get<Base64Image>("api/pin/thumbnail/" + id, this.httpOptions)
       .pipe(catchError(this.errorHandler));
   }
 
