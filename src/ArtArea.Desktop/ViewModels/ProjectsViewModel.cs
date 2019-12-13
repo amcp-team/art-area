@@ -4,6 +4,7 @@ using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 
 namespace ArtArea.Desktop.ViewModels
@@ -18,6 +19,13 @@ namespace ArtArea.Desktop.ViewModels
             _selected = null;
 
             // TODO get project from api
+            var projects = _api.GetUserProjects();
+
+            _projects = new BindingList<ProjectModel>();
+
+            projects
+                .ToList()
+                .ForEach(x => _projects.Add(x));
         }
 
         private BindingList<ProjectModel> _projects;
