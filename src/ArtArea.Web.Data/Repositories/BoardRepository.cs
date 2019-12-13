@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
-using Linq = System.Linq;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ArtArea.Models;
 using ArtArea.Web.Data.Interface;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
-using System.Linq.Expressions;
-using System.Linq;
 
 namespace ArtArea.Web.Data.Repositories
 {
@@ -32,11 +31,12 @@ namespace ArtArea.Web.Data.Repositories
         public void UpdateBoard(Board board)
             => _database.Boards.ReplaceOne(new BsonDocument("_id", board.Id), board);
 
-        public IQueryable<Board> Filter<Board>(Func<Board,bool> predicate)
+        public IQueryable<ArtArea.Models.Board> Filter<Board>(Expression<Func<ArtArea.Models.Board, bool>> predicate)
         {
-            throw new System.NotImplementedException();
-            //var query = _database.Boards.AsQueryable().Where(predicate);
-            //return query;
+            var mongoQuery = _database.Boards.AsQueryable();
+            var linqQuery = mongoQuery.AsQueryable();
+
+            return linqQuery.Where(predicate);
         }
         #endregion
 
@@ -53,7 +53,7 @@ namespace ArtArea.Web.Data.Repositories
 
 
         public Task<IEnumerable<Board>> ReadBoardsAsync()
-            => Task.Run(()=>_database.Boards.Find(x => true).ToEnumerable());
+            => Task.Run(() => _database.Boards.Find(x => true).ToEnumerable());
 
 
 

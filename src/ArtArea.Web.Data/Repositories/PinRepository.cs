@@ -4,7 +4,8 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace ArtArea.Web.Data.Repositories
@@ -30,23 +31,33 @@ namespace ArtArea.Web.Data.Repositories
 
         public void UpdatePin(Pin pin)
             => _database.Pins.ReplaceOne(new BsonDocument("_id", pin.Id), pin);
+
+        public IQueryable<ArtArea.Models.Pin> Filter<Pin>(Expression<Func<ArtArea.Models.Pin, bool>> predicate)
+        {
+            var mongoQuery = _database.Pins.AsQueryable();
+            var linqQuery = mongoQuery.AsQueryable();
+
+            return linqQuery.Where(predicate);
+        }
+
         #endregion
 
         #region Asynchronous
         public Task CreatePinAsync(Pin pin)
             => _database.Pins.InsertOneAsync(pin);
 
-        public  Task DeletePinAsync(string id)
+        public Task DeletePinAsync(string id)
             => _database.Pins.DeleteOneAsync(id);
 
-        public  Task<Pin> ReadPinAsync(string id)
+        public Task<Pin> ReadPinAsync(string id)
             => _database.Pins.Find(x => x.Id == id).FirstOrDefaultAsync();
 
         public Task<IEnumerable<Pin>> ReadPinsAsync()
-            => Task.Run(()=>_database.Pins.Find(x => true).ToEnumerable());
+            => Task.Run(() => _database.Pins.Find(x => true).ToEnumerable());
 
         public Task UpdatePinAsync(Pin pin)
-            => _database.Pins.ReplaceOneAsync(new BsonDocument("_id",pin.Id),pin);
+            => _database.Pins.ReplaceOneAsync(new BsonDocument("_id", pin.Id), pin);
+
         #endregion
     }
 }

@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ArtArea.Models;
 using ArtArea.Web.Data.Interface;
@@ -27,6 +30,15 @@ namespace ArtArea.Web.Data.Repositories
 
         public void UpdateProject(Project project)
             => _database.Projects.ReplaceOne(new BsonDocument("_id", project.Id), project);
+
+        public IQueryable<ArtArea.Models.Project> Filter<Project>(Expression<Func<ArtArea.Models.Project, bool>> predicate)
+        {
+            var mongoQuery = _database.Projects.AsQueryable();
+            var linqQuery = mongoQuery.AsQueryable();
+
+            return linqQuery.Where(predicate);
+        }
+
         #endregion
 
         #region Asynchronous
@@ -40,7 +52,7 @@ namespace ArtArea.Web.Data.Repositories
             => _database.Projects.Find(x => x.Id == id).FirstOrDefaultAsync();
 
         public Task<IEnumerable<Project>> ReadProjectsAsync()
-            => Task.Run(()=>_database.Projects.Find(x => true).ToEnumerable());
+            => Task.Run(() => _database.Projects.Find(x => true).ToEnumerable());
 
         public Task UpdateProjectAsync(Project project)
             => _database.Projects.ReplaceOneAsync(new BsonDocument("_id", project.Id), project);

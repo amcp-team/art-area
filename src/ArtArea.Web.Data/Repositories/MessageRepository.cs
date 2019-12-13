@@ -4,12 +4,14 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ArtArea.Web.Data.Repositories
 {
-    public class MessageRepository:IMessageRepository
+    public class MessageRepository : IMessageRepository
     {
         private ApplicationDb _database;
         public MessageRepository(ApplicationDb database)
@@ -40,11 +42,21 @@ namespace ArtArea.Web.Data.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public IQueryable<ArtArea.Models.Message> Filter<Message>(Expression<Func<ArtArea.Models.Message, bool>> predicate)
+        {
+            var mongoQuery = _database.Messages.AsQueryable();
+            var linqQuery = mongoQuery.AsQueryable();
+
+            return linqQuery.Where(predicate);
+        }
+
+
         #endregion
 
         #region Asynchronous
         public Task CreateMessageAsync(Message message)
-            =>  _database.Messages.InsertOneAsync(message);
+            => _database.Messages.InsertOneAsync(message);
 
         public Task DeleteMessageAsync(string id)
             => _database.Messages.DeleteOneAsync(id);
@@ -53,10 +65,10 @@ namespace ArtArea.Web.Data.Repositories
             => _database.Messages.Find(x => x.Id == id).FirstOrDefaultAsync();
 
         public Task<IEnumerable<Message>> ReadMessagesAsync()
-            => Task.Run(()=>_database.Messages.Find(x=>true).ToEnumerable());
+            => Task.Run(() => _database.Messages.Find(x => true).ToEnumerable());
 
         public Task UpdateMessageAsync(Message message)
-            => _database.Messages.ReplaceOneAsync(new BsonDocument("_id", message.Id),message);
+            => _database.Messages.ReplaceOneAsync(new BsonDocument("_id", message.Id), message);
         #endregion
     }
 }

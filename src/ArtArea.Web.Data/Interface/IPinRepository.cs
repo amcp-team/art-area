@@ -1,6 +1,8 @@
 ﻿using ArtArea.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,6 +23,7 @@ namespace ArtArea.Web.Data.Interface
         Pin ReadPin(string id);
         void CreatePin(Pin pin);
         void UpdatePin(Pin pin);
-        void DeletePin(string id);          
+        void DeletePin(string id);
+        IQueryable<Models.Pin> Filter<Pin>(Expression<Func<Models.Pin, bool>> predicate);
     }
 }

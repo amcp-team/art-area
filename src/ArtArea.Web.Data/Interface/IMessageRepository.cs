@@ -1,6 +1,8 @@
 ﻿using ArtArea.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,5 +21,6 @@ namespace ArtArea.Web.Data.Interface
         void CreateMessage(Message message);
         void UpdateMessage(Message message);
         void DeleteMessage(string id);
+        IQueryable<Models.Message> Filter<Message>(Expression<Func<Models.Message, bool>> predicate);
     }
 }
