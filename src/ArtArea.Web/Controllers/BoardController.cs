@@ -28,13 +28,16 @@ namespace ArtArea.Web.Controllers
         {
             try
             {
-                var board = await _boardService.GetBoardAsync(id);
-                return new ObjectResult(new
-                {
-                    title=board.Title,
-                    description=board.Description
-                });
+                    var board = await _boardService.GetBoardAsync(id);
+                    return new ObjectResult(new
+                    {
+                        title = board.Title,
+                        id = board.Id,
+                        description = board.Description,
+                        boardNumber = board.Number
 
+                    });
+                
 
             }
             catch (Exception e)
