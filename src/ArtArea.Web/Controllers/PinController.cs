@@ -7,7 +7,7 @@ using ArtArea.Models;
 using ArtArea.Web.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using MongoDB.Bson;
 
 namespace ArtArea.Web.Controllers
 {
@@ -74,15 +74,23 @@ namespace ArtArea.Web.Controllers
                     ThumbnailId = thumbnailId,
                     FileId = sourceFileId
                 };
+                newPin.Id = ObjectId.GenerateNewId().ToString();
 
                 await _pinService.CreatePinAsync(newPin);
 
-                return Ok();
+                return Ok(new { pinId = newPin.Id });
             }
             catch (Exception e)
             {
                 return StatusCode(500, e.Message);
             }
         }
+
+
+        //[HttpGet("messages/{id}")]
+        //public async Task<IActionResult> GetPinMessages(string id)
+        //{
+
+        //}
     }
 }

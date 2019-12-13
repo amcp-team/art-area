@@ -3,14 +3,13 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
 import { catchError, retry } from "rxjs/operators";
 
-
 import { Pin } from "../model/pin";
-import { Message } from "../model/message"
-import { Data } from '@angular/router';
-import { identifierModuleUrl } from '@angular/compiler';
+import { Message } from "../model/message";
+import { Data } from "@angular/router";
+import { identifierModuleUrl } from "@angular/compiler";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class PinService {
   httpOptions = {
@@ -20,23 +19,25 @@ export class PinService {
   };
 
   constructor(private http: HttpClient) {}
-  
 
-  getMessages(id:string): Observable<Message[]>{
+  getMessages(id: string): Observable<Message[]> {
     return this.http
-      .get<Message[]>("api/pin/messages" + id, this.httpOptions)
+      .get<Message[]>("api/pin/messages/" + id, this.httpOptions)
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
-  getPicture(): Data{
+  getPicture(): Data {
     return this.http
       .get<Data>("api/pin/picture", this.httpOptions)
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
-
-
-
+  postMessage(formData: FormData) {
+    console.log("post message");
+    return this.http
+      .post("api/post/message", formData)
+      .pipe(catchError(this.errorHandler));
+  }
 
   errorHandler(error) {
     let errorMessage = "You are dumbhead and have error";
@@ -51,5 +52,3 @@ export class PinService {
     return throwError(errorMessage);
   }
 }
-
-
