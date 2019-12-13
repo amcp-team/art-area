@@ -15,20 +15,20 @@ namespace ArtArea.Web.Controllers
     {
         private BoardService _boardService;
         private PinService _pinService;
-        public BoardController(BoardService boardService,PinService pinService)
+        public BoardController(BoardService boardService, PinService pinService)
         {
             _boardService = boardService;
             _pinService = pinService;
 
         }
-            
+
 
         [HttpGet("data/{id}")]
         public async Task<IActionResult> GetBoardData(string id)
         {
             try
             {
-                
+
                 return new ObjectResult(
 
                     (await _boardService.GetPinsAsync(id))
@@ -36,7 +36,7 @@ namespace ArtArea.Web.Controllers
                     {
                         id = x.Id,
                         message = x.Message,
-                        thumbnailId=x.ThumbnailId
+                        thumbnailId = x.ThumbnailId
                     }
                     ));
             }
@@ -72,16 +72,17 @@ namespace ArtArea.Web.Controllers
         [HttpGet("pins/{id}")]
         public async Task<IActionResult> GetPins(string id)
         {
-            try 
+            try
             {
-                var pins = _boardService.GetPinsAsync(id);
-                return new ObjectResult(new
+                var pins = await _boardService.GetPinsAsync(id);
+                return new ObjectResult(pins.Select(x => new
                 {
-
-
-                });
+                    Id = x.Id,
+                    Description = x.Message.MarkdownText,
+                    ThumbnailId = x.ThumbnailId
+                }));
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return NotFound(e.Message);
             }
