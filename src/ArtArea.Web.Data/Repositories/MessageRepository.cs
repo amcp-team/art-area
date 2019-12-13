@@ -31,10 +31,7 @@ namespace ArtArea.Web.Data.Repositories
             => _database.Messages.Find(x => true).ToList();
 
         public void UpdateMessage(Message message)
-
-        {
-            throw new NotImplementedException();
-        }
+            =>_database.Messages.ReplaceOne(new BsonDocument("_id", message.Id), message);
 
         public IQueryable<ArtArea.Models.Message> Filter<Message>(Expression<Func<ArtArea.Models.Message, bool>> predicate)
         {
