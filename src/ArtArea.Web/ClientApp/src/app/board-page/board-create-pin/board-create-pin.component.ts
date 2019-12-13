@@ -10,6 +10,24 @@ import { toFormData } from "src/app/utils/toFormData";
 import { NewPin } from "src/app/model/newPin";
 import { ActivatedRoute } from "@angular/router";
 
+export function requiredFileType(type: string) {
+  return function(control: FormControl) {
+    const file = control.value;
+    if (file) {
+      const extension = file.name.split(".")[1].toLowerCase();
+      if (type.toLowerCase() !== extension.toLowerCase()) {
+        return {
+          requiredFileType: true
+        };
+      }
+
+      return null;
+    }
+
+    return null;
+  };
+}
+
 @Component({
   selector: "app-board-create-pin",
   templateUrl: "./board-create-pin.component.html",
@@ -33,7 +51,7 @@ export class BoardCreatePinComponent implements OnInit {
   ngOnInit() {
     this.newPinForm = this.formBuilder.group({
       message: [""],
-      thumbnail: [""],
+      thumbnail: ["", requiredFileType("jpeg")],
       sourceFile: [""]
     });
   }

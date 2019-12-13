@@ -32,7 +32,11 @@ export class PinService {
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
-  
+  getThumbnailBase64(id: string) {
+    return this.http
+      .get("api/pin/thumbnail/" + id, this.httpOptions)
+      .pipe(catchError(this.errorHandler));
+  }
 
   postMessage(formData: FormData) {
     console.log("post message");

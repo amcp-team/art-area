@@ -116,5 +116,14 @@ namespace ArtArea.Web.Controllers
             }
 
         }
+
+        [HttpGet("thumbnail/{id}")]
+        public IActionResult GetPinThumbnail(string id)
+        {
+            // TODO return base 64 string with initial format data
+            var base64 = _pinService.GetBase64Thumbnail(id);
+
+            return new ObjectResult(base64);
+        }
     }
 }

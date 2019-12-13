@@ -86,7 +86,7 @@ namespace ArtArea.Web.Services
             else throw new Exception("No pin with this id");
         }
 
-        internal void BindPinToBoard(string boardId, string pinId)
+        public void BindPinToBoard(string boardId, string pinId)
         {
             var board = _boardRepository.ReadBoard(boardId);
 
@@ -96,6 +96,13 @@ namespace ArtArea.Web.Services
             board.Pins.Add(pinId);
 
             _boardRepository.UpdateBoard(board);
+        }
+
+        public string GetBase64Thumbnail(string id)
+        {
+            var bytes = _fileRepository.DownloadFileFromBytes(id);
+
+            return Convert.ToBase64String(bytes);
         }
     }
 }

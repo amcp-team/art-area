@@ -14,9 +14,12 @@ namespace ArtArea.Web.Controllers
     public class BoardController : ControllerBase
     {
         private BoardService _boardService;
-        public BoardController(BoardService boardService)
+        private PinService _pinService;
+
+        public BoardController(BoardService boardService, PinService pinService)
         {
             _boardService = boardService;
+            _pinService = pinService;
         }
 
 
@@ -74,7 +77,8 @@ namespace ArtArea.Web.Controllers
                 {
                     id = x.Id,
                     description = x.Message.MarkdownText,
-                    thumbnailId = x.ThumbnailId
+                    thumbnailId = x.ThumbnailId,
+                    thumbnailBase64 = "data:image/jpeg;base64," + _pinService.GetBase64Thumbnail(x.ThumbnailId)
                 }));
 
             }
