@@ -97,9 +97,9 @@ namespace ArtArea.Web.Controllers
         {
             try
             {
-                return new ObjectResult(
+                var result = await _pinService.GetPinMessagesAsync(id);
 
-                    (await _pinService.GetPinMessagesAsync(id))
+                return new ObjectResult(result
                     .Select(x => new
                     {
                         username = x.Author,

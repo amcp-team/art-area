@@ -67,10 +67,16 @@ namespace ArtArea.Web.Services
                 if (PinMessagesExist(id) && PinMessageExists(id))
                 {
 
-                    return Task.Run(async () =>
-                (await _messageRepository.ReadMessagesAsync())
-                    .Where(x => x.Id == id)
-                    .AsEnumerable());
+                    return Task.Run(() =>
+                    {
+                        var result = (_messageRepository.ReadMessages())
+                        .Where(x => x.Id == id)
+                        .AsEnumerable();
+
+                        result = result.Append((_pinRepository.ReadPin(id)).Message);
+
+                        return result;
+                    });
 
 
                 }

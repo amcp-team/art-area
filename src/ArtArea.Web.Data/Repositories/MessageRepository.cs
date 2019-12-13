@@ -35,7 +35,7 @@ namespace ArtArea.Web.Data.Repositories
 
         public IEnumerable<Message> ReadMessages()
         {
-            throw new NotImplementedException();
+            return _database.Messages.Find(x => true).ToEnumerable();
         }
 
         public void UpdateMessage(Message message)
