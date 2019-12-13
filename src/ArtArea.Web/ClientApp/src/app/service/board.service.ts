@@ -5,6 +5,7 @@ import { catchError, retry } from "rxjs/operators";
 
 import { Board } from "../model/board";
 import { Pin } from "../model/pin";
+import { getPin } from "../model/getPin"
 
 @Injectable({
   providedIn: "root"
@@ -24,9 +25,9 @@ export class BoardService {
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
-  getPins(id: string): Observable<Pin[]> {
+  getPins(id: string): Observable<getPin[]> {
     return this.http
-      .get<Pin[]>("api/board/pins/" + id, this.httpOptions)
+      .get<getPin[]>("api/board/pins/" + id, this.httpOptions)
       .pipe(retry(1), catchError(this.errorHandler));
   }
 

@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: ":username/:project", component: ProjectComponent },
   { path: ":username", component: UserComponent },
   { path: ":username/:project/:board", component: BoardComponent },
-  { path: ":username/:project/:board/pin/:pin", component: PinComponent }
+  { path: "pin/:pin", component: PinComponent }
 ];
 
 @NgModule({

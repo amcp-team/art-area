@@ -19,14 +19,8 @@ export class PinCommentsListComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.route.params.subscribe(params =>{
-      this.pinId = 
-      params["username"] +
-      "." +
-      params["project"] +
-      "." +
-      params["board"] +
-      "." +
-      (<string>params["pin"]).toLowerCase().replace(" ", "-");
+      this.pinId =
+      params["pin"]
     })
    }
 

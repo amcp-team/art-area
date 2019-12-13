@@ -14,12 +14,9 @@ namespace ArtArea.Web.Controllers
     public class BoardController : ControllerBase
     {
         private BoardService _boardService;
-        private PinService _pinService;
-        public BoardController(BoardService boardService, PinService pinService)
+        public BoardController(BoardService boardService)
         {
             _boardService = boardService;
-            _pinService = pinService;
-
         }
 
 
@@ -28,17 +25,12 @@ namespace ArtArea.Web.Controllers
         {
             try
             {
-
-                return new ObjectResult(
-
-                    (await _boardService.GetPinsAsync(id))
-                    .Select(x => new
-                    {
-                        id = x.Id,
-                        message = x.Message,
-                        thumbnailId = x.ThumbnailId
-                    }
-                    ));
+                var board = await _boardService.GetBoardAsync(id);
+                return new ObjectResult(new
+                {
+                    title = board.Title,
+                    description = board.Description
+                });
             }
             catch (Exception e)
             {
@@ -77,10 +69,11 @@ namespace ArtArea.Web.Controllers
                 var pins = await _boardService.GetPinsAsync(id);
                 return new ObjectResult(pins.Select(x => new
                 {
-                    Id = x.Id,
-                    Description = x.Message.MarkdownText,
-                    ThumbnailId = x.ThumbnailId
+                    id = x.Id,
+                    description = x.Message.MarkdownText,
+                    thumbnailId = x.ThumbnailId
                 }));
+
             }
             catch (Exception e)
             {

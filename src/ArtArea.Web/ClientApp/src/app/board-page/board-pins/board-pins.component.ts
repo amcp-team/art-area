@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Pin } from "../../model/pin";
+import { getPin } from "../../model/getPin";
 import { ActivatedRoute } from "@angular/router";
 import { Observable } from "rxjs";
 import { BoardService } from "../../service/board.service";
@@ -10,7 +10,7 @@ import { BoardService } from "../../service/board.service";
   styleUrls: ["./board-pins.component.scss"]
 })
 export class BoardPinsComponent implements OnInit {
-  Pins$: Observable<Pin[]>;
+  Pins$: Observable<getPin[]>;
   boardId: string;
 
   constructor(
