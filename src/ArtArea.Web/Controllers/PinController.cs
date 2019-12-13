@@ -126,5 +126,37 @@ namespace ArtArea.Web.Controllers
 
             return new ObjectResult(new { base64 = base64 });
         }
+
+        [HttpPost("message/{pinId}")]
+        public IActionResult CreateNewMessage([FromForm] MessageForm message, string pinId)
+        {
+            var username = User.Identity.Name;
+
+            if (username == null)
+                return BadRequest();
+
+            var messageToSave = new Message
+            {
+                Id = ObjectId.GenerateNewId().ToString(),
+                Author = username,
+                PublicationDate = DateTime.Now,
+                MarkdownText = message.Message
+            };
+            try
+            {
+                _pinService.CreateNewMessage(messageToSave, pinId);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+            return Ok();
+        }
+    }
+
+    public class MessageForm
+    {
+        public string Message { get; set; }
     }
 }

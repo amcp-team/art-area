@@ -30,7 +30,7 @@ namespace ArtArea.Web.Data.Repositories
             => _database.Pins.Find(x => true).ToList();
 
         public void UpdatePin(Pin pin)
-            => _database.Pins.ReplaceOne(new BsonDocument("_id", pin.Id), pin);
+            => _database.Pins.ReplaceOne(new BsonDocument("_id", new ObjectId(pin.Id)), pin);
 
         public IQueryable<ArtArea.Models.Pin> Filter<Pin>(Expression<Func<ArtArea.Models.Pin, bool>> predicate)
         {

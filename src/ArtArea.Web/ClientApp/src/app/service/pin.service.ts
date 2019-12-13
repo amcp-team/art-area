@@ -41,10 +41,10 @@ export class PinService {
       .pipe(catchError(this.errorHandler));
   }
 
-  postMessage(formData: FormData) {
+  postMessage(formData: FormData, pinId: string) {
     console.log("post message");
     return this.http
-      .post("api/post/message", formData)
+      .post("api/pin/message/" + pinId, formData)
       .pipe(catchError(this.errorHandler));
   }
 

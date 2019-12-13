@@ -20,7 +20,7 @@ namespace ArtArea.Web.Data.Repositories
         #region Synchronous
         public void CreateMessage(Message message)
         {
-            throw new NotImplementedException();
+            _database.Messages.InsertOne(message);
         }
 
         public void DeleteMessage(string id)
@@ -40,7 +40,7 @@ namespace ArtArea.Web.Data.Repositories
 
         public void UpdateMessage(Message message)
         {
-            throw new NotImplementedException();
+            _database.Messages.ReplaceOne(new BsonDocument("_id", message.Id), message);
         }
 
         public IQueryable<ArtArea.Models.Message> Filter<Message>(Expression<Func<ArtArea.Models.Message, bool>> predicate)

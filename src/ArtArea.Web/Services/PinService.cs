@@ -73,6 +73,9 @@ namespace ArtArea.Web.Services
                         .Where(x => x.Id == id)
                         .AsEnumerable();
 
+                        foreach (var res in result)
+                            Console.WriteLine(res);
+
                         result = result.Append((_pinRepository.ReadPin(id)).Message);
 
                         return result;
@@ -100,6 +103,20 @@ namespace ArtArea.Web.Services
             var bytes = _fileRepository.DownloadFileFromBytes(id);
 
             return Convert.ToBase64String(bytes);
+        }
+
+        public void CreateNewMessage(Message messageToSave, string pinId)
+        {
+            _messageRepository.CreateMessage(messageToSave);
+
+            var pin = _pinRepository.ReadPin(pinId);
+
+            if (pin != null)
+            {
+                pin.Messages.Add(messageToSave.Id);
+                _pinRepository.UpdatePin(pin);
+            }
+            else throw new Exception("No pin");
         }
     }
 }
