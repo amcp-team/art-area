@@ -8,7 +8,7 @@ namespace ArtArea.Web.Data
     public class ApplicationDb
     {
         private IMongoDatabase _database;
-        private IGridFSBucket _bucket;
+        public IGridFSBucket _bucket;
         private ApplicationDbConfig _config;
         public ApplicationDb(ApplicationDbConfig config)
         {

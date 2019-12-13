@@ -17,29 +17,19 @@ namespace ArtArea.Web.Data.Repositories
 
         #region Synchronous
         public void CreateMessage(Message message)
-        {
-            throw new NotImplementedException();
-        }
+            => _database.Messages.InsertOne(message);
 
         public void DeleteMessage(string id)
-        {
-            throw new NotImplementedException();
-        }
+            => _database.Messages.DeleteOne(x => x.Id == id);
 
         public Message ReadMessage(string id)
-        {
-            throw new NotImplementedException();
-        }
+            => _database.Messages.Find(x => x.Id == id).FirstOrDefault();
 
         public IEnumerable<Message> ReadMessages()
-        {
-            throw new NotImplementedException();
-        }
+            => _database.Messages.Find(x => true).ToList();
 
         public void UpdateMessage(Message message)
-        {
-            throw new NotImplementedException();
-        }
+            => _database.Messages.ReplaceOne(new BsonDocument("_id", message.Id), message);
         #endregion
 
         #region Asynchronous
