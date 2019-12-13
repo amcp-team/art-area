@@ -27,7 +27,7 @@ namespace ArtArea.Web.Controllers
     public class PinController : ControllerBase
     {
         private PinService _pinService;
-        
+
         public PinController(PinService pinService)
             => _pinService = pinService;
 
@@ -56,8 +56,8 @@ namespace ArtArea.Web.Controllers
             }
         }
 
-        [HttpPost("create")]
-        public async Task<IActionResult> PostNewPin([FromForm] NewPinModel pin)
+        [HttpPost("create/{boardId}")]
+        public async Task<IActionResult> PostNewPin([FromForm] NewPinModel pin, string boardId)
         {
             try
             {
@@ -66,6 +66,7 @@ namespace ArtArea.Web.Controllers
 
                 var newPin = new Pin
                 {
+                    Id = ObjectId.GenerateNewId().ToString(),
                     Message = new Message
                     {
                         Author = HttpContext.User.Identity.Name,
@@ -73,11 +74,14 @@ namespace ArtArea.Web.Controllers
                         PublicationDate = DateTime.Now
                     },
                     ThumbnailId = thumbnailId,
-                    FileId = sourceFileId
+                    FileId = sourceFileId,
+                    Messages = new List<string>()
                 };
-                newPin.Id = ObjectId.GenerateNewId().ToString();
 
                 await _pinService.CreatePinAsync(newPin);
+
+                // TODO add pin to corresponding board
+                _pinService.BindPinToBoard(boardId, newPin.Id);
 
                 return Ok(new { pinId = newPin.Id });
             }
@@ -103,10 +107,10 @@ namespace ArtArea.Web.Controllers
                         publicationDate = x.PublicationDate
                     }
                     ));
-                
+
 
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return NotFound(e.Message);
             }

@@ -24,7 +24,7 @@ namespace ArtArea.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         public Message Message { get; set; }
-        public IEnumerable<string> Messages { get; set; }
+        public List<string> Messages { get; set; }
 
         [BsonRepresentation(BsonType.ObjectId)]
         public string FileId { get; set; }

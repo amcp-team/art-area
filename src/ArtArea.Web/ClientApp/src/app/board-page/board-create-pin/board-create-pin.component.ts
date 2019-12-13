@@ -8,6 +8,7 @@ import {
 import { BoardService } from "src/app/service/board.service";
 import { toFormData } from "src/app/utils/toFormData";
 import { NewPin } from "src/app/model/newPin";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-board-create-pin",
@@ -16,11 +17,18 @@ import { NewPin } from "src/app/model/newPin";
 })
 export class BoardCreatePinComponent implements OnInit {
   newPinForm: FormGroup;
+  boardId: string;
 
   constructor(
     private boardService: BoardService,
-    private formBuilder: FormBuilder
-  ) {}
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute
+  ) {
+    this.route.params.subscribe(params => {
+      this.boardId =
+        params["username"] + "." + params["project"] + "." + params["board"];
+    });
+  }
 
   ngOnInit() {
     this.newPinForm = this.formBuilder.group({
@@ -54,6 +62,8 @@ export class BoardCreatePinComponent implements OnInit {
     formData.append("thumbnail", this.newPinForm.get("thumbnail").value);
     formData.append("sourceFile", this.newPinForm.get("sourceFile").value);
 
-    this.boardService.postPin(formData).subscribe(x => console.log(x));
+    this.boardService
+      .postPin(formData, this.boardId)
+      .subscribe(x => console.log(x));
   }
 }

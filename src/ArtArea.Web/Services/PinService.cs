@@ -15,12 +15,17 @@ namespace ArtArea.Web.Services
         private IPinRepository _pinRepository;
         private IFileRepository _fileRepository;
         private IMessageRepository _messageRepository;
-        public PinService(IPinRepository pinRepository, IFileRepository fileRepository, IMessageRepository messageRepository)
+        private IBoardRepository _boardRepository;
+        public PinService(
+            IPinRepository pinRepository,
+            IFileRepository fileRepository,
+            IMessageRepository messageRepository,
+            IBoardRepository boardRepository)
         {
             _pinRepository = pinRepository;
             _fileRepository = fileRepository;
             _messageRepository = messageRepository;
-
+            _boardRepository = boardRepository;
         }
 
         public bool PinExist(string pinId)
@@ -61,7 +66,7 @@ namespace ArtArea.Web.Services
             {
                 if (PinMessagesExist(id) && PinMessageExists(id))
                 {
-                   
+
                     return Task.Run(async () =>
                 (await _messageRepository.ReadMessagesAsync())
                     .Where(x => x.Id == id)
@@ -73,6 +78,18 @@ namespace ArtArea.Web.Services
 
             }
             else throw new Exception("No pin with this id");
+        }
+
+        internal void BindPinToBoard(string boardId, string pinId)
+        {
+            var board = _boardRepository.ReadBoard(boardId);
+
+            if (board.Pins == null)
+                board.Pins = new List<string>();
+
+            board.Pins.Add(pinId);
+
+            _boardRepository.UpdateBoard(board);
         }
     }
 }

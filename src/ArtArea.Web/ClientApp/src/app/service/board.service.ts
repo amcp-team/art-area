@@ -5,7 +5,7 @@ import { catchError, retry } from "rxjs/operators";
 
 import { Board } from "../model/board";
 import { Pin } from "../model/pin";
-import { getPin } from "../model/getPin"
+import { getPin } from "../model/getPin";
 
 @Injectable({
   providedIn: "root"
@@ -31,10 +31,10 @@ export class BoardService {
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
-  postPin(formData: FormData) {
+  postPin(formData: FormData, boardId: string) {
     console.log("post pin");
     return this.http
-      .post("api/pin/create", formData)
+      .post("api/pin/create/" + boardId, formData)
       .pipe(catchError(this.errorHandler));
   }
 
