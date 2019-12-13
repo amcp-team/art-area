@@ -20,16 +20,8 @@ export class PinCreatingCommentComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.route.params.subscribe(params => {
-      this.pinId = 
-      params["username"] +
-      "." +
-      params["project"] +
-      "." +
-      params["board"] +
-      "." +
-      "pin" +
-      "." +
-      (<string>params["pin"]).toLowerCase().replace(" ", "-");
+      this.pinId =
+      params["pin"];
     })
    }
 

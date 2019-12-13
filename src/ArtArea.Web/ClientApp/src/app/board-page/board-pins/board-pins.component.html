@@ -5,8 +5,9 @@
           <img src="https://via.placeholder.com/200" class="rounded">
           <p>title of pin</p>
         <ul *ngFor="let pin of pins" class="list-group list-group-flush">
-          <li class="list-group-item">
-            
+          <li class="list-group-item"
+          *ngFor="let pin of pins">
+            <h1>{{ getPin.id }}</h1>
           </li>
         </ul>
       </div>

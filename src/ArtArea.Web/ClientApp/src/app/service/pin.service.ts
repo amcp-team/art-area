@@ -26,11 +26,13 @@ export class PinService {
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
-  getPicture(): Data {
+  getPicture(): any {
     return this.http
-      .get<Data>("api/pin/picture", this.httpOptions)
+      .get("api/pin/image", this.httpOptions)
       .pipe(retry(1), catchError(this.errorHandler));
   }
+
+  
 
   postMessage(formData: FormData) {
     console.log("post message");
