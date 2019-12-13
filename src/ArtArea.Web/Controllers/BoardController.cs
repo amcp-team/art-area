@@ -29,7 +29,10 @@ namespace ArtArea.Web.Controllers
                 return new ObjectResult(new
                 {
                     title = board.Title,
-                    description = board.Description
+                    id = board.Id,
+                    description = board.Description,
+                    boardNumber = board.Number
+
                 });
             }
             catch (Exception e)
