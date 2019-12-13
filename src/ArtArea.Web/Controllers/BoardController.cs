@@ -28,17 +28,14 @@ namespace ArtArea.Web.Controllers
         {
             try
             {
-                
-                return new ObjectResult(
+                var board = await _boardService.GetBoardAsync(id);
+                return new ObjectResult(new
+                {
+                    title=board.Title,
+                    description=board.Description
+                });
 
-                    (await _boardService.GetPinsAsync(id))
-                    .Select(x => new
-                    {
-                        id = x.Id,
-                        message = x.Message,
-                        thumbnailId=x.ThumbnailId
-                    }
-                    ));
+
             }
             catch (Exception e)
             {
@@ -74,12 +71,16 @@ namespace ArtArea.Web.Controllers
         {
             try 
             {
-                var pins = _boardService.GetPinsAsync(id);
-                return new ObjectResult(new
-                {
+                return new ObjectResult(
 
-
-                });
+                    (await _boardService.GetPinsAsync(id))
+                    .Select(x => new
+                    {
+                        id = x.Id,
+                        message = x.Message,
+                        thumbnailId = x.ThumbnailId
+                    }
+                    ));
             }
             catch(Exception e)
             {
