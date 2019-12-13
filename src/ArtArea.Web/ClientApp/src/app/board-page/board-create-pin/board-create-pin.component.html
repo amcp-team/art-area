@@ -1,0 +1,23 @@
+<div class="card">
+  <form [formGroup]="newPinForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <input
+        type="text"
+        class="form-control"
+        formControlName="message"
+        placeholder="Pin message"
+      />
+      <input
+        type="file"
+        name="thumbnail"
+        (change)="onThumbnailUpload($event)"
+      />
+      <input
+        type="file"
+        name="sourceFile"
+        (change)="onSourceFileUpload($event)"
+      />
+      <button type="submit" class="btn btn-secondary mr-2">Pin It</button>
+    </div>
+  </form>
+</div>

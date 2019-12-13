@@ -14,40 +14,30 @@ namespace ArtArea.Web.Controllers.Test
 
     [ApiController]
     [Route("api/user/test")]
-    public class TestUserCrudControler : ControllerBase
+    public class TestUserCrudController : ControllerBase
     {
         private IUserRepository _userRepository;
-        public TestUserCrudControler(IUserRepository userRepository)
+        public TestUserCrudController(IUserRepository userRepository)
             => _userRepository = userRepository;
 
         [HttpGet("{username}")]
         public async Task<User> GetUser(string username)
-        {
-            throw new NotImplementedException();
-        }
+            => await  _userRepository.ReadUserAsync(username);
 
         [HttpGet]
         public async Task<IEnumerable<User>> GetUsers()
-        {
-            throw new NotImplementedException();
-        }
+            => await _userRepository.ReadUsersAsync();
 
         [HttpPost]
         public async Task PostUser([FromBody]User user)
-        {
-            throw new NotImplementedException();
-        }
+            => await _userRepository.CreateUserAsync(user);
 
         [HttpPut]
         public async Task PutUser([FromBody]User user)
-        {
-            throw new NotImplementedException();
-        }
+            => await _userRepository.UpdateUserAsync(user);
 
         [HttpDelete("{username}")]
         public async Task DeleteUser(string username)
-        {
-            throw new NotImplementedException();
-        }
+            => await _userRepository.DeleteUserAsync(username);
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ArtArea.Models;
 using ArtArea.Web.Data.Interface;
@@ -83,6 +84,16 @@ namespace ArtArea.Web.Data.Mock
                 else throw new Exception("Can't update board - no such board exist");
             });
 
+        }
+
+        public IQueryable<T> Filter<T>(Func<T, bool> predicate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueryable<Models.Board> Filter<Board>(Expression<Func<Models.Board, bool>> predicate)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
