@@ -12,9 +12,11 @@ namespace ArtArea.Web.Services
     public class BoardService
     {
         private IBoardRepository _boardRepository;
-        public BoardService(IBoardRepository boardRepository)
+        private IPinRepository _pinRepository;
+        public BoardService(IBoardRepository boardRepository,IPinRepository pinRepository)
         {
             _boardRepository = boardRepository;
+            _pinRepository = pinRepository;
         }
 
         public bool BoardExists(string boardId)
@@ -81,6 +83,29 @@ namespace ArtArea.Web.Services
                 else return 0;
             }
             else return 0;
+        }
+
+        public Task<List<Pin>> GetPinsAsync(string boardId)
+        {
+            if (BoardExists(boardId))
+            {
+                var pinsId = _boardRepository.ReadBoard(boardId).Pins;
+                var allPins=_pinRepository.ReadPins();
+                var pins = new List<Pin>();
+                foreach(string id in pinsId)
+                {
+                    pins.Add(allPins.FirstOrDefault(x => x.Id == id));
+                }
+                return Task.Run(() => 
+                {
+                    return pins; 
+                });
+               
+
+
+            }
+            else throw new Exception("No board with this id");
+
         }
     }
 }

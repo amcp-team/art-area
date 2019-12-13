@@ -14,10 +14,13 @@ namespace ArtArea.Web.Services
     {
         private IPinRepository _pinRepository;
         private IFileRepository _fileRepository;
-        public PinService(IPinRepository pinRepository, IFileRepository fileRepository)
+        private IMessageRepository _messageRepository;
+        public PinService(IPinRepository pinRepository, IFileRepository fileRepository, IMessageRepository messageRepository)
         {
             _pinRepository = pinRepository;
             _fileRepository = fileRepository;
+            _messageRepository = messageRepository;
+
         }
         public IFileRepository GetFileRepository()
             => _fileRepository;
@@ -54,13 +57,17 @@ namespace ArtArea.Web.Services
         public bool PinMessagesExist(string id)
             => _pinRepository.ReadPin(id).Messages != null;
 
-      /*  public Task<IEnumerable> GetPinMessages(string id)
+        public Task<IEnumerable<Message>> GetPinMessagesAsync(string id)
         {
             if (PinExist(id))
             {
                 if (PinMessagesExist(id) && PinMessageExists(id))
                 {
-                    
+                   
+                    return Task.Run(async () =>
+                (await _messageRepository.ReadMessagesAsync())
+                    .Where(x => x.Id == id)
+                    .AsEnumerable());
 
 
                 }
@@ -68,6 +75,6 @@ namespace ArtArea.Web.Services
 
             }
             else throw new Exception("No pin with this id");
-        }*/
+        }
     }
 }
