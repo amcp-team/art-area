@@ -79,7 +79,7 @@ namespace ArtArea.Web.Controllers
             }
         }
 
-        [HttpPost("delete/{id}")]
+        [HttpPost("delete")]
         public async Task<IActionResult> DeleteProject(string id)
         {
             try
