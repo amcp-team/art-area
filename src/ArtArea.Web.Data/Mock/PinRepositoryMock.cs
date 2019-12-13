@@ -3,6 +3,7 @@ using ArtArea.Web.Data.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -68,23 +69,23 @@ namespace ArtArea.Web.Data.Mock
             var pinToDelete = ApplicationDbMock.Pins
                 .SingleOrDefault(x => x.Id == id);
             if (pinToDelete != null)
-                return Task.Run(() 
+                return Task.Run(()
                     => ApplicationDbMock.Pins.Remove(pinToDelete));
             else throw new Exception("Can't delete pin - one doesn't exist");
         }
 
         public Task<Pin> ReadPinAsync(string id)
         {
-            return Task.Run(() 
+            return Task.Run(()
                 => ApplicationDbMock.Pins.SingleOrDefault(x => x.Id == id));
-        }        
+        }
 
         public Task<IEnumerable<Pin>> ReadPinsAsync()
         {
-            return Task.Run(() 
+            return Task.Run(()
                 => ApplicationDbMock.Pins.AsEnumerable());
         }
-       
+
         public Task UpdatePinAsync(Pin pin)
         {
             return Task.Run(() =>
@@ -96,6 +97,11 @@ namespace ArtArea.Web.Data.Mock
                     pinToUpdate = pin;
                 else throw new Exception("Can't update pin - no such board exist");
             });
+        }
+
+        public IQueryable<Models.Pin> Filter<Pin>(Expression<Func<Models.Pin, bool>> predicate)
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }
