@@ -1,6 +1,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ArtArea.Models;
+using System.Linq;
+using System.Linq.Expressions;
+using System;
+
 namespace ArtArea.Web.Data.Interface
 {
     public interface IBoardRepository
@@ -18,6 +22,7 @@ namespace ArtArea.Web.Data.Interface
         void CreateBoard(Board board);
         void UpdateBoard(Board board);
         void DeleteBoard(string id);
+        IQueryable<Models.Board> Filter<Board>(Expression<Func<Models.Board, bool>> predicate);
     }
 
 }

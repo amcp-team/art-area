@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ArtArea.Models;
 using ArtArea.Web.Data.Interface;
@@ -10,47 +13,50 @@ namespace ArtArea.Web.Data.Repositories
     public class ProjectRepository : IProjectRepository
     {
         private ApplicationDb _database;
-        ProjectRepository(ApplicationDb database) => _database = database;
+        public ProjectRepository(ApplicationDb database) => _database = database;
 
+        #region Synchronous
         public void CreateProject(Project project)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public async Task CreateProjectAsync(Project project)
-            => await _database.Projects.InsertOneAsync(project);
+            => _database.Projects.InsertOne(project);
 
         public void DeleteProject(string id)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public async Task DeleteProjectAsync(string id)
-            => await _database.Projects.DeleteOneAsync(x => x.Id == id);
+            => _database.Projects.DeleteOne(x => x.Id == id);
 
         public Project ReadProject(string id)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public async Task<Project> ReadProjectAsync(string id)
-            => await _database.Projects.Find(x => x.Id == id).FirstOrDefaultAsync();
+            => _database.Projects.Find(x => x.Id == id).FirstOrDefault();
 
         public IEnumerable<Project> ReadProjects()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public async Task<IEnumerable<Project>> ReadProjectsAsync()
-            => await _database.Projects.Find(x => true).ToListAsync();
+            => _database.Projects.Find(x => true).ToList();
 
         public void UpdateProject(Project project)
+            => _database.Projects.ReplaceOne(new BsonDocument("_id", project.Id), project);
+
+        public IQueryable<ArtArea.Models.Project> Filter<Project>(Expression<Func<ArtArea.Models.Project, bool>> predicate)
         {
-            throw new System.NotImplementedException();
+            var mongoQuery = _database.Projects.AsQueryable();
+            var linqQuery = mongoQuery.AsQueryable();
+
+            return linqQuery.Where(predicate);
         }
 
-        public async Task UpdateProjectAsync(Project project)
-            => await _database.Projects.ReplaceOneAsync(new BsonDocument("_id", project.Id), project);
+        #endregion
+
+        #region Asynchronous
+        public Task CreateProjectAsync(Project project)
+            => _database.Projects.InsertOneAsync(project);
+
+        public Task DeleteProjectAsync(string id)
+            => _database.Projects.DeleteOneAsync(x => x.Id == id);
+
+        public Task<Project> ReadProjectAsync(string id)
+            => _database.Projects.Find(x => x.Id == id).FirstOrDefaultAsync();
+
+        public Task<IEnumerable<Project>> ReadProjectsAsync()
+            => Task.Run(() => _database.Projects.Find(x => true).ToEnumerable());
+
+        public Task UpdateProjectAsync(Project project)
+            => _database.Projects.ReplaceOneAsync(new BsonDocument("_id", project.Id), project);
+        #endregion
     }
 
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ArtArea.Models;
 using ArtArea.Web.Data.Interface;
@@ -100,6 +101,11 @@ namespace ArtArea.Web.Data.Mock
                     _project = project;
                 else throw new Exception("Can't update project - it doesn't exist");
             });
+        }
+
+        public IQueryable<Models.Project> Filter<Project>(Expression<Func<Models.Project, bool>> predicate)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

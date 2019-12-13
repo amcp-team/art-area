@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ArtArea.Models;
 
@@ -20,6 +23,7 @@ namespace ArtArea.Web.Data.Interface
         void CreateProject(Project project);
         void UpdateProject(Project project);
         void DeleteProject(string id);
+        IQueryable<Models.Project> Filter<Project>(Expression<Func<Models.Project, bool>> predicate);
     }
 
 }
