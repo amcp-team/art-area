@@ -20,7 +20,10 @@ export class UserCreateProjectComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route : ActivatedRoute,
     private router : Router
-  ) {}
+  ) {
+    this.route.params.subscribe(params => {
+      this.username = params["username"]})
+  }
 
   ngOnInit() {
     this.createProjectForm = this.formBuilder.group({
@@ -33,6 +36,10 @@ export class UserCreateProjectComponent implements OnInit {
   get form() {
     return this.createProjectForm.controls;
   }
+
+
+  
+  
 
   onSubmit() {
     console.log(this.form);
@@ -49,9 +56,9 @@ export class UserCreateProjectComponent implements OnInit {
         this.form.privacy.value
       )
       .pipe(first())
-      .subscribe(x => {
+      .subscribe((x:any) => {
         console.log(x);
-        this.router.navigate(["username" + "/" + this.form.title].toLowerCase().replace(" ","-") )
+        this.router.navigate(["username" + "/" + this.form.title])
       });
       
   }

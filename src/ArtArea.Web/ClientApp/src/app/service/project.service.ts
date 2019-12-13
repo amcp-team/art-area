@@ -32,7 +32,7 @@ export class ProjectService {
 
   deleteProject(id: string): Observable<{}>{
     return this.http
-    .delete("api/prolect/delete" + id, this.httpOptions)
+    .delete<{}>("api/project/delete" + id, this.httpOptions)
     .pipe(retry(1), catchError(this.errorHandler))
   }
 

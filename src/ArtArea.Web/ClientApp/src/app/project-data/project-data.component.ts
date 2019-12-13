@@ -33,7 +33,7 @@ export class ProjectDataComponent implements OnInit {
   delete(projectId){
     const ans = confirm('Do you want to delete project : ' + projectId);
     if (ans) {
-      this.projectService.deleteProject(projectId).subscribe(
+      this.projectService.deleteProject(this.projectId).subscribe(
         this.router.navigate['username']
       );
     }
