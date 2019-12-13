@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ArtArea.Models;
 using ArtArea.Web.Data.Interface;
@@ -27,6 +30,15 @@ namespace ArtArea.Web.Data.Repositories
 
         public void UpdateUser(User user)
             => _database.Users.ReplaceOne(new BsonDocument("_id", user.Username), user);
+
+        public IQueryable<ArtArea.Models.User> Filter<User>(Expression<Func<ArtArea.Models.User, bool>> predicate)
+        {
+            var mongoQuery = _database.Users.AsQueryable();
+            var linqQuery = mongoQuery.AsQueryable();
+
+            return linqQuery.Where(predicate);
+        }
+
         #endregion
 
         #region Asynchronous
@@ -43,12 +55,12 @@ namespace ArtArea.Web.Data.Repositories
 
 
         public Task<IEnumerable<User>> ReadUsersAsync()
-            => Task.Run(()=>_database.Users.Find(x => true).ToEnumerable());
+            => Task.Run(() => _database.Users.Find(x => true).ToEnumerable());
 
         // TODO check if mongo will store Username property which is marked
         // as BsonId as `username` or as '_id'
-        public  Task UpdateUserAsync(User user)
-            =>  _database.Users.ReplaceOneAsync(new BsonDocument("_id", user.Username), user);
+        public Task UpdateUserAsync(User user)
+            => _database.Users.ReplaceOneAsync(new BsonDocument("_id", user.Username), user);
         #endregion
     }
 }

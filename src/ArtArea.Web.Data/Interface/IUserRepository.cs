@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ArtArea.Models;
 
@@ -20,6 +23,6 @@ namespace ArtArea.Web.Data.Interface
         void CreateUser(User user);
         void UpdateUser(User user);
         void DeleteUser(string name);
-
+        IQueryable<Models.User> Filter<User>(Expression<Func<Models.User, bool>> predicate);
     }
 }

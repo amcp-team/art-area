@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ArtArea.Models;
 using ArtArea.Web.Data.Interface;
@@ -102,6 +103,11 @@ namespace ArtArea.Web.Data.Mock
                     _user = user;
                 else throw new Exception("No such user");
             });
+        }
+
+        public IQueryable<Models.User> Filter<User>(Expression<Func<Models.User, bool>> predicate)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
