@@ -27,6 +27,7 @@ namespace ArtArea.Web.Controllers
     public class PinController : ControllerBase
     {
         private PinService _pinService;
+        
         public PinController(PinService pinService)
             => _pinService = pinService;
 
@@ -87,10 +88,29 @@ namespace ArtArea.Web.Controllers
         }
 
 
-        //[HttpGet("messages/{id}")]
-        //public async Task<IActionResult> GetPinMessages(string id)
-        //{
+        [HttpGet("messages/{id}")]
+        public async Task<IActionResult> GetPinMessages(string id)
+        {
+            try
+            {
+                return new ObjectResult(
 
-        //}
+                    (await _pinService.GetPinMessagesAsync(id))
+                    .Select(x => new
+                    {
+                        username = x.Author,
+                        message = x.MarkdownText,
+                        publicationDate = x.PublicationDate
+                    }
+                    ));
+                
+
+            }
+            catch(Exception e)
+            {
+                return NotFound(e.Message);
+            }
+
+        }
     }
 }
