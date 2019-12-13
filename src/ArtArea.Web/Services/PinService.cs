@@ -77,11 +77,8 @@ namespace ArtArea.Web.Services
 
                         return result;
                     });
-
-
                 }
                 else throw new Exception("Pin has no messages");
-
             }
             else throw new Exception("No pin with this id");
         }
