@@ -1,10 +1,17 @@
 <div class="container">
   <div class="row">
-    <div class="col-12">
+    <div class="col-12 " (ngSubmit)="onSubmit()">
       <ng-container *ngIf="projectData$ | async as projectData">
         <h1>{{ projectData.title }}</h1>
         <h3>{{ projectData.description }}</h3>
       </ng-container>
+      <button
+        type="submit"
+        class="btn btn-dark rounded  text-right"  
+        (click)="delete(projectId)"
+      >
+      Delete
+      </button>
     </div>
   </div>
 </div>

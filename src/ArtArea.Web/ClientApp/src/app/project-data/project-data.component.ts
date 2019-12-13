@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Project } from "../model/project";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { ProjectService } from "../service/project.service";
 
@@ -15,7 +15,8 @@ export class ProjectDataComponent implements OnInit {
 
   constructor(
     private projectService: ProjectService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router : Router
   ) {
     this.route.params.subscribe(params => {
       this.projectId =
@@ -27,5 +28,15 @@ export class ProjectDataComponent implements OnInit {
 
   ngOnInit() {
     this.projectData$ = this.projectService.getProjectData(this.projectId);
+  }
+
+  delete(projectId){
+    const ans = confirm('Do you want to delete project : ' + projectId);
+    if (ans) {
+      this.projectService.deleteProject(projectId).subscribe(
+        this.router.navigate['username']
+      );
+    }
+
   }
 }
