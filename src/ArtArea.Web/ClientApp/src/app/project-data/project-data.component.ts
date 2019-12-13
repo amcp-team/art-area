@@ -28,4 +28,14 @@ export class ProjectDataComponent implements OnInit {
   ngOnInit() {
     this.projectData$ = this.projectService.getProjectData(this.projectId);
   }
+
+  delete(projectId){
+    const ans = confirm('Do you want to delete project : ' + projectId);
+    if (ans) {
+      this.projectService.deleteProject(projectId).subscribe(x => {
+        console.log(x)
+      });
+    }
+
+  }
 }
