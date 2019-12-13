@@ -78,7 +78,7 @@ namespace ArtArea.Web.Services
         {
             if (ProjectExists(projectId))
             {
-                return Task.Run(async() =>await _projectRepository.DeleteProjectAsync(projectId));
+                return Task.Run(() => _projectRepository.DeleteProjectAsync(projectId));
 
             }
             else throw new Exception("Project with this id is't exist or has already been deleted");
