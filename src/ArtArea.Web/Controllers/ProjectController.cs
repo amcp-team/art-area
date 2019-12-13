@@ -79,5 +79,20 @@ namespace ArtArea.Web.Controllers
             }
         }
 
+        [HttpPost("delete/{id}")]
+        public async Task<IActionResult> DeleteProject(string id)
+        {
+            try
+            {
+                await _projectService.DeleteProjectAsync(id);
+                return Ok();
+
+            }
+            catch(Exception e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
     }
 }
