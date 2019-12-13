@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace ArtArea.Desktop.Client
 {
-    public class ClientHandler
+    public class APIHandler
     {
         private HttpClient _client;
         private string _token;
         
-        public ClientHandler()
+        public APIHandler()
         {
             _client = new HttpClient();
             _client.BaseAddress = new Uri("http://localhost:5001/api/");

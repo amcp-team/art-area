@@ -40,7 +40,7 @@ namespace ArtArea.Desktop
                     _container.RegisterPerRequest(viewModelType, viewModelType.ToString(), viewModelType));
 
             _container
-                .Singleton<ClientHandler>();
+                .Singleton<APIHandler>();
         }
 
         #region DI Simple Container Utils

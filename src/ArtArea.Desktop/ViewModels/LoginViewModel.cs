@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using ArtArea.Desktop.Client;
+using ArtArea.Desktop.EventModels;
 
 namespace ArtArea.Desktop.ViewModels
 {
@@ -13,11 +14,13 @@ namespace ArtArea.Desktop.ViewModels
     {
         private string _username;
         private string _password;
-        private ClientHandler _client;
+        private APIHandler _client;
+        private IEventAggregator _events;
 
-        public LoginViewModel(ClientHandler client)
+        public LoginViewModel(APIHandler client, IEventAggregator events)
         {
             _client = client;
+            _events = events;
         }
 
         public string Username
@@ -51,6 +54,7 @@ namespace ArtArea.Desktop.ViewModels
             if(success)
             {
                 // navigate to another view model
+                _events.PublishOnUIThread(new ProjectsEventModel());
             }
         }
     }
