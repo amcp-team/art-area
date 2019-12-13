@@ -49,10 +49,11 @@ module AuthHandler =
     let userLoggedIn (users: seq<User>) (user: LoginModel): bool =
         users |> Seq.exists (fun u -> u.Username = user.username && u.Password = user.password)
 
-    let authorize: HttpFunc -> HttpContext -> HttpFuncResult =
-        requiresAuthentication (challenge JwtBearerDefaults.AuthenticationScheme)
+    //let authorize: HttpFunc -> HttpContext -> HttpFuncResult =
+    //    requiresAuthentication (challenge JwtBearerDefaults.AuthenticationScheme)
+    let unauthorized: HttpFunc -> HttpContext -> HttpFuncResult = setStatusCode 401 >=> text "Access Denied"
 
-    let authorize2 =
+    let authorize =
         fun (next: HttpFunc) (context: HttpContext) ->
             try
                 let authHeader = context.Request.Headers.["Authorization"]
@@ -64,14 +65,13 @@ module AuthHandler =
                         let username = nameClaim.Value
                         let users = context.GetService<IUserRepository>().ReadUsers()
                         if users |> Seq.exists (fun u -> u.Username = username) then next context
-                        else setStatusCode 401 next context
+                        else unauthorized next context
                     else
-                        setStatusCode 401 next context
+                        unauthorized next context
                 else
-                    setStatusCode 401 next context
-            with _ -> setStatusCode 401 next context
+                    unauthorized next context
+            with _ -> unauthorized next context
 
-    let unauthorized: HttpFunc -> HttpContext -> HttpFuncResult = setStatusCode 401 >=> text "Access Denied"
 
     let generateToken username =
         let claims = [ Claim(ClaimTypes.Name, username) ]
@@ -99,7 +99,7 @@ module AuthHandler =
                     let token = generateToken userLogin.username
                     return! json token next context
                 else
-                    return! setStatusCode 401 next context
+                    return! unauthorized next context
             }
 
     let processToken =

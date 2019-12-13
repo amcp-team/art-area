@@ -16,7 +16,7 @@ namespace ArtArea.Desktop.Client
         public APIHandler()
         {
             _client = new HttpClient();
-            _client.BaseAddress = new Uri("http://localhost:5001/api/");
+            _client.BaseAddress = new Uri("http://localhost:27018/api/");
         }
 
         public Task<bool> Login(string username, string password)
