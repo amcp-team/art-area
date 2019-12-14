@@ -50,9 +50,8 @@ export class UserCreateProjectComponent implements OnInit {
       )
       .pipe(first())
       .subscribe(x => {
-        // TODO route to created project page
         console.log(x);
-        this.router.navigate(['username' + '/' + this.form.title])
+        this.router.navigate(["username" + "/" + this.form.title].toLowerCase().replace(" ","-") )
       });
       
   }

@@ -27,7 +27,7 @@ namespace ArtArea.Web.Controllers
     public class PinController : ControllerBase
     {
         private PinService _pinService;
-        
+
         public PinController(PinService pinService)
             => _pinService = pinService;
 
@@ -56,8 +56,8 @@ namespace ArtArea.Web.Controllers
             }
         }
 
-        [HttpPost("create")]
-        public async Task<IActionResult> PostNewPin([FromForm] NewPinModel pin)
+        [HttpPost("create/{boardId}")]
+        public async Task<IActionResult> PostNewPin([FromForm] NewPinModel pin, string boardId)
         {
             try
             {
@@ -66,6 +66,7 @@ namespace ArtArea.Web.Controllers
 
                 var newPin = new Pin
                 {
+                    Id = ObjectId.GenerateNewId().ToString(),
                     Message = new Message
                     {
                         Author = HttpContext.User.Identity.Name,
@@ -73,11 +74,14 @@ namespace ArtArea.Web.Controllers
                         PublicationDate = DateTime.Now
                     },
                     ThumbnailId = thumbnailId,
-                    FileId = sourceFileId
+                    FileId = sourceFileId,
+                    Messages = new List<string>()
                 };
-                newPin.Id = ObjectId.GenerateNewId().ToString();
 
                 await _pinService.CreatePinAsync(newPin);
+
+                // TODO add pin to corresponding board
+                _pinService.BindPinToBoard(boardId, newPin.Id);
 
                 return Ok(new { pinId = newPin.Id });
             }
@@ -93,9 +97,9 @@ namespace ArtArea.Web.Controllers
         {
             try
             {
-                return new ObjectResult(
+                var result = await _pinService.GetPinMessagesAsync(id);
 
-                    (await _pinService.GetPinMessagesAsync(id))
+                return new ObjectResult(result
                     .Select(x => new
                     {
                         username = x.Author,
@@ -103,14 +107,56 @@ namespace ArtArea.Web.Controllers
                         publicationDate = x.PublicationDate
                     }
                     ));
-                
+
 
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return NotFound(e.Message);
             }
 
         }
+
+        [HttpGet("thumbnail/{pinId}")]
+        public async Task<IActionResult> GetPinThumbnail(string pinId)
+        {
+            var pin = await _pinService.GetPinAsync(pinId);
+
+            var base64 = "data:image/jpeg;base64," + _pinService.GetBase64Thumbnail(pin.ThumbnailId);
+
+            return new ObjectResult(new { base64 = base64 });
+        }
+
+        [HttpPost("message/{pinId}")]
+        public IActionResult CreateNewMessage([FromForm] MessageForm message, string pinId)
+        {
+            var username = User.Identity.Name;
+
+            if (username == null)
+                return BadRequest();
+
+            var messageToSave = new Message
+            {
+                Id = ObjectId.GenerateNewId().ToString(),
+                Author = username,
+                PublicationDate = DateTime.Now,
+                MarkdownText = message.Message
+            };
+            try
+            {
+                _pinService.CreateNewMessage(messageToSave, pinId);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+            return Ok();
+        }
+    }
+
+    public class MessageForm
+    {
+        public string Message { get; set; }
     }
 }

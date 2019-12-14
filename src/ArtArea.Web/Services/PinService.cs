@@ -15,12 +15,17 @@ namespace ArtArea.Web.Services
         private IPinRepository _pinRepository;
         private IFileRepository _fileRepository;
         private IMessageRepository _messageRepository;
-        public PinService(IPinRepository pinRepository, IFileRepository fileRepository, IMessageRepository messageRepository)
+        private IBoardRepository _boardRepository;
+        public PinService(
+            IPinRepository pinRepository,
+            IFileRepository fileRepository,
+            IMessageRepository messageRepository,
+            IBoardRepository boardRepository)
         {
             _pinRepository = pinRepository;
             _fileRepository = fileRepository;
             _messageRepository = messageRepository;
-
+            _boardRepository = boardRepository;
         }
 
         public bool PinExist(string pinId)
@@ -61,18 +66,57 @@ namespace ArtArea.Web.Services
             {
                 if (PinMessagesExist(id) && PinMessageExists(id))
                 {
-                   
-                    return Task.Run(async () =>
-                (await _messageRepository.ReadMessagesAsync())
-                    .Where(x => x.Id == id)
-                    .AsEnumerable());
 
+                    return Task.Run(() =>
+                    {
+                        var result = (_messageRepository.ReadMessages())
+                        .Where(x => x.Id == id)
+                        .AsEnumerable();
 
+                        foreach (var res in result)
+                            Console.WriteLine(res);
+
+                        result = result.Append((_pinRepository.ReadPin(id)).Message);
+
+                        return result;
+                    });
                 }
                 else throw new Exception("Pin has no messages");
-
             }
             else throw new Exception("No pin with this id");
+        }
+
+        public void BindPinToBoard(string boardId, string pinId)
+        {
+            var board = _boardRepository.ReadBoard(boardId);
+
+            if (board.Pins == null)
+                board.Pins = new List<string>();
+
+            board.Pins.Add(pinId);
+
+            _boardRepository.UpdateBoard(board);
+        }
+
+        public string GetBase64Thumbnail(string id)
+        {
+            var bytes = _fileRepository.DownloadFileFromBytes(id);
+
+            return Convert.ToBase64String(bytes);
+        }
+
+        public void CreateNewMessage(Message messageToSave, string pinId)
+        {
+            _messageRepository.CreateMessage(messageToSave);
+
+            var pin = _pinRepository.ReadPin(pinId);
+
+            if (pin != null)
+            {
+                pin.Messages.Add(messageToSave.Id);
+                _pinRepository.UpdatePin(pin);
+            }
+            else throw new Exception("No pin");
         }
     }
 }

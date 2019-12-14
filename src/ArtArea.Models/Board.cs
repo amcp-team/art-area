@@ -51,8 +51,8 @@ namespace ArtArea.Models
         public Message Task { get; set; }
         public string SourceFileName { get; set; }
         public BoardPrivacy Privacy { get; set; }
-        public IEnumerable<UserAccess> Collaborators { get; set; }
+        public List<UserAccess> Collaborators { get; set; }
         public string Description { get; set; }
-        public IEnumerable<string> Pins { get; set; }
+        public List<string> Pins { get; set; }
     }
 }

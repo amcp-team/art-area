@@ -30,6 +30,12 @@ export class ProjectService {
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
+  deleteProject(id: string): Observable<{}>{
+    return this.http
+    .delete("api/prolect/delete" + id, this.httpOptions)
+    .pipe(retry(1), catchError(this.errorHandler))
+  }
+
   postBoard(
     title: string,
     description: string,

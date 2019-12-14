@@ -14,40 +14,30 @@ namespace ArtArea.Web.Controllers.Test
 
     [ApiController]
     [Route("api/project/test")]
-    public class TestProjectCrudControler : ControllerBase
+    public class TestProjectCrudController : ControllerBase
     {
         private IProjectRepository _projectRepository;
-        public TestProjectCrudControler(IProjectRepository projectRepository)
+        public TestProjectCrudController(IProjectRepository projectRepository)
             => _projectRepository = projectRepository;
 
         [HttpGet("{id}")]
         public async Task<Project> GetProject(string id)
-        {
-            throw new NotImplementedException();
-        } 
+            => await _projectRepository.ReadProjectAsync(id);
 
         [HttpGet]
         public async Task<IEnumerable<Project>> GetProjects()
-        {
-            throw new NotImplementedException();
-        }
+            => await _projectRepository.ReadProjectsAsync();
 
         [HttpPost]
         public async Task PostProject([FromBody]Project project)
-        {
-            throw new NotImplementedException();
-        }
+            => await _projectRepository.CreateProjectAsync(project);
 
         [HttpPut]
         public async Task PutProject([FromBody]Project project)
-        {
-            throw new NotImplementedException();
-        }
+            => await _projectRepository.UpdateProjectAsync(project);
 
         [HttpDelete("{id}")]
         public async Task DeleteProject(string id)
-        {
-            throw new NotImplementedException();
-        }
+            => await _projectRepository.DeleteProjectAsync(id);
     }
 }

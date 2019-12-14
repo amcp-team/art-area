@@ -63,6 +63,7 @@ export class HomeComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
+    AOS.init();
   }
 
   scroll(el: HTMLElement){

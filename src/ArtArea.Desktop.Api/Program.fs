@@ -23,17 +23,23 @@ open ArtArea.Desktop.Api.Handlers.AuthConfiguration
 open ArtArea.Web.Data.Interface
 open Microsoft.AspNetCore.Authentication.JwtBearer
 open ArtArea.Web.Data.Mock
+open ArtArea.Web.Data.Repositories
+open ArtArea.Web.Data
+open Microsoft.Extensions.Configuration
+open ArtArea.Web.Data.Config
 
 let configureServices (services : IServiceCollection) =
-    services
-        .AddGiraffe()
-        .AddAuthentication(authenticationOptions)
-        .AddJwtBearer(Action<JwtBearerOptions> jwtBearerOptions) |> ignore
-    // injecting repositories
-    services.AddTransient<IUserRepository, UserRepositoryMock>() |> ignore
-    services.AddTransient<IBoardRepository, BoardRepositoryMock>() |> ignore
-    services.AddTransient<IProjectRepository, ProjectRepositoryMock>() |> ignore
-
+    services.AddGiraffe() |> ignore
+    services.AddTransient<IUserRepository, UserRepository>() |> ignore
+    services.AddTransient<IBoardRepository, BoardRepository>() |> ignore
+    services.AddTransient<IProjectRepository, ProjectRepository>() |> ignore
+    services.AddTransient<IMessageRepository, MessageRepository>() |> ignore
+    services.AddTransient<IPinRepository, PinRepository>() |> ignore
+    services.AddTransient<IFileRepository, FileRepository>() |> ignore
+    services.AddSingleton<ApplicationDb>() |> ignore
+    ApplicationDbConfig (Database = "ArtAreaDb", Host = "localhost", Port = 27017, User = "root", Password = "example") 
+        |> services.AddSingleton |> ignore
+    
 
 let configureApp(app : IApplicationBuilder) =
     app.UseGiraffe Router.routes
@@ -44,7 +50,7 @@ let main _ =
         .UseKestrel()
         .Configure(Action<IApplicationBuilder> configureApp)
         .ConfigureServices(configureServices)
-        .UseUrls("http://localhost:5001/")
+        .UseUrls("http://localhost:27018/")
         .Build()
         .Run()
     0

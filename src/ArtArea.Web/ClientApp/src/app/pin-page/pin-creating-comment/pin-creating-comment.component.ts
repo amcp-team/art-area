@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { first } from "rxjs/operators";
@@ -6,9 +6,9 @@ import { PinService } from "../../service/pin.service";
 import { Message } from "../../model/message";
 
 @Component({
-  selector: 'app-pin-creating-comment',
-  templateUrl: './pin-creating-comment.component.html',
-  styleUrls: ['./pin-creating-comment.component.scss']
+  selector: "app-pin-creating-comment",
+  templateUrl: "./pin-creating-comment.component.html",
+  styleUrls: ["./pin-creating-comment.component.scss"]
 })
 export class PinCreatingCommentComponent implements OnInit {
   createMessageForm: FormGroup;
@@ -20,22 +20,13 @@ export class PinCreatingCommentComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.route.params.subscribe(params => {
-      this.pinId = 
-      params["username"] +
-      "." +
-      params["project"] +
-      "." +
-      params["board"] +
-      "." +
-      "pin" +
-      "." +
-      (<string>params["pin"]).toLowerCase().replace(" ", "-");
-    })
-   }
+      this.pinId = params["pin"];
+    });
+  }
 
   ngOnInit() {
     this.createMessageForm = this.formBuilder.group({
-      message:["", Validators],
+      message: ["", Validators.required]
     });
   }
 
@@ -43,14 +34,14 @@ export class PinCreatingCommentComponent implements OnInit {
     return this.createMessageForm.controls;
   }
 
-  onSubmit(){
+  onSubmit() {
     console.log();
     this.pinService
-      .postMessage(
-        this.form.message.value,
-      )
+      .postMessage(this.form.message.value, this.pinId)
       .pipe(first())
-      console.log(this.form.message)
+      .subscribe(data => {
+        window.location.reload;
+      });
+    console.log(this.form.message);
   }
-
 }

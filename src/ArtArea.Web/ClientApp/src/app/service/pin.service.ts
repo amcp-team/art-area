@@ -7,6 +7,7 @@ import { Pin } from "../model/pin";
 import { Message } from "../model/message";
 import { Data } from "@angular/router";
 import { identifierModuleUrl } from "@angular/compiler";
+import { Base64Image } from "../model/base64Imgae";
 
 @Injectable({
   providedIn: "root"
@@ -26,16 +27,24 @@ export class PinService {
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
-  getPicture(): Data {
+  getPicture(): any {
     return this.http
-      .get<Data>("api/pin/picture", this.httpOptions)
+      .get("api/pin/image", this.httpOptions)
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
-  postMessage(formData: FormData) {
+  getThumbnailBase64(id: string) {
+    console.log("base64 method");
+    console.log(id);
+    return this.http
+      .get<Base64Image>("api/pin/thumbnail/" + id, this.httpOptions)
+      .pipe(catchError(this.errorHandler));
+  }
+
+  postMessage(formData: FormData, pinId: string) {
     console.log("post message");
     return this.http
-      .post("api/post/message", formData)
+      .post("api/pin/message/" + pinId, formData)
       .pipe(catchError(this.errorHandler));
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, TemplateRef } from "@angular/core";
 import { UserService } from "../service/user.service";
 import { ActivatedRoute } from "@angular/router";
 import { from, Observable } from "rxjs";
@@ -12,6 +12,8 @@ import { AuthenticationService } from "../app-auth/authentication.service";
   styleUrls: ["./user-projects.component.scss"]
 })
 export class UserProjectsComponent implements OnInit {
+  @ViewChild('readOnlyTemplate', {static: false}) readOnlyTemplate: TemplateRef<any>;
+  @ViewChild('editTemplate', {static: false}) editTemplate: TemplateRef<any>;
   projects$: Observable<Project[]>;
   username: string;
   canCreate: boolean = false;

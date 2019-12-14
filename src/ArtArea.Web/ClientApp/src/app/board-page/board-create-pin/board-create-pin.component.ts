@@ -8,6 +8,25 @@ import {
 import { BoardService } from "src/app/service/board.service";
 import { toFormData } from "src/app/utils/toFormData";
 import { NewPin } from "src/app/model/newPin";
+import { ActivatedRoute } from "@angular/router";
+
+export function requiredFileType(type: string) {
+  return function(control: FormControl) {
+    const file = control.value;
+    if (file) {
+      const extension = file.name.split(".")[1].toLowerCase();
+      if (type.toLowerCase() !== extension.toLowerCase()) {
+        return {
+          requiredFileType: true
+        };
+      }
+
+      return null;
+    }
+
+    return null;
+  };
+}
 
 @Component({
   selector: "app-board-create-pin",
@@ -16,16 +35,23 @@ import { NewPin } from "src/app/model/newPin";
 })
 export class BoardCreatePinComponent implements OnInit {
   newPinForm: FormGroup;
+  boardId: string;
 
   constructor(
     private boardService: BoardService,
-    private formBuilder: FormBuilder
-  ) {}
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute
+  ) {
+    this.route.params.subscribe(params => {
+      this.boardId =
+        params["username"] + "." + params["project"] + "." + params["board"];
+    });
+  }
 
   ngOnInit() {
     this.newPinForm = this.formBuilder.group({
       message: [""],
-      thumbnail: [""],
+      thumbnail: ["", requiredFileType("jpeg")],
       sourceFile: [""]
     });
   }
@@ -54,6 +80,8 @@ export class BoardCreatePinComponent implements OnInit {
     formData.append("thumbnail", this.newPinForm.get("thumbnail").value);
     formData.append("sourceFile", this.newPinForm.get("sourceFile").value);
 
-    this.boardService.postPin(formData).subscribe(x => console.log(x));
+    this.boardService
+      .postPin(formData, this.boardId)
+      .subscribe(x => console.log(x));
   }
 }
